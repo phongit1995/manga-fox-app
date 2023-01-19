@@ -47,10 +47,9 @@ class UserPage extends StatelessWidget {
                     fontWeight: FontWeight.w300),
               ),
             ),
-            Container(
+            SizedBox(
               height: 220,
               width: double.maxFinite,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
               child: Stack(
                 children: [
                   Container(
