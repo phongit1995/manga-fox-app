@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 
 class AppThemData {
+  static final AppThemData _singleton = AppThemData._internal();
+
+  factory AppThemData() {
+    return _singleton;
+  }
+
+  final ValueNotifier<ThemeData> themeData = ValueNotifier<ThemeData>(light);
+
+  AppThemData._internal();
+
   static ThemeData light =
       ThemeData(fontFamily: "Lexend", extensions: <ThemeExtension<AppColor>>[
     AppColor(

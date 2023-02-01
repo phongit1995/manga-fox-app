@@ -17,4 +17,8 @@ class AppImage {
   static String icDelete = "assets/icon/ic_delete.svg";
   static String icDiamond = "assets/icon/ic_diamond.svg";
   static String icDarkMode = "assets/icon/ic_dark_mode.svg";
+  static String icBackWhite = "assets/icon/ic_back_white.svg";
+  static String icSetting = "assets/icon/ic_setting.svg";
+  static String icVertical = "assets/icon/ic_vertical.svg";
+  static String icHorizontal = "assets/icon/ic_horizontal.svg";
 }

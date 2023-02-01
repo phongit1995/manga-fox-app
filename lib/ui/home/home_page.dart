@@ -12,8 +12,14 @@ import 'package:manga_fox_app/ui/home/widget/item_manga.dart';
 import 'package:manga_fox_app/ui/search/search_page.dart';
 import 'package:manga_fox_app/ui/user/user_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final ValueNotifier<int> currentIndex = ValueNotifier<int>(0);
 
   @override

@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 
-class UserPage extends StatelessWidget {
-  final ValueNotifier<bool> isDarkMode = ValueNotifier(false);
+class UserPage extends StatefulWidget {
 
-  UserPage({Key? key}) : super(key: key);
+  const UserPage({Key? key}) : super(key: key);
+
+  @override
+  State<UserPage> createState() => _UserPageState();
+}
+
+class _UserPageState extends State<UserPage> {
+  final ValueNotifier<bool> isDarkMode = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -157,11 +164,11 @@ class UserPage extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      ValueListenableBuilder<bool>(
-                        valueListenable: isDarkMode,
+                      ValueListenableBuilder<ThemeData>(
+                        valueListenable: AppThemData().themeData,
                         builder: (context, value, child) {
                           return Switch(
-                            value: value,
+                            value: value == AppThemData.dark,
                             thumbColor:
                                 MaterialStateProperty.resolveWith<Color?>(
                               (Set<MaterialState> states) {
@@ -170,6 +177,9 @@ class UserPage extends StatelessWidget {
                             ),
                             onChanged: (bool value) {
                               isDarkMode.value = value;
+                              AppThemData().themeData.value = isDarkMode.value
+                                  ? AppThemData.dark
+                                  : AppThemData.light;
                             },
                           );
                         },

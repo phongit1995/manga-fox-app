@@ -6,6 +6,7 @@ import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/chapter_mock.dart';
 import 'package:manga_fox_app/ui/detail_manga/widget/item_chapter.dart';
+import 'package:manga_fox_app/ui/manga_reader/manga_reader_page.dart';
 
 class DetailMangaPage extends StatelessWidget {
   DetailMangaPage({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class DetailMangaPage extends StatelessWidget {
                       const Spacer(),
                       InkWell(
                         onTap: () {},
-                        child: SvgPicture.asset(AppImage.icWarring),
+                        child: SvgPicture.asset(AppImage.icSetting),
                       ),
                     ],
                   ),
@@ -262,10 +263,19 @@ A 8-part side story to the parent story. "Sound Asleep".""",
                   const SizedBox(height: 10),
                   ...mockChapter.map((e) => Column(
                         children: [
-                          ItemChapter(
-                              isRead: e.isRead,
-                              content: e.title,
-                              isDownload: e.isDownload),
+                          InkWell(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MangaReader()),
+                              );
+                            },
+                            child: ItemChapter(
+                                isRead: e.isRead,
+                                content: e.title,
+                                isDownload: e.isDownload),
+                          ),
                           Divider(color: appColor.primaryDivider),
                         ],
                       ))
