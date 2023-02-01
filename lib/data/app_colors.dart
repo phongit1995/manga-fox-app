@@ -31,7 +31,14 @@ class AppColor extends ThemeExtension<AppColor> {
 
   @override
   ThemeExtension<AppColor> lerp(ThemeExtension<AppColor>? other, double t) {
-    // TODO: implement lerp
-    throw UnimplementedError();
+    return AppColor(
+        primaryBackground: primaryBackground,
+        backgroundBottomNavigator: backgroundBottomNavigator,
+        primaryBlack2: primaryBlack2,
+        primaryDivider: primaryDivider,
+        primaryBlack: primaryBlack,
+        activeBottomNavigator: activeBottomNavigator,
+        backgroundWhite: backgroundWhite,
+        backgroundWhite2: backgroundWhite2);
   }
 }

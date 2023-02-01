@@ -13,7 +13,7 @@ class AppThemData {
   AppThemData._internal();
 
   static ThemeData light =
-      ThemeData(fontFamily: "Lexend", extensions: <ThemeExtension<AppColor>>[
+      ThemeData().copyWith(extensions: <ThemeExtension<AppColor>>[
     AppColor(
       primaryBackground: const Color(0xffFFFAF5),
       backgroundWhite: const Color(0xffFFFFFF),
@@ -27,7 +27,7 @@ class AppThemData {
   ]);
 
   static ThemeData dark =
-      ThemeData(fontFamily: "Lexend", extensions: <ThemeExtension<dynamic>>[
+      ThemeData().copyWith(extensions: <ThemeExtension<dynamic>>[
     AppColor(
       primaryBackground: const Color(0xff333333),
       backgroundWhite: const Color(0xff3A3A3A),
