@@ -17,8 +17,10 @@ class AppThemData {
     AppColor(
       primaryBackground: const Color(0xffFFFAF5),
       backgroundWhite: const Color(0xffFFFFFF),
+      backgroundWhite2: const Color(0xffFFFFFF),
       activeBottomNavigator: const Color(0xff4B526C),
       primaryBlack: const Color(0xff000000),
+      primaryBlack2: const Color(0xff333333),
       primaryDivider: const Color(0xff626262),
       backgroundBottomNavigator: const Color(0xFFFFFFFF),
     )
@@ -29,7 +31,9 @@ class AppThemData {
     AppColor(
       primaryBackground: const Color(0xff333333),
       backgroundWhite: const Color(0xff3A3A3A),
+      backgroundWhite2: const Color(0xff1E1E1E),
       primaryBlack: const Color(0xffFFFFFF),
+      primaryBlack2: const Color(0xffFFFFFF),
       primaryDivider: const Color(0xffFFECEC),
       backgroundBottomNavigator: const Color(0xFF262626),
       activeBottomNavigator: const Color(0xffFFFFFF),

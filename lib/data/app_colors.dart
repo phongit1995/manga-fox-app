@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 class AppColor extends ThemeExtension<AppColor> {
   final Color primaryBlack;
+  final Color primaryBlack2;
   final Color primaryBackground;
   final Color backgroundWhite;
+  final Color backgroundWhite2;
   final Color backgroundBottomNavigator;
   final Color activeBottomNavigator;
   final Color primaryDivider;
@@ -13,10 +15,12 @@ class AppColor extends ThemeExtension<AppColor> {
   AppColor({
     required this.primaryBackground,
     required this.backgroundBottomNavigator,
+    required this.primaryBlack2,
     required this.primaryDivider,
     required this.primaryBlack,
     required this.activeBottomNavigator,
     required this.backgroundWhite,
+    required this.backgroundWhite2,
   });
 
   @override

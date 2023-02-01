@@ -154,9 +154,12 @@ class _MangaReaderState extends State<MangaReader> {
                                   await showModalBottomSheet(
                                     context: context,
                                     isScrollControlled: true,
-                                    backgroundColor: const Color(0xff1E1E1E),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                                    backgroundColor: appColor.backgroundWhite2,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                      ),
                                     ),
                                     builder: (context) {
                                       return const BottomSheetSettingReader();

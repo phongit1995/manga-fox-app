@@ -4,6 +4,7 @@ import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/screen_brightness_util.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
+import 'package:manga_fox_app/data/app_colors.dart';
 
 class BottomSheetSettingReader extends StatefulWidget {
   const BottomSheetSettingReader({Key? key}) : super(key: key);
@@ -33,6 +34,8 @@ class _BottomSheetSettingReaderState extends State<BottomSheetSettingReader> {
 
   @override
   Widget build(BuildContext context) {
+    final AppColor appColor = Theme.of(context).extension<AppColor>()!;
+
     return SizedBox(
       height: 180,
       child: Column(
@@ -49,7 +52,7 @@ class _BottomSheetSettingReaderState extends State<BottomSheetSettingReader> {
                   style: AppStyle.mainStyle.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white),
+                      color: appColor.primaryBlack2),
                 ),
               ),
               const SizedBox(width: 32),
@@ -62,14 +65,14 @@ class _BottomSheetSettingReaderState extends State<BottomSheetSettingReader> {
                 },
                 child: Column(
                   children: [
-                    SvgPicture.asset(AppImage.icHorizontal, color: isHorizontal ? const Color(0xffFF734A) : Colors.white,),
+                    SvgPicture.asset(AppImage.icHorizontal, color: isHorizontal ? const Color(0xffFF734A) : appColor.primaryBlack2,),
                     const SizedBox(height: 4),
                     Text(
                       "Horizontal",
                       style: AppStyle.mainStyle.copyWith(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: isHorizontal ? const Color(0xffFF734A) : Colors.white,
+                          color: isHorizontal ? const Color(0xffFF734A) : appColor.primaryBlack2,
                       ),
                     ),
                   ],
@@ -87,7 +90,7 @@ class _BottomSheetSettingReaderState extends State<BottomSheetSettingReader> {
                   children: [
                     SvgPicture.asset(
                       AppImage.icVertical,
-                      color: !isHorizontal ? const Color(0xffFF734A) : Colors.white,
+                      color: !isHorizontal ? const Color(0xffFF734A) : appColor.primaryBlack2,
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -95,7 +98,7 @@ class _BottomSheetSettingReaderState extends State<BottomSheetSettingReader> {
                       style: AppStyle.mainStyle.copyWith(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                        color: !isHorizontal ? const Color(0xffFF734A) : Colors.white,),
+                        color: !isHorizontal ? const Color(0xffFF734A) : appColor.primaryBlack2,),
                     ),
                   ],
                 ),
@@ -114,12 +117,13 @@ class _BottomSheetSettingReaderState extends State<BottomSheetSettingReader> {
                 style: AppStyle.mainStyle.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white),
+                    color: appColor.primaryBlack2),
               ),
               const SizedBox(width: 32),
               Expanded(
                 child: Slider(
                   value: brightness,
+                  inactiveColor: appColor.primaryBlack,
                   onChanged: (double nvalue) {
                     setState(() {
                       brightness = nvalue;
