@@ -152,7 +152,7 @@ class _UserPageState extends State<UserPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(AppImage.icDarkMode),
+                      SvgPicture.asset(AppImage.icDarkMode, color: appColor.primaryBlack2,),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -186,6 +186,68 @@ class _UserPageState extends State<UserPage> {
                       )
                     ],
                   ),
+                  Divider(color: appColor.primaryDivider),
+                  const SizedBox(height: 18),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(AppImage.icTerm, color: appColor.primaryBlack2),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          "Term of Privacy",
+                          style: AppStyle.mainStyle.copyWith(
+                              fontSize: 12,
+                              color: appColor.primaryBlack,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                  const SizedBox(height: 13),
+                  Divider(color: appColor.primaryDivider),
+
+                  const SizedBox(height: 18),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(AppImage.icStar, color: appColor.primaryBlack2,),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          "About Us",
+                          style: AppStyle.mainStyle.copyWith(
+                              fontSize: 12,
+                              color: appColor.primaryBlack,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                  const SizedBox(height: 13),
+                  Divider(color: appColor.primaryDivider),
+
+                  const SizedBox(height: 18),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(AppImage.icShare, color: appColor.primaryBlack2,),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          "Share App",
+                          style: AppStyle.mainStyle.copyWith(
+                              fontSize: 12,
+                              color: appColor.primaryBlack,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                  const SizedBox(height: 13),
                 ],
               ),
             ),

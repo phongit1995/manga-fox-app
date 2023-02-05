@@ -33,12 +33,12 @@ class DetailMangaPage extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).pop();
                         },
-                        child: SvgPicture.asset(AppImage.icBack),
+                        child: SvgPicture.asset(AppImage.icBack, color: appColor.primaryBlack2,),
                       ),
                       const Spacer(),
                       InkWell(
                         onTap: () {},
-                        child: SvgPicture.asset(AppImage.icSetting),
+                        child: SvgPicture.asset(AppImage.icSetting, color: appColor.primaryBlack2,),
                       ),
                     ],
                   ),

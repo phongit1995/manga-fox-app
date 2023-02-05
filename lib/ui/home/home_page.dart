@@ -9,6 +9,7 @@ import 'package:manga_fox_app/data/manga_mock.dart';
 import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
 import 'package:manga_fox_app/ui/home/widget/item_category.dart';
 import 'package:manga_fox_app/ui/home/widget/item_manga.dart';
+import 'package:manga_fox_app/ui/library/library_page.dart';
 import 'package:manga_fox_app/ui/search/search_page.dart';
 import 'package:manga_fox_app/ui/user/user_page.dart';
 
@@ -68,7 +69,12 @@ class _HomePageState extends State<HomePage> {
         body: SafeArea(
             child: ValueListenableBuilder<int>(
           builder: (context, tab, child) {
-            return Container(child: tab == 0 ? buildHome(context) : UserPage());
+            return Container(
+                child: tab == 0
+                    ? buildHome(context)
+                    : tab == 1
+                        ? LibraryPage()
+                        : const UserPage());
           },
           valueListenable: currentIndex,
         )));

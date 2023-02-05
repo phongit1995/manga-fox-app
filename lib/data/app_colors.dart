@@ -11,10 +11,12 @@ class AppColor extends ThemeExtension<AppColor> {
   final Color backgroundBottomNavigator;
   final Color activeBottomNavigator;
   final Color primaryDivider;
+  final Color backgroundTabBar;
 
   AppColor({
     required this.primaryBackground,
     required this.backgroundBottomNavigator,
+    required this.backgroundTabBar,
     required this.primaryBlack2,
     required this.primaryDivider,
     required this.primaryBlack,
@@ -39,6 +41,7 @@ class AppColor extends ThemeExtension<AppColor> {
         primaryBlack: primaryBlack,
         activeBottomNavigator: activeBottomNavigator,
         backgroundWhite: backgroundWhite,
-        backgroundWhite2: backgroundWhite2);
+        backgroundWhite2: backgroundWhite2,
+        backgroundTabBar: backgroundTabBar);
   }
 }

@@ -23,6 +23,7 @@ class AppThemData {
       primaryBlack2: const Color(0xff333333),
       primaryDivider: const Color(0xff626262),
       backgroundBottomNavigator: const Color(0xFFFFFFFF),
+      backgroundTabBar: const Color(0xffD9D9D9),
     )
   ]);
 
@@ -37,6 +38,7 @@ class AppThemData {
       primaryDivider: const Color(0xffFFECEC),
       backgroundBottomNavigator: const Color(0xFF262626),
       activeBottomNavigator: const Color(0xffFFFFFF),
+      backgroundTabBar: const Color(0xff232222),
     )
   ]);
 }

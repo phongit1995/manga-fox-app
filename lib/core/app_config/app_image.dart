@@ -21,4 +21,10 @@ class AppImage {
   static String icSetting = "assets/icon/ic_setting.svg";
   static String icVertical = "assets/icon/ic_vertical.svg";
   static String icHorizontal = "assets/icon/ic_horizontal.svg";
+  static String icReadNow = "assets/icon/ic_read_now.svg";
+  static String icBook = "assets/icon/ic_book.svg";
+  static String icRemove = "assets/icon/ic_remove.svg";
+  static String icShare = "assets/icon/ic_share.svg";
+  static String icTerm = "assets/icon/ic_term.svg";
+  static String icStar = "assets/icon/ic_star.svg";
 }

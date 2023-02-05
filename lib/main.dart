@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
 import 'package:manga_fox_app/ui/home/home_page.dart';
+import 'package:manga_fox_app/ui/library/library_page.dart';
 
 import 'ui/manga_reader/manga_reader_page.dart';
 
