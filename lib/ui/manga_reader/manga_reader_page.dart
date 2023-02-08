@@ -6,33 +6,40 @@ import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/manga_mock.dart';
+import 'package:manga_fox_app/data/response/list_chapper_response.dart';
 import 'package:manga_fox_app/ui/manga_reader/bottom_sheet_setting_reader.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class MangaReader extends StatefulWidget {
-  const MangaReader({Key? key}) : super(key: key);
+  final ListChapter chapter;
+
+  const MangaReader({Key? key, required this.chapter}) : super(key: key);
 
   @override
   State<MangaReader> createState() => _MangaReaderState();
 }
 
-class _MangaReaderState extends State<MangaReader> {
+class _MangaReaderState extends State<MangaReader>
+    with TickerProviderStateMixin {
   var indexPage = 0;
   var isHorizontal = true;
   final settingUtils = SettingUtils();
   ValueNotifier<bool> isShowInfo = ValueNotifier<bool>(true);
   final ScrollController _scrollController = ScrollController();
+  late PageController _controller;
 
   @override
   void initState() {
     super.initState();
     currentData();
+    _controller = PageController();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -60,20 +67,21 @@ class _MangaReaderState extends State<MangaReader> {
             children: [
               isHorizontal
                   ? PhotoViewGallery.builder(
-                      pageController: PageController(
-                        initialPage: indexPage,
-                      ),
-                      itemCount: mangaMock.length,
+                      pageController: _controller,
+                      itemCount: (widget.chapter.images ?? []).length,
                       scrollPhysics: const BouncingScrollPhysics(),
                       builder: (context, i) {
                         return PhotoViewGalleryPageOptions(
-                            imageProvider: NetworkImage(mangaMock[i].pathUrl),
+                            imageProvider: NetworkImage(
+                              (widget.chapter.images ?? [])[i],
+                              headers: {"Referer": "https://manganelo.com/"},
+                            ),
                             minScale: PhotoViewComputedScale.contained * 1,
                             maxScale: PhotoViewComputedScale.covered * 2.0,
                             initialScale:
                                 PhotoViewComputedScale.contained * 1.0,
-                            heroAttributes:
-                                PhotoViewHeroAttributes(tag: mangaMock[i]));
+                            heroAttributes: PhotoViewHeroAttributes(
+                                tag: (widget.chapter.images ?? [])[i]));
                       },
                       scrollDirection: Axis.horizontal,
                       onPageChanged: (int value) {
@@ -88,8 +96,8 @@ class _MangaReaderState extends State<MangaReader> {
                       },
                       loadingBuilder: (context, event) => const Center(
                         child: SizedBox(
-                          width: 20.0,
-                          height: 20.0,
+                          width: 20,
+                          height: 20,
                           child: CircularProgressIndicator(),
                         ),
                       ),
@@ -110,11 +118,15 @@ class _MangaReaderState extends State<MangaReader> {
                         controller: _scrollController,
                         child: Column(
                           children: [
-                            ...mangaMock.map((e) => Image.network(
-                                  e.pathUrl,
-                                  fit: BoxFit.fitWidth,
-                                  width: double.maxFinite,
-                                ))
+                            ...(widget.chapter.images ?? [])
+                                .map((e) => Image.network(
+                                      e,
+                                      fit: BoxFit.fitWidth,
+                                      width: double.maxFinite,
+                                      headers: {
+                                        "Referer": "https://manganelo.com/"
+                                      },
+                                    ))
                           ],
                         ),
                       ),
@@ -140,7 +152,7 @@ class _MangaReaderState extends State<MangaReader> {
                               const SizedBox(width: 20),
                               Expanded(
                                   child: Text(
-                                "Chapter 123: Lorem ipsum is simply dummy text",
+                                widget.chapter.name ?? "",
                                 style: AppStyle.mainStyle.copyWith(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -195,6 +207,7 @@ class _MangaReaderState extends State<MangaReader> {
                                     setState(() {
                                       if (indexPage >= 0) {
                                         indexPage--;
+                                        _controller.jumpToPage(indexPage);
                                       }
                                     });
                                   },
@@ -205,7 +218,7 @@ class _MangaReaderState extends State<MangaReader> {
                             ),
                             const SizedBox(width: 40),
                             Text(
-                              '${indexPage + 1}/${mangaMock.length}',
+                              '${indexPage + 1}/${(widget.chapter.images ?? []).length}',
                               style: AppStyle.mainStyle.copyWith(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -222,6 +235,7 @@ class _MangaReaderState extends State<MangaReader> {
                                     setState(() {
                                       if (indexPage < mangaMock.length - 1) {
                                         indexPage++;
+                                        _controller.jumpToPage(indexPage);
                                       }
                                     });
                                   },

@@ -44,6 +44,8 @@ dependencies:
   photo_view: ^0.14.0
   screen_brightness: ^0.2.2
   shared_preferences: ^2.0.17
+  equatable: ^2.0.5
+  hive: ^2.2.3
 
 dev_dependencies:
   flutter_test:

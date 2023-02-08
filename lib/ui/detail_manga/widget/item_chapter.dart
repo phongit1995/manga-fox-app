@@ -31,7 +31,7 @@ class ItemChapter extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: 10)),
         ),
-        SvgPicture.asset(isDownload ? AppImage.icDownload : AppImage.icDelete)
+        SvgPicture.asset(!isDownload ? AppImage.icDownload : AppImage.icDelete)
       ],
     );
   }

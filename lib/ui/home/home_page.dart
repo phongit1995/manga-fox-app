@@ -4,9 +4,10 @@ import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/widget/header_content.dart';
 import 'package:manga_fox_app/core/widget/search_widget.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
-import 'package:manga_fox_app/data/category_mock.dart';
-import 'package:manga_fox_app/data/manga_mock.dart';
+import 'package:manga_fox_app/data/response/generate_response.dart';
+import 'package:manga_fox_app/data/response/manga_response.dart';
 import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
+import 'package:manga_fox_app/ui/home/home_controller.dart';
 import 'package:manga_fox_app/ui/home/widget/item_category.dart';
 import 'package:manga_fox_app/ui/home/widget/item_manga.dart';
 import 'package:manga_fox_app/ui/library/library_page.dart';
@@ -14,7 +15,7 @@ import 'package:manga_fox_app/ui/search/search_page.dart';
 import 'package:manga_fox_app/ui/user/user_page.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,6 +23,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ValueNotifier<int> currentIndex = ValueNotifier<int>(0);
+  final HomeController _controller = HomeController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.loadGenerate();
+    _controller.loadLastManga();
+    _controller.loadTopManga();
+    _controller.loadExManga();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,109 +122,194 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(height: 24),
-          Container(
-              height: 208,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: appColor.backgroundWhite,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  HeaderContent(
-                    title: "Categories",
-                    onMore: () {},
-                  ),
-                  Expanded(
-                    child: GridView.builder(
-                      scrollDirection: Axis.horizontal,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
-                      itemCount: categoryMock.length,
-                      itemBuilder: (context, index) {
-                        var category = categoryMock[index];
-                        return Container(
-                          margin: const EdgeInsets.only(right: 32),
-                          child: ItemCategory(
-                              pathUrl: category.path,
-                              title: category.title,
-                              onTap: () {}),
-                        );
-                      },
-                    ),
-                  )
-                ],
-              )),
+          ValueListenableBuilder<List<Generate>>(
+            valueListenable: _controller.generates,
+            builder: (context, generates, child) => Container(
+                height: 208,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: appColor.backgroundWhite,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: generates.isEmpty
+                    ? const Center(
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          HeaderContent(
+                            title: "Categories",
+                            onMore: () {},
+                          ),
+                          Expanded(
+                            child: GridView.builder(
+                              scrollDirection: Axis.horizontal,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              itemCount: generates.length,
+                              itemBuilder: (context, index) {
+                                var category = generates[index];
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 32),
+                                  child: ItemCategory(
+                                      pathUrl: category.image ?? "",
+                                      title: category.name ?? "",
+                                      onTap: () {}),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      )),
+          ),
           const SizedBox(height: 20),
-          Container(
-              height: 210,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  HeaderContent(
-                    title: "Exclusively for you",
-                    onMore: () {},
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: mangaMock.length,
-                      itemBuilder: (context, index) {
-                        var manga = mangaMock[index];
-                        return Container(
-                          margin: const EdgeInsets.only(right: 20),
-                          child: ItemManga(
-                              pathUrl: manga.pathUrl,
-                              title: manga.title,
-                              viewCount: manga.viewCount,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailMangaPage()),
-                                );
-                              }),
-                        );
-                      },
+          ValueListenableBuilder<List<Manga>>(
+            valueListenable: _controller.exManga,
+            builder: (context, exManga, child) => Container(
+                height: 210,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    HeaderContent(
+                      title: "Exclusively for you",
+                      onMore: () {},
                     ),
-                  )
-                ],
-              )),
-          Container(
-              height: 210,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  HeaderContent(
-                    title: "Top Manga",
-                    onMore: () {},
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: mangaMock.length,
-                      itemBuilder: (context, index) {
-                        var manga = mangaMock[index];
-                        return Container(
-                          margin: const EdgeInsets.only(right: 20),
-                          child: ItemManga(
-                              pathUrl: manga.pathUrl,
-                              title: manga.title,
-                              viewCount: manga.viewCount,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailMangaPage()),
+                    Expanded(
+                      child: exManga.isEmpty
+                          ? const Center(
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: exManga.length,
+                              itemBuilder: (context, index) {
+                                var manga = exManga[index];
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 20),
+                                  child: ItemManga(
+                                      pathUrl: manga.image ?? "",
+                                      title: manga.name ?? "",
+                                      viewCount: (manga.views ?? 0).toString(),
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailMangaPage(
+                                                      manga: manga)),
+                                        );
+                                      }),
                                 );
-                              }),
-                        );
-                      },
+                              },
+                            ),
+                    )
+                  ],
+                )),
+          ),
+          ValueListenableBuilder<List<Manga>>(
+            valueListenable: _controller.topManga,
+            builder: (context, topManga, child) => Container(
+                height: 210,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    HeaderContent(
+                      title: "Top Manga",
+                      onMore: () {},
                     ),
-                  )
-                ],
-              ))
+                    Expanded(
+                      child: topManga.isEmpty
+                          ? const Center(
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: topManga.length,
+                              itemBuilder: (context, index) {
+                                var manga = topManga[index];
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 20),
+                                  child: ItemManga(
+                                      pathUrl: manga.image ?? "",
+                                      title: manga.name ?? "",
+                                      viewCount: (manga.views ?? 0).toString(),
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailMangaPage(
+                                                      manga: manga)),
+                                        );
+                                      }),
+                                );
+                              },
+                            ),
+                    )
+                  ],
+                )),
+          ),
+          ValueListenableBuilder<List<Manga>>(
+            valueListenable: _controller.lastManga,
+            builder: (context, lastManga, child) => Container(
+                height: 210,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    HeaderContent(
+                      title: "Lastest Update",
+                      onMore: () {},
+                    ),
+                    Expanded(
+                      child: lastManga.isEmpty
+                          ? const Center(
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: lastManga.length,
+                              itemBuilder: (context, index) {
+                                var manga = lastManga[index];
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 20),
+                                  child: ItemManga(
+                                      pathUrl: manga.image ?? "",
+                                      title: manga.name ?? "",
+                                      viewCount: (manga.views ?? 0).toString(),
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailMangaPage(
+                                                    manga: manga,
+                                                  )),
+                                        );
+                                      }),
+                                );
+                              },
+                            ),
+                    )
+                  ],
+                )),
+          )
         ],
       ),
     );

@@ -19,11 +19,11 @@ class ListManga extends StatelessWidget {
                   pathUrl: e.pathUrl,
                   viewCount: e.viewCount,
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DetailMangaPage()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => DetailMangaPage()),
+                    // );
                   },
                 ),
                 Divider(color: appColor.primaryDivider),

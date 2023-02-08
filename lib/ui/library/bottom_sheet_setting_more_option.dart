@@ -59,10 +59,10 @@ class _BottomSheetSettingMoreOptionState extends State<BottomSheetSettingMoreOpt
           const SizedBox( height: 32),
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DetailMangaPage()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => DetailMangaPage(manga: )),
+              // );
             },
             child: Row(
               mainAxisSize: MainAxisSize.max,

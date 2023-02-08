@@ -47,10 +47,10 @@ class LibraryFavorite extends StatelessWidget {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     return InkWell(
       onTap: () async {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DetailMangaPage()),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => DetailMangaPage()),
+        // );
       },
       child: Container(
         height: 80,
