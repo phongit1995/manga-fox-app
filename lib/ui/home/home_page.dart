@@ -144,6 +144,7 @@ class _HomePageState extends State<HomePage> {
                           HeaderContent(
                             title: "Categories",
                             onMore: () {},
+                            isShowMore: false,
                           ),
                           Expanded(
                             child: GridView.builder(
@@ -159,7 +160,15 @@ class _HomePageState extends State<HomePage> {
                                   child: ItemCategory(
                                       pathUrl: category.image ?? "",
                                       title: category.name ?? "",
-                                      onTap: () {}),
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => SearchPage(
+                                                  category:
+                                                      category.name ?? "")),
+                                        );
+                                      }),
                                 );
                               },
                             ),
@@ -198,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                                   child: ItemManga(
                                       pathUrl: manga.image ?? "",
                                       title: manga.name ?? "",
-                                      viewCount: (manga.views ?? 0).toString(),
+                                      viewCount: manga.mapView(),
                                       onTap: () {
                                         Navigator.push(
                                           context,
@@ -245,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                                   child: ItemManga(
                                       pathUrl: manga.image ?? "",
                                       title: manga.name ?? "",
-                                      viewCount: (manga.views ?? 0).toString(),
+                                      viewCount: manga.mapView(),
                                       onTap: () {
                                         Navigator.push(
                                           context,
@@ -292,7 +301,7 @@ class _HomePageState extends State<HomePage> {
                                   child: ItemManga(
                                       pathUrl: manga.image ?? "",
                                       title: manga.name ?? "",
-                                      viewCount: (manga.views ?? 0).toString(),
+                                      viewCount: manga.mapView(),
                                       onTap: () {
                                         Navigator.push(
                                           context,

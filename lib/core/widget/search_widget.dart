@@ -6,9 +6,10 @@ import 'package:manga_fox_app/ui/search/search_page.dart';
 
 class SearchWidget extends StatelessWidget {
   final TextEditingController? controller;
+  final Function(String)? onSubmit;
   final bool? isOnlyTap;
 
-  const SearchWidget({Key? key, this.controller, this.isOnlyTap})
+  const SearchWidget({Key? key, this.controller, this.isOnlyTap, this.onSubmit})
       : super(key: key);
 
   @override
@@ -17,6 +18,7 @@ class SearchWidget extends StatelessWidget {
       maxLines: 1,
       enabled: isOnlyTap != true,
       controller: controller,
+      onSubmitted: onSubmit,
       decoration: InputDecoration(
         filled: true,
         fillColor: const Color(0xffF5F5F5),

@@ -25,6 +25,20 @@ class ApiService {
     }
   }
 
+  static Future<MangaResponse?> searchMangaResponse(String name) async {
+    try {
+      var response = await dio.post("manga/search-manga",
+          data: {
+            "page": 1,
+            "numberItem": 100,
+            "name": name
+          });
+      return MangaResponse.fromJson(response.data);
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<MangaResponse?> loadMangaResponse(int type) async {
     try {
       var response = await dio.post("manga/get-list",
@@ -45,6 +59,24 @@ class ApiService {
             "sort": 1
           });
       return ListChapterResponse.fromJson(response.data);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<MangaResponse?> loadMangaCategoryResponse(String category) async {
+    try {
+      var response = await dio.post("manga/suggest-manga",
+          data: {
+            "category": [
+              category
+            ],
+            "page": 1,
+            "numberItem": 100,
+            "type_sort": 1
+          });
+      Logger().e(response.data);
+      return MangaResponse.fromJson(response.data);
     } catch (e) {
       return null;
     }

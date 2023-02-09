@@ -41,6 +41,7 @@ class ListChapter {
   int? iV;
   String? after;
   String? before;
+  bool? isRead;
 
   ListChapter(
       {this.index,

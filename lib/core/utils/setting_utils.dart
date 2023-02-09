@@ -1,25 +1,47 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingUtils{
+class SettingUtils {
   final _darkMode = "darkMode";
   final _horizontal = "horizontal";
+  final _searchHistory = "_searchHistory";
+  final _chap = "_chap";
 
-  Future<bool> get dartMode async{
+  Future<void> setChapter(String key, List<String> value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_chap + key, value);
+  }
+
+  Future<List<String>> getChapter(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(_chap + key) ?? [];
+  }
+
+  Future<void> setSearchHistory(List<String> value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_searchHistory, value);
+  }
+
+  Future<List<String>> get searchHistory async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(_searchHistory) ?? [];
+  }
+
+  Future<bool> get dartMode async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_darkMode) ?? false;
   }
 
-  Future<void>  setDartMode(bool value) async{
+  Future<void> setDartMode(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(_darkMode, value);
   }
 
-  Future<void>  setHorizontal(bool value) async{
+  Future<void> setHorizontal(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(_horizontal, value);
   }
 
-  Future<bool> get horizontal async{
+  Future<bool> get horizontal async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_horizontal) ?? true;
   }

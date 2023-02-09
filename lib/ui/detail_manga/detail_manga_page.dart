@@ -308,16 +308,18 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                           ...chapter.map((e) => Column(
                                 children: [
                                   InkWell(
-                                    onTap: () {
+                                    onTap: () async{
+                                      await _controller.cacheChapter(widget.manga.sId ?? "", e.sId ?? "");
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 MangaReader(chapter: e)),
                                       );
+                                      setState(() {});
                                     },
                                     child: ItemChapter(
-                                        isRead: true,
+                                        isRead: e.isRead == true,
                                         content: e.name ?? "",
                                         isDownload: widget.manga.isDownload),
                                   ),
