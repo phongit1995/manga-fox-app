@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
+import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 
 class UserPage extends StatefulWidget {
@@ -177,6 +178,7 @@ class _UserPageState extends State<UserPage> {
                             ),
                             onChanged: (bool value) {
                               isDarkMode.value = value;
+                              SettingUtils().setDartMode(value);
                               AppThemData().themeData.value = isDarkMode.value
                                   ? AppThemData.dark
                                   : AppThemData.light;
@@ -186,7 +188,7 @@ class _UserPageState extends State<UserPage> {
                       )
                     ],
                   ),
-                  Divider(color: appColor.primaryDivider),
+                  Divider(color: appColor.primaryDivider, thickness: 1, height: 1),
                   const SizedBox(height: 18),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,7 +208,7 @@ class _UserPageState extends State<UserPage> {
                     ],
                   ),
                   const SizedBox(height: 13),
-                  Divider(color: appColor.primaryDivider),
+                  Divider(color: appColor.primaryDivider, thickness: 1, height: 1),
 
                   const SizedBox(height: 18),
                   Row(
@@ -227,7 +229,7 @@ class _UserPageState extends State<UserPage> {
                     ],
                   ),
                   const SizedBox(height: 13),
-                  Divider(color: appColor.primaryDivider),
+                  Divider(color: appColor.primaryDivider, thickness: 1, height: 1),
 
                   const SizedBox(height: 18),
                   Row(

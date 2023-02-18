@@ -22,15 +22,18 @@ class ItemCategory extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        child: Container(
+        child: SizedBox(
             width: 48,
             child: Column(
               children: [
-                CachedNetworkImage(
-                  imageUrl: pathUrl,
-                  width: 48,
-                  height: 48,
-                  fit: BoxFit.fill,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: CachedNetworkImage(
+                    imageUrl: pathUrl,
+                    width: 48,
+                    height: 48,
+                    fit: BoxFit.fill,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(

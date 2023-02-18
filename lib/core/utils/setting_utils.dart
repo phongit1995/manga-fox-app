@@ -28,11 +28,15 @@ class SettingUtils {
 
   Future<bool> get dartMode async {
     final prefs = await SharedPreferences.getInstance();
+    print("GET");
+    print( prefs.getBool(_darkMode));
     return prefs.getBool(_darkMode) ?? false;
   }
 
   Future<void> setDartMode(bool value) async {
     final prefs = await SharedPreferences.getInstance();
+    print("SET");
+    print( value);
     prefs.setBool(_darkMode, value);
   }
 

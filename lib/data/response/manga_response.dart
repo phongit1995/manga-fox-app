@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
+part 'manga_response.g.dart';
 
 class MangaResponse {
   String? status;
@@ -29,25 +31,45 @@ class MangaResponse {
   }
 }
 
+@HiveType(typeId: 0)
 class Manga extends Equatable{
+  @HiveField(0)
   List<String>? category;
+  @HiveField(1)
   int? views;
+  @HiveField(2)
   int? mangaStatus;
+  @HiveField(3)
   int? chapterUpdateCount;
+  @HiveField(4)
   bool? enable;
+  @HiveField(5)
   bool? crawled;
+  @HiveField(6)
   int? commentCount;
+  @HiveField(7)
   String? sId;
+  @HiveField(8)
   String? name;
+  @HiveField(9)
   String? url;
+  @HiveField(10)
   String? chapterUpdate;
+  @HiveField(11)
   String? createdAt;
+  @HiveField(12)
   String? updatedAt;
+  @HiveField(13)
   int? iV;
+  @HiveField(14)
   String? author;
+  @HiveField(15)
   String? description;
   FirstChapter? firstChapter;
+  @HiveField(16)
   String? image;
+  @HiveField(17)
+  String? imageLocal;
   String? lastChapter;
 
   bool isRead = false;

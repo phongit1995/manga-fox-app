@@ -140,9 +140,12 @@ class _SearchPageState extends State<SearchPage> {
                         valueListenable: _controller.results,
                         builder: (context, value, child) {
                           return _controller.results.value.isEmpty
-                              ? Container(
-                                  margin: const EdgeInsets.only(top: 20),
-                                  child: buildSuggest(context))
+                              ? Visibility(
+                                  visible: widget.category == null,
+                                  child: Container(
+                                      margin: const EdgeInsets.only(top: 20),
+                                      child: buildSuggest(context)),
+                                )
                               : Container(
                                   margin: const EdgeInsets.only(top: 13),
                                   child: ListManga(

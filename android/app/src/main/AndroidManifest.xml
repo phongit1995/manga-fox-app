@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.manga_fox_app">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="Manga Reader"
         android:name="${applicationName}"
@@ -30,5 +32,15 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+       <provider
+           android:name="com.ko2ic.imagedownloader.FileProvider"
+           android:authorities="${applicationId}.image_downloader.provider"
+           android:exported="false"
+           android:grantUriPermissions="true">
+           <meta-data
+               android:name="android.support.FILE_PROVIDER_PATHS"
+               android:resource="@xml/provider_paths"/>
+       </provider>
     </application>
 </manifest>

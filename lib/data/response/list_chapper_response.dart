@@ -1,3 +1,7 @@
+import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
+part 'list_chapper_response.g.dart';
+
 class ListChapterResponse {
   String? status;
   int? code;
@@ -30,17 +34,30 @@ class ListChapterResponse {
   }
 }
 
-class ListChapter {
+@HiveType(typeId: 1)
+class ListChapter extends Equatable{
+  @HiveField(0)
   int? index;
+  @HiveField(1)
   int? commentCount;
+  @HiveField(2)
   List<String>? images;
+  @HiveField(3)
   String? sId;
+  @HiveField(4)
   String? name;
+  @HiveField(5)
   String? url;
+  @HiveField(6)
   String? createdAt;
+  @HiveField(7)
   int? iV;
+  @HiveField(8)
   String? after;
+  @HiveField(9)
   String? before;
+  @HiveField(10)
+  List<String>? imagesLocal;
   bool? isRead;
 
   ListChapter(
@@ -82,4 +99,8 @@ class ListChapter {
     data['before'] = before;
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [sId];
 }

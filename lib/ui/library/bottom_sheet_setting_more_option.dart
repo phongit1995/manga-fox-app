@@ -5,17 +5,28 @@ import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/screen_brightness_util.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
-import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
 
 class BottomSheetSettingMoreOption extends StatefulWidget {
-  const BottomSheetSettingMoreOption({Key? key}) : super(key: key);
+  final int type; //
+  final VoidCallback share;
+  final VoidCallback remove;
+  final VoidCallback read;
+
+  const BottomSheetSettingMoreOption(
+      {Key? key,
+      required this.type,
+      required this.share,
+      required this.remove,
+      required this.read})
+      : super(key: key);
 
   @override
   State<BottomSheetSettingMoreOption> createState() =>
       _BottomSheetSettingMoreOptionState();
 }
 
-class _BottomSheetSettingMoreOptionState extends State<BottomSheetSettingMoreOption> {
+class _BottomSheetSettingMoreOptionState
+    extends State<BottomSheetSettingMoreOption> {
   var brightness = 1.0;
   var isHorizontal = true;
   final brightnessUtil = ScreenBrightUtil();
@@ -43,33 +54,30 @@ class _BottomSheetSettingMoreOptionState extends State<BottomSheetSettingMoreOpt
         children: [
           const SizedBox(height: 32),
           Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(width: 20),
-              Expanded(
-                child: Text(
-                  "More Option",
-                  style: AppStyle.mainStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: appColor.primaryBlack2),
-                ),
-              )]),
-          const SizedBox( height: 32),
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Text(
+                    "More Option",
+                    style: AppStyle.mainStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: appColor.primaryBlack2),
+                  ),
+                )
+              ]),
+          const SizedBox(height: 32),
           InkWell(
-            onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => DetailMangaPage(manga: )),
-              // );
-            },
+            onTap: widget.read,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 20),
-                SvgPicture.asset(AppImage.icReadNow, color: appColor.primaryBlack2),
+                SvgPicture.asset(AppImage.icReadNow,
+                    color: appColor.primaryBlack2),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -84,42 +92,41 @@ class _BottomSheetSettingMoreOptionState extends State<BottomSheetSettingMoreOpt
               ],
             ),
           ),
-          const SizedBox( height: 20),
-           InkWell(
-             onTap: () {
-
-             },
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(width: 20),
-                SvgPicture.asset(AppImage.icBook, color: appColor.primaryBlack2),
-                const SizedBox(width: 12),
-                 Expanded(
-                  child: Text(
-                    "Book information",
-                    style: AppStyle.mainStyle.copyWith(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: appColor.primaryBlack2),
-                  ),
-                ),
-                const SizedBox(width: 20),
-              ],
-            ),
-          ),
-          const SizedBox( height: 20),
+          // const SizedBox( height: 20),
+          //  InkWell(
+          //    onTap: () {
+          //
+          //    },
+          //   child: Row(
+          //     mainAxisSize: MainAxisSize.max,
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       const SizedBox(width: 20),
+          //       SvgPicture.asset(AppImage.icBook, color: appColor.primaryBlack2),
+          //       const SizedBox(width: 12),
+          //        Expanded(
+          //         child: Text(
+          //           "Book information",
+          //           style: AppStyle.mainStyle.copyWith(
+          //               fontSize: 12,
+          //               fontWeight: FontWeight.w500,
+          //               color: appColor.primaryBlack2),
+          //         ),
+          //       ),
+          //       const SizedBox(width: 20),
+          //     ],
+          //   ),
+          // ),
+          const SizedBox(height: 20),
           InkWell(
-            onTap: () {
-
-            },
+            onTap: widget.share,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 20),
-                SvgPicture.asset(AppImage.icShare, color: appColor.primaryBlack2),
+                SvgPicture.asset(AppImage.icShare,
+                    color: appColor.primaryBlack2),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -134,21 +141,20 @@ class _BottomSheetSettingMoreOptionState extends State<BottomSheetSettingMoreOpt
               ],
             ),
           ),
-          const SizedBox( height: 20),
+          const SizedBox(height: 20),
           InkWell(
-            onTap: () {
-
-            },
+            onTap: widget.remove,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 20),
-                SvgPicture.asset(AppImage.icRemove, color: appColor.primaryBlack2),
+                SvgPicture.asset(AppImage.icRemove,
+                    color: appColor.primaryBlack2),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    "Remove from favorites",
+                    "Remove from ${widget.type == 1 ? "favorites" : widget.type == 2 ? "downloads" : "historys"}",
                     style: AppStyle.mainStyle.copyWith(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -159,7 +165,7 @@ class _BottomSheetSettingMoreOptionState extends State<BottomSheetSettingMoreOpt
               ],
             ),
           ),
-          const SizedBox( height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
