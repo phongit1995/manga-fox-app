@@ -29,7 +29,12 @@ class ListManga extends StatelessWidget {
                     );
                   },
                 ),
-                Divider(color: appColor.primaryDivider,thickness: 1, height: 1),
+                Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: Divider(
+                        color: appColor.primaryDivider,
+                        thickness: 1,
+                        height: 1)),
               ],
             ))
       ],

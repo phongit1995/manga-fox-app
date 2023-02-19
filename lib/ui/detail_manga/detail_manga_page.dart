@@ -33,6 +33,8 @@ class DetailMangaPage extends StatefulWidget {
 class _DetailMangaPageState extends State<DetailMangaPage> {
   final ratingController = TextEditingController();
   final _controller = DetailMangaController();
+  final readMore = ValueNotifier<bool>(false);
+  final viewGrid = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -312,12 +314,46 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                         fontWeight: FontWeight.w400,
                         fontSize: 12)),
                 const SizedBox(height: 10),
-                Text(
-                  widget.manga.description?.trim() ?? "",
-                  style: AppStyle.mainStyle.copyWith(
-                      color: appColor.primaryBlack,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 10),
+                ValueListenableBuilder(
+                  valueListenable: readMore,
+                  builder: (context, value, child) => Column(
+                    children: [
+                      Text(
+                        widget.manga.description?.trim() ?? "",
+                        maxLines: !readMore.value ? 4 : null,
+                        style: AppStyle.mainStyle.copyWith(
+                            color: appColor.primaryBlack,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 10),
+                      ),
+                      const SizedBox(height: 10),
+                      Visibility(
+                        visible: !readMore.value,
+                        child: InkWell(
+                          onTap: () => readMore.value = true,
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Read More",
+                                  maxLines: readMore.value ? 3 : null,
+                                  style: AppStyle.mainStyle.copyWith(
+                                      color: appColor.primaryBlack,
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 10),
+                                ),
+                                const SizedBox(width: 4),
+                                Icon(Icons.arrow_drop_down_sharp,
+                                    color:
+                                        appColor.primaryBlack.withOpacity(0.6))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 19),
                 widget.toDownload == true
@@ -349,8 +385,13 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                             },
                           ),
                           const SizedBox(width: 12),
-                          SvgPicture.asset(AppImage.icList,
-                              color: appColor.primaryBlack),
+                          InkWell(
+                            onTap: () {
+                              viewGrid.value = !viewGrid.value;
+                            },
+                            child: SvgPicture.asset(AppImage.icList,
+                                color: appColor.primaryBlack),
+                          ),
                         ],
                       ),
                 const SizedBox(height: 10),
@@ -388,113 +429,140 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                   ),
                                 ),
                               )
-                            : Column(children: [
-                                ...chapter.map((e) {
-                                  List<String> data =
-                                      box.get(e.sId ?? "")?.cast<String>() ??
-                                          [];
-                                  return Visibility(
-                                    visible: !(widget.toDownload == true &&
-                                        data.isEmpty),
-                                    child: Column(
-                                      children: [
-                                        InkWell(
-                                            onTap: () async {
-                                              await _controller.cacheChapter(
-                                                  widget.manga.sId ?? "",
-                                                  e.sId ?? "");
-                                              ChapterDAO().addReading(
-                                                  e.sId ?? "",
-                                                  widget.manga.sId ?? "");
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        MangaReader(
-                                                          chapter: e,
-                                                          chapters: chapter,
-                                                        )),
-                                              );
-                                              setState(() {});
-                                            },
-                                            child: ItemChapter(
-                                                isRead: e.isRead == true,
-                                                isLoading: DownloadUtils.task
-                                                    .contains(e.sId ?? ""),
-                                                chapter: e,
-                                                onDownload: () async {
-                                                  if (data.isEmpty) {
-                                                    DownloadUtils.task
-                                                        .add(e.sId ?? "");
-                                                    setState(() {});
-                                                    var url = e.images ?? [];
-                                                    List<String> paths = [];
-                                                    for (var u in url) {
-                                                      try {
-                                                        final path =
-                                                            await DownloadUtils
-                                                                .downloadImage(
-                                                                    u);
-                                                        paths.add(path ?? "");
-                                                      } catch (error) {}
-                                                    }
-                                                    if (paths.isNotEmpty) {
-                                                      DownloadDAO().add(
-                                                          paths, e.sId ?? "");
-                                                      MangaDAO()
-                                                          .addMangaDownload(
-                                                              widget.manga);
-                                                    }
-                                                    DownloadUtils.task
-                                                        .remove(e.sId ?? "");
-                                                    setState(() {});
-                                                  } else {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return AlertDialog(
-                                                            contentPadding:
-                                                                EdgeInsets.zero,
-                                                            backgroundColor:
-                                                                appColor
-                                                                    .backgroundWhite2,
-                                                            content: AppDialog()
-                                                                .buildDialogDelete(
-                                                              context,
-                                                              e.name ?? "",
-                                                              no: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                              yes: () {
-                                                                DownloadDAO()
-                                                                    .delete(
-                                                                        e.sId ??
-                                                                            "");
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                            ));
-                                                      },
+                            : ValueListenableBuilder<bool>(
+                                valueListenable: viewGrid,
+                                builder: (context, value, child) {
+                                  if (value) {
+                                    return _buildGrid(chapter);
+                                  } else {
+                                    return Column(children: [
+                                      ...chapter.map((e) {
+                                        List<String> data = box
+                                                .get(e.sId ?? "")
+                                                ?.cast<String>() ??
+                                            [];
+                                        return Visibility(
+                                          visible:
+                                              !(widget.toDownload == true &&
+                                                  data.isEmpty),
+                                          child: Column(
+                                            children: [
+                                              InkWell(
+                                                  onTap: () async {
+                                                    await _controller
+                                                        .cacheChapter(
+                                                            widget.manga.sId ??
+                                                                "",
+                                                            e.sId ?? "");
+                                                    ChapterDAO().addReading(
+                                                        e.sId ?? "",
+                                                        widget.manga.sId ?? "");
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              MangaReader(
+                                                                chapter: e,
+                                                                chapters:
+                                                                    chapter,
+                                                              )),
                                                     );
-                                                  }
-                                                },
-                                                isDownload: data.isNotEmpty)),
-                                        Container(
-                                          margin: const EdgeInsets.only(
-                                              bottom: 7, top: 7),
-                                          child: Divider(
-                                              color: appColor.primaryDivider,
-                                              thickness: 1,
-                                              height: 1),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                })
-                              ]);
+                                                    setState(() {});
+                                                  },
+                                                  child: ItemChapter(
+                                                      isRead: e.isRead == true,
+                                                      isLoading: DownloadUtils
+                                                          .task
+                                                          .contains(
+                                                              e.sId ?? ""),
+                                                      chapter: e,
+                                                      onDownload: () async {
+                                                        if (data.isEmpty) {
+                                                          DownloadUtils.task
+                                                              .add(e.sId ?? "");
+                                                          setState(() {});
+                                                          var url =
+                                                              e.images ?? [];
+                                                          List<String> paths =
+                                                              [];
+                                                          for (var u in url) {
+                                                            try {
+                                                              final path =
+                                                                  await DownloadUtils
+                                                                      .downloadImage(
+                                                                          u);
+                                                              paths.add(
+                                                                  path ?? "");
+                                                            } catch (error) {}
+                                                          }
+                                                          if (paths
+                                                              .isNotEmpty) {
+                                                            DownloadDAO().add(
+                                                                paths,
+                                                                e.sId ?? "");
+                                                            MangaDAO()
+                                                                .addMangaDownload(
+                                                                    widget
+                                                                        .manga);
+                                                          }
+                                                          DownloadUtils.task
+                                                              .remove(
+                                                                  e.sId ?? "");
+                                                          setState(() {});
+                                                        } else {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return AlertDialog(
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .zero,
+                                                                  backgroundColor:
+                                                                      appColor
+                                                                          .backgroundWhite2,
+                                                                  content:
+                                                                      AppDialog()
+                                                                          .buildDialogDelete(
+                                                                    context,
+                                                                    e.name ??
+                                                                        "",
+                                                                    no: () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                    yes: () {
+                                                                      DownloadDAO().delete(
+                                                                          e.sId ??
+                                                                              "");
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                  ));
+                                                            },
+                                                          );
+                                                        }
+                                                      },
+                                                      isDownload:
+                                                          data.isNotEmpty)),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 7, top: 7),
+                                                child: Divider(
+                                                    color:
+                                                        appColor.primaryDivider,
+                                                    thickness: 1,
+                                                    height: 1),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      })
+                                    ]);
+                                  }
+                                },
+                              );
                       },
                     );
                   },
@@ -505,13 +573,55 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
         ));
   }
 
-  _buildGrid(String content, int type) {
+  _buildGrid(List<ListChapter> chapters) {
+    return GridView.builder(
+      scrollDirection: Axis.vertical,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 5,
+          mainAxisExtent: 30,
+          crossAxisSpacing: 4,
+          mainAxisSpacing: 4),
+      itemCount: chapters.length,
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      itemBuilder: (context, index) {
+        var chapter = chapters[index];
+        return InkWell(
+          onTap: () async {
+            await _controller.cacheChapter(
+                widget.manga.sId ?? "", chapter.sId ?? "");
+            ChapterDAO().addReading(chapter.sId ?? "", widget.manga.sId ?? "");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MangaReader(
+                        chapter: chapter,
+                        chapters: chapters,
+                      )),
+            );
+            setState(() {});
+          },
+          child: _buildItemGrid(
+              chapter.index.toString(),
+              (ChapterDAO().getReading(widget.manga.sId ?? "") ?? "") ==
+                      (chapter.sId ?? "")
+                  ? 3
+                  : _controller.chapterCache.value.contains(chapter.sId ?? "")
+                      ? 2
+                      : 1),
+        );
+      },
+    );
+  }
+
+  Widget _buildItemGrid(String content, int type) {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     if (type == 1) {
       return Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xffFF734A))),
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: appColor.primaryBlack2)),
           alignment: Alignment.center,
           width: 45,
           height: 30,
@@ -520,9 +630,26 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
             style: AppStyle.mainStyle.copyWith(
                 fontWeight: FontWeight.w400,
                 fontSize: 10,
-                color: appColor.primaryBlack),
+                color: appColor.primaryBlack2),
             textAlign: TextAlign.center,
           ));
+    } else if (type == 2) {
+      return Container(
+        alignment: Alignment.center,
+        width: 45,
+        height: 30,
+        decoration: BoxDecoration(
+            color: appColor.backgroundTabBar,
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(
+          content,
+          style: AppStyle.mainStyle.copyWith(
+              fontWeight: FontWeight.w400,
+              fontSize: 10,
+              color: appColor.primaryBlack2),
+          textAlign: TextAlign.center,
+        ),
+      );
     } else {
       return Container(
         alignment: Alignment.center,
@@ -530,12 +657,12 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
         height: 30,
         decoration: BoxDecoration(
             color: const Color(0xffFF734A),
-            borderRadius: BorderRadius.circular(10)),
+            borderRadius: BorderRadius.circular(5)),
         child: Text(
           content,
           style: AppStyle.mainStyle.copyWith(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              fontSize: 10,
               color: appColor.backgroundWhite2),
           textAlign: TextAlign.center,
         ),

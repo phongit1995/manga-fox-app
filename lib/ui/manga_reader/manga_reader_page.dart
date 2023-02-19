@@ -30,7 +30,7 @@ class _MangaReaderState extends State<MangaReader>
   var _indexChapter = 0;
   var isHorizontal = true;
   final settingUtils = SettingUtils();
-  ValueNotifier<bool> isShowInfo = ValueNotifier<bool>(true);
+  ValueNotifier<bool> isShowInfo = ValueNotifier<bool>(false);
   final ScrollController _scrollController = ScrollController();
   late PageController _controller;
   late ListChapter _chapter;

@@ -1,4 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
@@ -8,7 +11,26 @@ import 'package:manga_fox_app/data/response/manga_response.dart';
 import 'package:manga_fox_app/ui/home/home_page.dart';
 import 'package:path_provider/path_provider.dart';
 
+const highImportanceChannelId = 'highImportanceChannel';
+const highImportanceChannelName = 'High Importance Notifications';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+}
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description: 'This channel is used for important notifications.',
+    // description
+    importance: Importance.high,
+    playSound: true);
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+
 void main() async {
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
@@ -18,7 +40,21 @@ void main() async {
   await Hive.openBox('chapter');
   await Hive.openBox('downloadImage');
   await Hive.openBox('chapterReadingDao');
+  const channel = AndroidNotificationChannel(
+    highImportanceChannelId,
+    highImportanceChannelName,
+    importance: Importance.max,
+  );
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+      AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
   runApp(const MyApp());
+}
+
+Future<void> _backgroundMessageHandler(RemoteMessage remoteMessage) async {
+  debugPrint('_backgroundMessageHandler: ${remoteMessage.data}');
+
 }
 
 class MyApp extends StatefulWidget {
