@@ -5,6 +5,31 @@ class SettingUtils {
   final _horizontal = "horizontal";
   final _searchHistory = "_searchHistory";
   final _chap = "_chap";
+  final _topic = "topic";
+  final _initApp = "initApp";
+
+  Future<bool> get initApp async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_initApp) ?? true;
+  }
+
+  Future<void> setInitApp() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(_initApp, false);
+  }
+
+  Future<void> setTopic(String value, {bool isRemove = false}) async {
+    final prefs = await SharedPreferences.getInstance();
+    var topics = prefs.getStringList(_topic) ?? [];
+    if(!topics.contains(value)) {
+      if(isRemove) {
+        topics.remove(value);
+      } else {
+        topics.add(value);
+      }
+    }
+    await prefs.setStringList(_topic, topics);
+  }
 
   Future<void> setChapter(String key, List<String> value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -28,15 +53,11 @@ class SettingUtils {
 
   Future<bool> get dartMode async {
     final prefs = await SharedPreferences.getInstance();
-    print("GET");
-    print( prefs.getBool(_darkMode));
     return prefs.getBool(_darkMode) ?? false;
   }
 
   Future<void> setDartMode(bool value) async {
     final prefs = await SharedPreferences.getInstance();
-    print("SET");
-    print( value);
     prefs.setBool(_darkMode, value);
   }
 

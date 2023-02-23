@@ -114,13 +114,16 @@ class _MyAppState extends State<MyApp> {
             ));
       }
     });
-    FirebaseMessaging.instance.subscribeToTopic("all");
     Future.delayed(
       Duration.zero,
       () async {
         AppThemData().themeData.value = await SettingUtils().dartMode
             ? AppThemData.dark
             : AppThemData.light;
+        if(await SettingUtils().initApp) {
+          FirebaseMessaging.instance.subscribeToTopic("all");
+          SettingUtils().setInitApp();
+        }
       },
     );
   }
