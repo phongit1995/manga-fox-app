@@ -8,6 +8,7 @@ class ItemMangaM extends StatelessWidget {
   final String title;
   final String pathUrl;
   final String viewCount;
+  final bool isLoading;
   final VoidCallback onTap;
   final List<String> category;
 
@@ -17,12 +18,61 @@ class ItemMangaM extends StatelessWidget {
       required this.pathUrl,
       required this.viewCount,
       required this.onTap,
-      required this.category})
+      required this.category, required this.isLoading})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
+    if(isLoading) {
+      return Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Container(
+              width: 80,
+              height: 100,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(width: 7),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Colors.black,
+                    ),
+                    width: 100,
+                    height: 10),
+                const SizedBox(height: 8),
+                Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Colors.black,
+                    ),
+                    width: 20,
+                    height: 10),
+                const SizedBox(height: 8),
+                Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Colors.black,
+                    ),
+                    width: 80,
+                    height: 10),
+              ],
+            ),
+          )
+        ],
+      );
+    }
     return InkWell(
       onTap: onTap,
       child: Row(

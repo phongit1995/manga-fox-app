@@ -6,13 +6,16 @@ import 'package:manga_fox_app/data/response/manga_response.dart';
 class SearchController {
   final SettingUtils settingUtils = SettingUtils();
   final ValueNotifier<String> title = ValueNotifier<String>('');
+  final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
   final ValueNotifier<List<String>> searchHistory =
       ValueNotifier<List<String>>([]);
   final ValueNotifier<List<Manga>> results = ValueNotifier<List<Manga>>([]);
 
   Future loadCategoryManga(String category) async {
+    isLoading.value = true;
     var response = await ApiService.loadMangaCategoryResponse(category);
     results.value = response?.data ?? [];
+    isLoading.value = false;
   }
 
   Future getSearchHistory() async {
@@ -32,6 +35,8 @@ class SearchController {
   }
 
   Future search(String value) async {
+    isLoading.value = true;
     results.value = (await ApiService.searchMangaResponse(value))?.data ?? [];
+    isLoading.value = false;
   }
 }

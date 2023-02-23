@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
 import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
@@ -14,9 +15,34 @@ class ListManga extends StatelessWidget {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     return Column(
       children: [
+        if(mangas.isEmpty)
+         ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: const EdgeInsets.symmetric( vertical: 10),
+              child: ShimmerLoading(
+                isLoading: true,
+                child: ItemMangaM(
+                  isLoading: true,
+                  title: "",
+                  pathUrl:  "",
+                  viewCount:'',
+                  category: [],
+                  onTap: () {
+                  },
+                ),
+              ),
+            );
+          },
+        ),
         ...mangas.map((e) => Column(
               children: [
                 ItemMangaM(
+                  isLoading: false,
                   title: e.name ?? "",
                   pathUrl: e.image ?? "",
                   viewCount: e.mapView(),

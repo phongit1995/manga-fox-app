@@ -8,6 +8,7 @@ import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/dao/manga_dao.dart';
 import 'package:manga_fox_app/data/response/list_chapper_response.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_fox_app/firebase_options.dart';
 import 'package:manga_fox_app/ui/home/home_page.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -27,11 +28,23 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
     playSound: true);
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  messaging.getToken().then((value) => print(value));
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+    }
+  });
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   Hive.registerAdapter(MangaAdapter());
@@ -40,21 +53,17 @@ void main() async {
   await Hive.openBox('chapter');
   await Hive.openBox('downloadImage');
   await Hive.openBox('chapterReadingDao');
-  const channel = AndroidNotificationChannel(
-    highImportanceChannelId,
-    highImportanceChannelName,
-    importance: Importance.max,
-  );
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
       AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
   runApp(const MyApp());
-}
-
-Future<void> _backgroundMessageHandler(RemoteMessage remoteMessage) async {
-  debugPrint('_backgroundMessageHandler: ${remoteMessage.data}');
-
 }
 
 class MyApp extends StatefulWidget {
@@ -88,6 +97,24 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      if (notification != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
     Future.delayed(
       Duration.zero,
       () async {

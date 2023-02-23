@@ -33,6 +33,7 @@ class ApiService {
             "numberItem": 100,
             "name": name
           });
+      Logger().e(response.data);
       return MangaResponse.fromJson(response.data);
     } catch (e) {
       return null;
@@ -75,6 +76,7 @@ class ApiService {
             "numberItem": 100,
             "type_sort": 1
           });
+      Logger().e(response.data);
       return MangaResponse.fromJson(response.data);
     } catch (e) {
       return null;

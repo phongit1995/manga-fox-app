@@ -129,29 +129,40 @@ class _SearchPageState extends State<SearchPage> {
                             ],
                           ),
                   ),
-                  ValueListenableBuilder(
-                    valueListenable: controller,
-                    builder: (context, txt, child) {
-                      if (controller.text.trim().isEmpty) {
-                        _controller.results.value.clear();
-                        _controller.results.value = _controller.results.value;
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _controller.isLoading,
+                    builder: (context, isLoading, child) {
+                      if(isLoading) {
+                        return Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: ListManga(
+                                mangas: []));
                       }
                       return ValueListenableBuilder(
-                        valueListenable: _controller.results,
-                        builder: (context, value, child) {
-                          return _controller.results.value.isEmpty
-                              ? Visibility(
-                                  visible: widget.category == null,
-                                  child: Container(
-                                      margin: const EdgeInsets.only(top: 20),
-                                      child: buildSuggest(context)),
-                                )
-                              : Container(
-                                  margin: const EdgeInsets.only(top: 13),
-                                  child: ListManga(
-                                      mangas: _controller.results.value));
-                        },
-                      );
+                      valueListenable: controller,
+                      builder: (context, txt, child) {
+                        if (controller.text.trim().isEmpty && widget.category == null) {
+                          _controller.results.value.clear();
+                          _controller.results.value = _controller.results.value;
+                        }
+                        return ValueListenableBuilder(
+                          valueListenable: _controller.results,
+                          builder: (context, value, child) {
+                            return _controller.results.value.isEmpty
+                                ? Visibility(
+                                    visible: widget.category == null,
+                                    child: Container(
+                                        margin: const EdgeInsets.only(top: 20),
+                                        child: buildSuggest(context)),
+                                  )
+                                : Container(
+                                    margin: const EdgeInsets.only(top: 13),
+                                    child: ListManga(
+                                        mangas: _controller.results.value));
+                          },
+                        );
+                      },
+                    );
                     },
                   ),
                 ],

@@ -7,6 +7,7 @@ class ItemManga extends StatelessWidget {
   final String title;
   final String pathUrl;
   final String viewCount;
+  final bool isLoading;
   final VoidCallback onTap;
 
   const ItemManga(
@@ -14,12 +15,48 @@ class ItemManga extends StatelessWidget {
       required this.title,
       required this.pathUrl,
       required this.viewCount,
-      required this.onTap})
+      required this.onTap,
+      required this.isLoading})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
+    if (isLoading) {
+      return SizedBox(
+          width: 80,
+          height: 142,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Container(
+                  width: 80,
+                  height: 100,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.black,
+                  ),
+                  width: 60,
+                  height: 10),
+              const SizedBox(height: 4),
+              Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.black,
+                  ),
+                  width: 40,
+                  height: 10),
+            ],
+          ));
+    }
     return Material(
       color: Colors.transparent,
       child: InkWell(

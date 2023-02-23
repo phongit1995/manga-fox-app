@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/widget/header_content.dart';
 import 'package:manga_fox_app/core/widget/search_widget.dart';
+import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/response/generate_response.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
@@ -131,15 +132,7 @@ class _HomePageState extends State<HomePage> {
                   color: appColor.backgroundWhite,
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: generates.isEmpty
-                    ? const Center(
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(),
-                        ),
-                      )
-                    : Column(
+                child: Column(
                         children: [
                           HeaderContent(
                             title: "Categories",
@@ -150,25 +143,28 @@ class _HomePageState extends State<HomePage> {
                             child: GridView.builder(
                               scrollDirection: Axis.horizontal,
                               gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2),
-                              itemCount: generates.length,
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                              itemCount: generates.isEmpty ? 10 : generates.length,
                               itemBuilder: (context, index) {
-                                var category = generates[index];
+                                var category = generates.isEmpty ? Generate() : generates[index];
                                 return Container(
                                   margin: const EdgeInsets.only(right: 32),
-                                  child: ItemCategory(
-                                      pathUrl: category.image ?? "",
-                                      title: category.name ?? "",
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => SearchPage(
-                                                  category:
-                                                      category.name ?? "")),
-                                        );
-                                      }),
+                                  child: ShimmerLoading(
+                                    isLoading: generates.isEmpty,
+                                    child: ItemCategory(
+                                        pathUrl: category.image ?? "",
+                                        title: category.name ?? "",
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => SearchPage(
+                                                    category:
+                                                    category.name ?? "")),
+                                          );
+                                        }, isLoading: generates.isEmpty),
+                                  ),
                                 );
                               },
                             ),
@@ -189,19 +185,11 @@ class _HomePageState extends State<HomePage> {
                       onMore: () {},
                     ),
                     Expanded(
-                      child: exManga.isEmpty
-                          ? const Center(
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(),
-                              ),
-                            )
-                          : ListView.builder(
+                      child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: exManga.length,
+                              itemCount: exManga.isEmpty ? 10 : exManga.length,
                               itemBuilder: (context, index) {
-                                var manga = exManga[index];
+                                var manga = exManga.isEmpty ? Manga() : exManga[index];
                                 return Container(
                                   margin: const EdgeInsets.only(right: 20),
                                   child: ItemManga(
@@ -216,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                                                   DetailMangaPage(
                                                       manga: manga)),
                                         );
-                                      }),
+                                      }, isLoading: exManga.isEmpty),
                                 );
                               },
                             ),
@@ -236,19 +224,11 @@ class _HomePageState extends State<HomePage> {
                       onMore: () {},
                     ),
                     Expanded(
-                      child: topManga.isEmpty
-                          ? const Center(
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(),
-                              ),
-                            )
-                          : ListView.builder(
+                      child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: topManga.length,
+                              itemCount: topManga.isEmpty ? 10 : topManga.length,
                               itemBuilder: (context, index) {
-                                var manga = topManga[index];
+                                var manga = topManga.isEmpty ? Manga() : topManga[index];
                                 return Container(
                                   margin: const EdgeInsets.only(right: 20),
                                   child: ItemManga(
@@ -263,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                                                   DetailMangaPage(
                                                       manga: manga)),
                                         );
-                                      }),
+                                      }, isLoading: topManga.isEmpty),
                                 );
                               },
                             ),
@@ -283,22 +263,15 @@ class _HomePageState extends State<HomePage> {
                       onMore: () {},
                     ),
                     Expanded(
-                      child: lastManga.isEmpty
-                          ? const Center(
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(),
-                              ),
-                            )
-                          : ListView.builder(
+                      child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: lastManga.length,
+                              itemCount: lastManga.isEmpty ? 10 : lastManga.length,
                               itemBuilder: (context, index) {
-                                var manga = lastManga[index];
+                                var manga = lastManga.isEmpty ? Manga() : lastManga[index];
                                 return Container(
                                   margin: const EdgeInsets.only(right: 20),
                                   child: ItemManga(
+                                    isLoading: lastManga.isEmpty,
                                       pathUrl: manga.image ?? "",
                                       title: manga.name ?? "",
                                       viewCount: manga.mapView(),
