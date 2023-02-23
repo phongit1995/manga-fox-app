@@ -192,19 +192,22 @@ class _HomePageState extends State<HomePage> {
                                 var manga = exManga.isEmpty ? Manga() : exManga[index];
                                 return Container(
                                   margin: const EdgeInsets.only(right: 20),
-                                  child: ItemManga(
-                                      pathUrl: manga.image ?? "",
-                                      title: manga.name ?? "",
-                                      viewCount: manga.mapView(),
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailMangaPage(
-                                                      manga: manga)),
-                                        );
-                                      }, isLoading: exManga.isEmpty),
+                                  child: ShimmerLoading(
+                                      isLoading: exManga.isEmpty,
+                                    child: ItemManga(
+                                        pathUrl: manga.image ?? "",
+                                        title: manga.name ?? "",
+                                        viewCount: manga.mapView(),
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailMangaPage(
+                                                        manga: manga)),
+                                          );
+                                        }, isLoading: exManga.isEmpty),
+                                  ),
                                 );
                               },
                             ),
@@ -231,19 +234,22 @@ class _HomePageState extends State<HomePage> {
                                 var manga = topManga.isEmpty ? Manga() : topManga[index];
                                 return Container(
                                   margin: const EdgeInsets.only(right: 20),
-                                  child: ItemManga(
-                                      pathUrl: manga.image ?? "",
-                                      title: manga.name ?? "",
-                                      viewCount: manga.mapView(),
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailMangaPage(
-                                                      manga: manga)),
-                                        );
-                                      }, isLoading: topManga.isEmpty),
+                                  child: ShimmerLoading(
+                                    isLoading: topManga.isEmpty,
+                                    child: ItemManga(
+                                        pathUrl: manga.image ?? "",
+                                        title: manga.name ?? "",
+                                        viewCount: manga.mapView(),
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailMangaPage(
+                                                        manga: manga)),
+                                          );
+                                        }, isLoading: topManga.isEmpty),
+                                  ),
                                 );
                               },
                             ),
@@ -270,21 +276,24 @@ class _HomePageState extends State<HomePage> {
                                 var manga = lastManga.isEmpty ? Manga() : lastManga[index];
                                 return Container(
                                   margin: const EdgeInsets.only(right: 20),
-                                  child: ItemManga(
+                                  child: ShimmerLoading(
                                     isLoading: lastManga.isEmpty,
-                                      pathUrl: manga.image ?? "",
-                                      title: manga.name ?? "",
-                                      viewCount: manga.mapView(),
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailMangaPage(
-                                                    manga: manga,
-                                                  )),
-                                        );
-                                      }),
+                                    child: ItemManga(
+                                      isLoading: lastManga.isEmpty,
+                                        pathUrl: manga.image ?? "",
+                                        title: manga.name ?? "",
+                                        viewCount: manga.mapView(),
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailMangaPage(
+                                                      manga: manga,
+                                                    )),
+                                          );
+                                        }),
+                                  ),
                                 );
                               },
                             ),
