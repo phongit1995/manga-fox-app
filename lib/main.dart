@@ -35,7 +35,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  messaging.getToken().then((value) => print(value));
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
@@ -115,6 +114,7 @@ class _MyAppState extends State<MyApp> {
             ));
       }
     });
+    FirebaseMessaging.instance.subscribeToTopic("all");
     Future.delayed(
       Duration.zero,
       () async {

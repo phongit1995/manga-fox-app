@@ -13,7 +13,7 @@ class ApiService {
       // connectTimeout: 50000,
       // sendTimeout: 50000,
       // receiveTimeout: 50000,
-    ),
+    )
   );
 
   static Future<GenerateResponse?> loadGenerateResponse() async {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:inview_notifier_list/inview_notifier_list.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
@@ -146,40 +147,67 @@ class _MangaReaderState extends State<MangaReader>
                     }
                     return true;
                   },
-                  child: SingleChildScrollView(
+                  child: InViewNotifierList(
+                    isInViewPortCondition:
+                        (double deltaTop, double deltaBottom, double vpHeight) {
+                      return deltaTop < (0.5 * vpHeight) &&
+                          deltaBottom > (0.5 * vpHeight);
+                    },
+                    itemCount: data.length,
                     controller: _scrollController,
-                    child: Column(
-                      children: [
-                        ...data.map((e) => Image.file(
-                              File(e),
-                              fit: BoxFit.fitWidth,
-                              width: double.maxFinite,
-                            ))
-                      ],
-                    ),
+                    shrinkWrap: true,
+                    builder: (BuildContext context, int index) {
+                      return InViewNotifierWidget(
+                        id: '$index',
+                        builder: (context, isInView, child) {
+                          if (isInView) {
+                            indexPage = index;
+                          }
+                          var e = data[index];
+                          return Image.file(
+                            File(e),
+                            fit: BoxFit.fitWidth,
+                            width: double.maxFinite,
+                          );
+                        },
+                      );
+                    },
+                  )
+
+                  // SingleChildScrollView(
+                  //   controller: _scrollController,
+                  //   child: Column(
+                  //     children: [
+                  //       ...data.map((e) => Image.file(
+                  //             File(e),
+                  //             fit: BoxFit.fitWidth,
+                  //             width: double.maxFinite,
+                  //           ))
+                  //     ],
+                  //   ),
+                  // ),
                   ),
-                ),
           ValueListenableBuilder<bool>(
               valueListenable: isShowInfo,
               builder: (context, value, child) => Visibility(
-                visible: value,
-                child: Container(
-                  color: const Color(0xff333333),
-                  padding: const EdgeInsets.only(
-                      bottom: 22, top: 22, left: 20, right: 20),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: SvgPicture.asset(AppImage.icBackWhite),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                          child: Text(
+                    visible: value,
+                    child: Container(
+                      color: const Color(0xff333333),
+                      padding: const EdgeInsets.only(
+                          bottom: 22, top: 22, left: 20, right: 20),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: SvgPicture.asset(AppImage.icBackWhite),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                              child: Text(
                             _chapter.name ?? "",
                             style: AppStyle.mainStyle.copyWith(
                                 color: Colors.white,
@@ -188,31 +216,31 @@ class _MangaReaderState extends State<MangaReader>
                             textAlign: TextAlign.center,
                             maxLines: 2,
                           )),
-                      const SizedBox(width: 20),
-                      InkWell(
-                        onTap: () async {
-                          await showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: appColor.backgroundWhite2,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                topLeft: Radius.circular(20),
-                              ),
-                            ),
-                            builder: (context) {
-                              return const BottomSheetSettingReader();
+                          const SizedBox(width: 20),
+                          InkWell(
+                            onTap: () async {
+                              await showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: appColor.backgroundWhite2,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20),
+                                  ),
+                                ),
+                                builder: (context) {
+                                  return const BottomSheetSettingReader();
+                                },
+                              );
+                              await currentData();
                             },
-                          );
-                          await currentData();
-                        },
-                        child: SvgPicture.asset(AppImage.icSetting),
+                            child: SvgPicture.asset(AppImage.icSetting),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              )),
+                    ),
+                  )),
           ValueListenableBuilder<bool>(
             valueListenable: isShowInfo,
             builder: (context, value, child) => Visibility(
@@ -235,7 +263,6 @@ class _MangaReaderState extends State<MangaReader>
                                 setState(() {
                                   if (_indexChapter > 0) {
                                     _indexChapter--;
-                                    print(_indexChapter);
                                     updateChap(_chapters[_indexChapter]);
                                     // if(isHorizontal) {
                                     //   _controller.jumpToPage(0);
@@ -250,7 +277,7 @@ class _MangaReaderState extends State<MangaReader>
                         ),
                         const SizedBox(width: 40),
                         Text(
-                          '${(_indexChapter+1)}/${_chapters.length}',
+                          '${(indexPage + 1)}/${_chapter.images?.length ?? 0}',
                           style: AppStyle.mainStyle.copyWith(
                               color: Colors.white,
                               fontSize: 16,
@@ -268,7 +295,6 @@ class _MangaReaderState extends State<MangaReader>
                                   if (_indexChapter <= _chapters.length - 1) {
                                     _indexChapter++;
                                     updateChap(_chapters[_indexChapter]);
-                                    // _controller.jumpToPage(0);
                                   }
                                 });
                               },
@@ -339,20 +365,48 @@ class _MangaReaderState extends State<MangaReader>
                     }
                     return true;
                   },
-                  child: SingleChildScrollView(
+                  child: InViewNotifierList(
+                    isInViewPortCondition:
+                        (double deltaTop, double deltaBottom, double vpHeight) {
+                      return deltaTop < (0.5 * vpHeight) &&
+                          deltaBottom > (0.5 * vpHeight);
+                    },
+                    itemCount: (_chapter.images ?? []).length,
                     controller: _scrollController,
-                    child: Column(
-                      children: [
-                        ...(_chapter.images ?? []).map((e) => Image.network(
-                              e,
-                              fit: BoxFit.fitWidth,
-                              width: double.maxFinite,
-                              headers: {"Referer": "https://manganelo.com/"},
-                            ))
-                      ],
-                    ),
+                    shrinkWrap: true,
+                    builder: (BuildContext context, int index) {
+                      return InViewNotifierWidget(
+                        id: '$index',
+                        builder: (context, isInView, child) {
+                          if (isInView) {
+                            indexPage = index;
+                          }
+                          var e = (_chapter.images ?? [])[index];
+                          return Image.network(
+                            e,
+                            fit: BoxFit.fitWidth,
+                            width: double.maxFinite,
+                            headers: {"Referer": "https://manganelo.com/"},
+                          );
+                        },
+                      );
+                    },
+                  )
+
+                  // SingleChildScrollView(
+                  //   controller: _scrollController,
+                  //   child: Column(
+                  //     children: [
+                  //       ...(_chapter.images ?? []).map((e) => Image.network(
+                  //             e,
+                  //             fit: BoxFit.fitWidth,
+                  //             width: double.maxFinite,
+                  //             headers: {"Referer": "https://manganelo.com/"},
+                  //           ))
+                  //     ],
+                  //   ),
+                  // ),
                   ),
-                ),
           ValueListenableBuilder<bool>(
               valueListenable: isShowInfo,
               builder: (context, value, child) => Visibility(
@@ -440,7 +494,7 @@ class _MangaReaderState extends State<MangaReader>
                         ),
                         const SizedBox(width: 40),
                         Text(
-                          '${(_chapter.index ?? 0)}/${_chapters.last.index ?? 0}',
+                          '${(indexPage + 1)}/${_chapter.images?.length ?? 0}',
                           style: AppStyle.mainStyle.copyWith(
                               color: Colors.white,
                               fontSize: 16,
