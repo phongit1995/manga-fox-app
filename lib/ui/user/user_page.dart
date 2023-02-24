@@ -1,14 +1,14 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
+import 'package:manga_fox_app/core/utils/download_utils.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:manga_fox_app/data/dao/download_dao.dart';
 
 class UserPage extends StatefulWidget {
-
   const UserPage({Key? key}) : super(key: key);
 
   @override
@@ -17,6 +17,7 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   final ValueNotifier<bool> isDarkMode = ValueNotifier(false);
+  final ValueNotifier<bool> isShowNotification = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -35,113 +36,54 @@ class _UserPageState extends State<UserPage> {
           children: [
             const SizedBox(height: 60),
             Container(
-              alignment: Alignment.topLeft,
+              alignment: Alignment.topCenter,
               child: Text(
-                "Asakura Yoh",
+                "Settings",
                 style: AppStyle.mainStyle.copyWith(
-                    fontSize: 16,
+                    fontSize: 24,
                     color: Colors.white,
                     fontWeight: FontWeight.w400),
               ),
             ),
-            const SizedBox(height: 4),
-            Container(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "Join from December 2022",
-                style: AppStyle.mainStyle.copyWith(
-                    fontSize: 10,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w300),
-              ),
-            ),
-            SizedBox(
-              height: 220,
-              width: double.maxFinite,
-              child: Stack(
-                children: [
-                  Container(
-                    width: double.maxFinite,
-                    margin: const EdgeInsets.only(top: 43),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: appColor.backgroundWhite,
-                    ),
-                    padding:
-                        const EdgeInsets.only(top: 32, left: 16, right: 16),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Buy Premium Member",
-                          style: AppStyle.mainStyle.copyWith(
-                              fontSize: 12,
-                              color: appColor.primaryBlack,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          "No ads",
-                          style: AppStyle.mainStyle.copyWith(
-                              fontSize: 12,
-                              color: appColor.primaryBlack,
-                              fontWeight: FontWeight.w300),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          "Landscape reading mode",
-                          style: AppStyle.mainStyle.copyWith(
-                              fontSize: 12,
-                              color: appColor.primaryBlack,
-                              fontWeight: FontWeight.w300),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          "Download more chapter",
-                          style: AppStyle.mainStyle.copyWith(
-                              fontSize: 12,
-                              color: appColor.primaryBlack,
-                              fontWeight: FontWeight.w300),
-                        ),
-                        const SizedBox(height: 10),
-                        ElevatedButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                elevation: 0,
-                                backgroundColor: Colors.transparent),
-                            child: Container(
-                              width: 161,
-                              height: 40,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(colors: [
-                                  Color(0xffFF734A),
-                                  Color(0xffFFA14A)
-                                ]),
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: Text(
-                                "Buy now",
-                                style: AppStyle.mainStyle.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12),
-                              ),
-                            )),
-                      ],
-                    ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    elevation: 0,
+                    backgroundColor: Colors.transparent),
+                child: Container(
+                  width: double.maxFinite,
+                  height: 48,
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(colors: [
+                      Color(0xffFF734A),
+                      Color(0xffFFA14A)
+                    ]),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  Container(
-                    alignment: Alignment.topCenter,
-                    margin: const EdgeInsets.only(top: 18),
-                    child: SvgPicture.asset(AppImage.icDiamond),
-                  )
-                ],
-              ),
-            ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 20),
+                      SvgPicture.asset(AppImage.icDiamond),
+                      const SizedBox(width: 16),
+                      Text(
+                        "Become to V.I.P Member",
+                        style: AppStyle.mainStyle.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12),
+                      ),
+                    ],
+                  ),
+                )),
             Container(
               width: double.maxFinite,
-              margin: const EdgeInsets.only(top: 43),
+              margin: const EdgeInsets.only(top: 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: appColor.backgroundWhite,
@@ -153,7 +95,7 @@ class _UserPageState extends State<UserPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(AppImage.icDarkMode, color: appColor.primaryBlack2,),
+                      SvgPicture.asset(AppImage.icDarkMode),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -188,16 +130,16 @@ class _UserPageState extends State<UserPage> {
                       )
                     ],
                   ),
-                  Divider(color: appColor.primaryDivider, thickness: 1, height: 1),
-                  const SizedBox(height: 18),
+                  Divider(
+                      color: appColor.primaryDivider, thickness: 1, height: 1),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(AppImage.icTerm, color: appColor.primaryBlack2),
+                      SvgPicture.asset(AppImage.icNotification),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          "Term of Privacy",
+                          "Notification",
                           style: AppStyle.mainStyle.copyWith(
                               fontSize: 12,
                               color: appColor.primaryBlack,
@@ -205,56 +147,114 @@ class _UserPageState extends State<UserPage> {
                         ),
                       ),
                       const Spacer(),
+                      ValueListenableBuilder<bool>(
+                        valueListenable: isShowNotification,
+                        builder: (context, value, child) {
+                          return Switch(
+                            value: value,
+                            thumbColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                              (Set<MaterialState> states) {
+                                return Colors.white;
+                              },
+                            ),
+                            onChanged: (bool value) {
+                              isShowNotification.value = value;
+                            },
+                          );
+                        },
+                      )
                     ],
                   ),
-                  const SizedBox(height: 13),
-                  Divider(color: appColor.primaryDivider, thickness: 1, height: 1),
+                  Divider(
+                      color: appColor.primaryDivider, thickness: 1, height: 1),
 
                   const SizedBox(height: 18),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(AppImage.icStar, color: appColor.primaryBlack2,),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          "About Us",
-                          style: AppStyle.mainStyle.copyWith(
-                              fontSize: 12,
-                              color: appColor.primaryBlack,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                      const Spacer(),
-                    ],
+                  _buildItem(
+                    "About Us",
+                    AppImage.icStar,
+                    onTap: () {},
                   ),
                   const SizedBox(height: 13),
-                  Divider(color: appColor.primaryDivider, thickness: 1, height: 1),
-
+                  Divider(
+                      color: appColor.primaryDivider, thickness: 1, height: 1),
                   const SizedBox(height: 18),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(AppImage.icShare, color: appColor.primaryBlack2,),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          "Share App",
-                          style: AppStyle.mainStyle.copyWith(
-                              fontSize: 12,
-                              color: appColor.primaryBlack,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                      const Spacer(),
-                    ],
+                  _buildItem(
+                    "Share App",
+                    AppImage.icShare,
+                    onTap: () {},
                   ),
                   const SizedBox(height: 13),
+                  Divider(
+                      color: appColor.primaryDivider, thickness: 1, height: 1),
+                  const SizedBox(height: 18),
+                  _buildItem(
+                    "Rating",
+                    AppImage.icRating,
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 13),
+                  Divider(
+                      color: appColor.primaryDivider, thickness: 1, height: 1),
+                  const SizedBox(height: 18),
+                  _buildItem(
+                    "Join - Facebook Support",
+                    AppImage.icFB,
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 13),
+                  Divider(
+                      color: appColor.primaryDivider, thickness: 1, height: 1),
+                  const SizedBox(height: 18),
+                  _buildItem(
+                    "Term of Privacy",
+                    AppImage.icTerm,
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 13),
+                  Divider(
+                      color: appColor.primaryDivider, thickness: 1, height: 1),
+                  const SizedBox(height: 18),
+                  _buildItem(
+                    "Clear Caches",
+                    AppImage.icDeleteCache,
+                    onTap: () {
+                      DownloadUtils().deleteAppDir();
+                      DownloadDAO().deleteAll();
+                    },
+                  ),
                 ],
               ),
             ),
+            const SizedBox(height: 40),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildItem(String content, String iconPath,
+      {required VoidCallback onTap, bool? switchTab}) {
+    final AppColor appColor = Theme.of(context).extension<AppColor>()!;
+
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(iconPath),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              content,
+              style: AppStyle.mainStyle.copyWith(
+                  fontSize: 12,
+                  color: appColor.primaryBlack,
+                  fontWeight: FontWeight.w400),
+            ),
+          ),
+          const Spacer(),
+        ],
       ),
     );
   }

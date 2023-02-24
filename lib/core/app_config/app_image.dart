@@ -17,6 +17,9 @@ class AppImage {
   static String icDelete = "assets/icon/ic_delete.svg";
   static String icDiamond = "assets/icon/ic_diamond.svg";
   static String icDarkMode = "assets/icon/ic_dark_mode.svg";
+  static String icNotification = "assets/icon/ic_notification.svg";
+  static String icFB = "assets/icon/ic_fb.svg";
+  static String icDeleteCache = "assets/icon/ic_delete_cache.svg";
   static String icBackWhite = "assets/icon/ic_back_white.svg";
   static String icSetting = "assets/icon/ic_setting.svg";
   static String icVertical = "assets/icon/ic_vertical.svg";
@@ -27,4 +30,5 @@ class AppImage {
   static String icShare = "assets/icon/ic_share.svg";
   static String icTerm = "assets/icon/ic_term.svg";
   static String icStar = "assets/icon/ic_star.svg";
+  static String icRating = "assets/icon/ic_rating.svg";
 }
