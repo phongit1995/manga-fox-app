@@ -15,8 +15,13 @@ class DownloadDAO {
     return box.get(_download)?.cast<String>() ?? [];
   }
 
-  void delete(String idChapter) {
+  Future delete(String idChapter) async{
     var box = Hive.box(_download);
     box.delete(idChapter);
+  }
+
+  Future deleteAll() async{
+     await Hive.box(_download).deleteFromDisk();
+     await Hive.openBox('downloadImage');
   }
 }

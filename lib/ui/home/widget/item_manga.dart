@@ -78,7 +78,7 @@ class ItemManga extends StatelessWidget {
                 const SizedBox(height: 4),
                 SizedBox(
                   width: 80,
-                  height: 26,
+                  height: 30,
                   child: Text(
                     title,
                     maxLines: 2,
@@ -88,7 +88,6 @@ class ItemManga extends StatelessWidget {
                         color: appColor.primaryBlack),
                   ),
                 ),
-                const SizedBox(height: 4),
                 SizedBox(
                   width: 80,
                   child: Text(

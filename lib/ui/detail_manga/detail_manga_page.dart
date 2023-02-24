@@ -52,7 +52,9 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
   Future loadData() async {
     loading.value = true;
     await _controller.loadChapterLocal(widget.manga.sId ?? "");
-    await _controller.loadChapter(widget.manga.sId ?? "");
+    if(widget.toDownload != true) {
+      await _controller.loadChapter(widget.manga.sId ?? "");
+    }
     loading.value = false;
   }
 
@@ -475,6 +477,10 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                           (box.get(element.sId ?? "")?.cast<String>() ?? [])
                               .isNotEmpty)
                       .toList();
+                  if(chapter.isEmpty) {
+                    MangaDAO().deleteMangaDownload(
+                        widget.manga);
+                  }
                 } else {
                   chapter = c;
                 }
@@ -483,18 +489,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                 if (_controller.revert) {
                   chapter = chapter.reversed.toList();
                 }
-                return chapter.isEmpty
-                    ? const SizedBox(
-                        height: 50,
-                        child: Center(
-                          child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                      )
-                    : ValueListenableBuilder<bool>(
+                return ValueListenableBuilder<bool>(
                         valueListenable: viewGrid,
                         builder: (context, value, child) {
                           if (value) {
@@ -559,7 +554,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                     setState(() {});
                                                   }
                                                 } else {
-                                                  showDialog(
+                                                  await showDialog(
                                                     context: context,
                                                     builder: (context) {
                                                       return AlertDialog(
@@ -576,8 +571,8 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                                       context)
                                                                   .pop();
                                                             },
-                                                            yes: () {
-                                                              DownloadDAO()
+                                                            yes: () async{
+                                                              await DownloadDAO()
                                                                   .delete(
                                                                       e.sId ??
                                                                           "");
