@@ -555,7 +555,9 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                   }
                                                   DownloadUtils.task
                                                       .remove(e.sId ?? "");
-                                                  setState(() {});
+                                                  if(mounted) {
+                                                    setState(() {});
+                                                  }
                                                 } else {
                                                   showDialog(
                                                     context: context,
