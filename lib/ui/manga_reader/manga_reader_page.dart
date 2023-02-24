@@ -9,6 +9,7 @@ import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:manga_fox_app/data/dao/chapter_dao.dart';
 import 'package:manga_fox_app/data/response/list_chapper_response.dart';
 import 'package:manga_fox_app/ui/manga_reader/bottom_sheet_setting_reader.dart';
 import 'package:photo_view/photo_view.dart';
@@ -63,8 +64,15 @@ class _MangaReaderState extends State<MangaReader>
 
   @override
   void dispose() {
+    if ((_chapter.images?.length ?? 1) - (indexPage + 1) <= 1) {
+      ChapterDAO().addPercentChapterReading(widget.chapter.sId ?? "", 1);
+    } else {
+      ChapterDAO().addPercentChapterReading(widget.chapter.sId ?? "",
+          (indexPage + 1) / (_chapter.images?.length ?? 1));
+    }
     _scrollController.dispose();
     _controller.dispose();
+    isShowInfo.dispose();
     super.dispose();
   }
 

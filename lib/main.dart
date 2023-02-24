@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
+import 'package:manga_fox_app/data/dao/chapter_dao.dart';
 import 'package:manga_fox_app/data/dao/manga_dao.dart';
 import 'package:manga_fox_app/data/response/list_chapper_response.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
@@ -52,6 +53,7 @@ void main() async {
   await Hive.openBox('chapter');
   await Hive.openBox('downloadImage');
   await Hive.openBox('chapterReadingDao');
+  await Hive.openBox(ChapterDAO().chapterPercentReadingDao);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
       AndroidFlutterLocalNotificationsPlugin>()

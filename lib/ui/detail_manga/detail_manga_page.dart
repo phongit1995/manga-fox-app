@@ -8,6 +8,7 @@ import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/download_utils.dart';
 import 'package:manga_fox_app/core/widget/app_dialog.dart';
+import 'package:manga_fox_app/core/widget/progress_bar.dart';
 import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/dao/chapter_dao.dart';
@@ -93,8 +94,12 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                 ),
                 const SizedBox(height: 12),
                 ValueListenableBuilder<bool>(
-                  builder: (context, value, child) =>
-                      value ? ShimmerLoading(isLoading: value,child: _buildLoading(),) : _buildContent(),
+                  builder: (context, value, child) => value
+                      ? ShimmerLoading(
+                          isLoading: value,
+                          child: _buildLoading(),
+                        )
+                      : _buildContent(),
                   valueListenable: loading,
                 )
               ],
@@ -511,7 +516,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                 e.sId ?? "");
                                             ChapterDAO().addReading(e.sId ?? "",
                                                 widget.manga.sId ?? "");
-                                            Navigator.push(
+                                            await Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
@@ -587,10 +592,18 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                       Container(
                                         margin: const EdgeInsets.only(
                                             bottom: 7, top: 7),
-                                        child: Divider(
-                                            color: appColor.primaryDivider,
-                                            thickness: 1,
-                                            height: 1),
+                                        child: ValueListenableBuilder(
+                                            valueListenable: Hive.box(ChapterDAO()
+                                                    .chapterPercentReadingDao)
+                                                .listenable(),
+                                            builder: (context, Box<dynamic> box,
+                                                child) {
+                                              return AppProgress(
+                                                  percent: box.get(e.sId ?? '',
+                                                              defaultValue: 0.0)
+                                                          as double? ??
+                                                      0);
+                                            }),
                                       ),
                                     ],
                                   ),

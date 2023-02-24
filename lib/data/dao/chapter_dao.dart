@@ -4,6 +4,18 @@ import 'package:manga_fox_app/data/response/list_chapper_response.dart';
 class ChapterDAO {
   final chapterDao = "chapter";
   final chapterReadingDao = "chapterReadingDao";
+  final chapterPercentReadingDao = "chapterPercentReadingDao";
+
+  void addPercentChapterReading(String chapterId, double p) {
+    if(chapterId.isEmpty) return;
+    var box = Hive.box(chapterPercentReadingDao);
+    box.put(chapterId, p);
+  }
+
+  double? getPercentChapterReading(String chapterId) {
+    var box = Hive.box(chapterPercentReadingDao);
+    return double.tryParse(box.get(chapterId)?.toString() ?? '0');
+  }
 
   void addReading(String chapterId, String mangaId) {
     if(chapterId.isEmpty || mangaId.isEmpty) return;

@@ -59,6 +59,7 @@ class ListChapter extends Equatable{
   @HiveField(10)
   List<String>? imagesLocal;
   bool? isRead;
+  int? indexPage;
 
   ListChapter(
       {this.index,
