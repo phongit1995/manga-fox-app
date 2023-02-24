@@ -46,41 +46,44 @@ class _UserPageState extends State<UserPage> {
               ),
             ),
             const SizedBox(height: 32),
-            ElevatedButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    elevation: 0,
-                    backgroundColor: Colors.transparent),
-                child: Container(
-                  width: double.maxFinite,
-                  height: 48,
-                  alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(colors: [
-                      Color(0xffFF734A),
-                      Color(0xffFFA14A)
-                    ]),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: 20),
-                      SvgPicture.asset(AppImage.icDiamond),
-                      const SizedBox(width: 16),
-                      Text(
-                        "Become to V.I.P Member",
-                        style: AppStyle.mainStyle.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12),
-                      ),
-                    ],
-                  ),
-                )),
+            Visibility(
+              visible: false,
+              child: ElevatedButton(
+                  onPressed: () {},
+                  style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      elevation: 0,
+                      backgroundColor: Colors.transparent),
+                  child: Container(
+                    width: double.maxFinite,
+                    height: 48,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(colors: [
+                        Color(0xffFF734A),
+                        Color(0xffFFA14A)
+                      ]),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(width: 20),
+                        SvgPicture.asset(AppImage.icDiamond),
+                        const SizedBox(width: 16),
+                        Text(
+                          "Become to V.I.P Member",
+                          style: AppStyle.mainStyle.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
             Container(
               width: double.maxFinite,
               margin: const EdgeInsets.only(top: 20),
@@ -219,8 +222,6 @@ class _UserPageState extends State<UserPage> {
                     "Clear Caches",
                     AppImage.icDeleteCache,
                     onTap: () {
-                      DownloadUtils().deleteAppDir();
-                      DownloadDAO().deleteAll();
                     },
                   ),
                 ],

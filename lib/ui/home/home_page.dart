@@ -117,8 +117,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 18),
-                SvgPicture.asset(AppImage.icVip)
+                // const SizedBox(width: 18),
+                // SvgPicture.asset(AppImage.icVip)
               ],
             ),
           ),
