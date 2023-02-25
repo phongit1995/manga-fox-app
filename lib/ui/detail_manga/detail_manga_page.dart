@@ -52,7 +52,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
   Future loadData() async {
     loading.value = true;
     await _controller.loadChapterLocal(widget.manga.sId ?? "");
-    if(widget.toDownload != true) {
+    if (widget.toDownload != true) {
       await _controller.loadChapter(widget.manga.sId ?? "");
     }
     loading.value = false;
@@ -96,12 +96,8 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                 ),
                 const SizedBox(height: 12),
                 ValueListenableBuilder<bool>(
-                  builder: (context, value, child) => value
-                      ? ShimmerLoading(
-                          isLoading: value,
-                          child: _buildLoading(),
-                        )
-                      : _buildContent(),
+                  builder: (context, value, child) =>
+                      _buildContent(isLoading: value),
                   valueListenable: loading,
                 )
               ],
@@ -152,7 +148,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent({required bool isLoading}) {
     AppColor appColor = Theme.of(context).extension<AppColor>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -398,15 +394,15 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
               ),
               const SizedBox(height: 10),
               Visibility(
-                visible: !readMore.value,
+                visible: true,
                 child: InkWell(
-                  onTap: () => readMore.value = true,
+                  onTap: () => readMore.value = !readMore.value,
                   child: Container(
                     alignment: Alignment.topLeft,
                     child: Row(
                       children: [
                         Text(
-                          "Read More",
+                          readMore.value ? "More less" : "Read More",
                           maxLines: readMore.value ? 3 : null,
                           style: AppStyle.mainStyle.copyWith(
                               color: appColor.primaryBlack,
@@ -414,7 +410,10 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                               fontSize: 10),
                         ),
                         const SizedBox(width: 4),
-                        Icon(Icons.arrow_drop_down_sharp,
+                        Icon(
+                            readMore.value
+                                ? Icons.arrow_drop_up_sharp
+                                : Icons.arrow_drop_down_sharp,
                             color: appColor.primaryBlack.withOpacity(0.6))
                       ],
                     ),
@@ -425,71 +424,75 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
           ),
         ),
         const SizedBox(height: 19),
-        widget.toDownload == true
-            ? Container(
-                alignment: Alignment.topLeft,
-                margin: const EdgeInsets.symmetric(vertical: 16),
-                child: Text(
-                  "Downloaded Book",
-                  style: AppStyle.mainStyle.copyWith(
-                      color: appColor.primaryBlack,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16),
+        if (!isLoading)
+          widget.toDownload == true
+              ? Container(
+                  alignment: Alignment.topLeft,
+                  margin: const EdgeInsets.symmetric(vertical: 16),
+                  child: Text(
+                    "Downloaded Book",
+                    style: AppStyle.mainStyle.copyWith(
+                        color: appColor.primaryBlack,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16),
+                  ),
+                )
+              : Row(
+                  children: [
+                    Text("Chapters",
+                        style: AppStyle.mainStyle.copyWith(
+                            color: appColor.primaryBlack,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14)),
+                    const Spacer(),
+                    InkWell(
+                      child: SvgPicture.asset(AppImage.icFilter,
+                          color: appColor.primaryBlack),
+                      onTap: () {
+                        _controller.revert = !_controller.revert;
+                        setState(() {});
+                      },
+                    ),
+                    const SizedBox(width: 12),
+                    InkWell(
+                      onTap: () {
+                        viewGrid.value = !viewGrid.value;
+                      },
+                      child: SvgPicture.asset(AppImage.icList,
+                          color: appColor.primaryBlack),
+                    ),
+                  ],
                 ),
-              )
-            : Row(
-                children: [
-                  Text("Chapters",
-                      style: AppStyle.mainStyle.copyWith(
-                          color: appColor.primaryBlack,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14)),
-                  const Spacer(),
-                  InkWell(
-                    child: SvgPicture.asset(AppImage.icFilter,
-                        color: appColor.primaryBlack),
-                    onTap: () {
-                      _controller.revert = !_controller.revert;
-                      setState(() {});
-                    },
-                  ),
-                  const SizedBox(width: 12),
-                  InkWell(
-                    onTap: () {
-                      viewGrid.value = !viewGrid.value;
-                    },
-                    child: SvgPicture.asset(AppImage.icList,
-                        color: appColor.primaryBlack),
-                  ),
-                ],
-              ),
         const SizedBox(height: 10),
-        ValueListenableBuilder(
-          valueListenable: Hive.box("downloadImage").listenable(),
-          builder: (context, Box<dynamic> box, child) {
-            return ValueListenableBuilder<List<ListChapter>>(
-              valueListenable: _controller.chapter,
-              builder: (context, c, child) {
-                List<ListChapter> chapter = [];
-                if (widget.toDownload == true && c.isNotEmpty) {
-                  chapter = c
-                      .where((element) =>
-                          (box.get(element.sId ?? "")?.cast<String>() ?? [])
-                              .isNotEmpty)
-                      .toList();
-                  if(chapter.isEmpty) {
-                    MangaDAO().deleteMangaDownload(
-                        widget.manga);
-                  }
-                } else {
-                  chapter = c;
-                }
+        isLoading
+            ? ShimmerLoading(isLoading: isLoading, child: _buildLoading())
+            : ValueListenableBuilder(
+                valueListenable: Hive.box("downloadImage").listenable(),
+                builder: (context, Box<dynamic> box, child) {
+                  return ValueListenableBuilder<List<ListChapter>>(
+                    valueListenable: _controller.chapter,
+                    builder: (context, c, child) {
+                      List<ListChapter> chapter = [];
+                      if (widget.toDownload == true && c.isNotEmpty) {
+                        chapter = c
+                            .where((element) =>
+                                (box.get(element.sId ?? "")?.cast<String>() ??
+                                        [])
+                                    .isNotEmpty)
+                            .toList();
+                        if (chapter.isEmpty) {
+                          MangaDAO().deleteMangaDownload(widget.manga);
+                        }
+                      } else {
+                        chapter = c;
+                      }
 
-                chapter.sort((a, b) => (a.index ?? 0).compareTo(b.index ?? 0));
-                if (_controller.revert) {
-                  chapter = chapter.reversed.toList();
-                }
-                return ValueListenableBuilder<bool>(
+                      chapter.sort(
+                          (a, b) => (a.index ?? 0).compareTo(b.index ?? 0));
+                      if (_controller.revert) {
+                        chapter = chapter.reversed.toList();
+                      }
+                      return ValueListenableBuilder<bool>(
                         valueListenable: viewGrid,
                         builder: (context, value, child) {
                           if (value) {
@@ -550,7 +553,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                   }
                                                   DownloadUtils.task
                                                       .remove(e.sId ?? "");
-                                                  if(mounted) {
+                                                  if (mounted) {
                                                     setState(() {});
                                                   }
                                                 } else {
@@ -571,7 +574,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                                       context)
                                                                   .pop();
                                                             },
-                                                            yes: () async{
+                                                            yes: () async {
                                                               await DownloadDAO()
                                                                   .delete(
                                                                       e.sId ??
@@ -595,7 +598,13 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                 .listenable(),
                                             builder: (context, Box<dynamic> box,
                                                 child) {
-                                              return AppProgress(
+                                              return (box.get(e.sId ?? '',
+                                                  defaultValue: 0.0)
+                                              as double? ??
+                                                  0) == 0 ? Divider(
+                                                  color: appColor.primaryDivider,
+                                                  thickness: 1,
+                                                  height: 1) : AppProgress(
                                                   percent: box.get(e.sId ?? '',
                                                               defaultValue: 0.0)
                                                           as double? ??
@@ -610,10 +619,10 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                           }
                         },
                       );
-              },
-            );
-          },
-        )
+                    },
+                  );
+                },
+              )
       ],
     );
   }
@@ -678,102 +687,6 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: Colors.black,
-              ),
-              width: 142,
-              height: 178,
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.black,
-                      ),
-                      width: 200,
-                      height: 14),
-                  const SizedBox(height: 4),
-                  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.black,
-                      ),
-                      width: 20,
-                      height: 10),
-                  const SizedBox(height: 16),
-                  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.black,
-                      ),
-                      width: 60,
-                      height: 10),
-                  const SizedBox(height: 4),
-                  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.black,
-                      ),
-                      width: 20,
-                      height: 10),
-                  const SizedBox(height: 4),
-                  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.black,
-                      ),
-                      width: 70,
-                      height: 10),
-                  const SizedBox(height: 4),
-                  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.black,
-                      ),
-                      width: 50,
-                      height: 10),
-                  const SizedBox(height: 4),
-                  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.black,
-                      ),
-                      width: 100,
-                      height: 40),
-                ],
-              ),
-            )
-          ],
-        ),
-        const SizedBox(height: 10),
-        Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: Colors.black,
-            ),
-            width: 1000,
-            height: 100),
-        const SizedBox(height: 10),
-        Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: Colors.black,
-            ),
-            width: 100,
-            height: 10),
-        const SizedBox(height: 10),
         ListView.builder(
           itemBuilder: (context, index) => Container(
               decoration: BoxDecoration(

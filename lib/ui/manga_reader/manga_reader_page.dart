@@ -112,89 +112,92 @@ class _MangaReaderState extends State<MangaReader>
     return SafeArea(
       child: Stack(
         children: [
-          !isHorizontal
-              ? PhotoViewGallery.builder(
-                  pageController: _controller,
-                  itemCount: data.length,
-                  scrollPhysics: const BouncingScrollPhysics(),
-                  builder: (context, i) {
-                    return PhotoViewGalleryPageOptions(
-                        imageProvider: FileImage(File(data[i])),
-                        minScale: PhotoViewComputedScale.contained * 1,
-                        maxScale: PhotoViewComputedScale.covered * 2.0,
-                        initialScale: PhotoViewComputedScale.contained * 1.0,
-                        heroAttributes: PhotoViewHeroAttributes(tag: data[i]));
-                  },
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (int value) {
-                    if (value < indexPage) {
-                      isShowInfo.value = true;
-                    } else {
-                      isShowInfo.value = false;
-                    }
-                    setState(() {
-                      indexPage = value;
-                    });
-                  },
-                  loadingBuilder: (context, event) => const Center(
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                )
-              : NotificationListener<ScrollNotification>(
-                  onNotification: (scrollNotification) {
-                    if (_scrollController.position.userScrollDirection ==
-                        ScrollDirection.reverse) {
-                      isShowInfo.value = false;
-                    } else if (_scrollController.position.userScrollDirection ==
-                        ScrollDirection.forward) {
-                      isShowInfo.value = true;
-                    }
-                    return true;
-                  },
-                  child: InViewNotifierList(
-                    isInViewPortCondition:
-                        (double deltaTop, double deltaBottom, double vpHeight) {
-                      return deltaTop < (0.5 * vpHeight) &&
-                          deltaBottom > (0.5 * vpHeight);
-                    },
+          SizedBox(
+            height: double.maxFinite,
+            child: !isHorizontal
+                ? PhotoViewGallery.builder(
+                    pageController: _controller,
                     itemCount: data.length,
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    builder: (BuildContext context, int index) {
-                      return InViewNotifierWidget(
-                        id: '$index',
-                        builder: (context, isInView, child) {
-                          if (isInView) {
-                            indexPage = index;
-                          }
-                          var e = data[index];
-                          return Image.file(
-                            File(e),
-                            fit: BoxFit.fitWidth,
-                            width: double.maxFinite,
-                          );
-                        },
-                      );
+                    scrollPhysics: const BouncingScrollPhysics(),
+                    builder: (context, i) {
+                      return PhotoViewGalleryPageOptions(
+                          imageProvider: FileImage(File(data[i])),
+                          minScale: PhotoViewComputedScale.contained * 1,
+                          maxScale: PhotoViewComputedScale.covered * 2.0,
+                          initialScale: PhotoViewComputedScale.contained * 1.0,
+                          heroAttributes: PhotoViewHeroAttributes(tag: data[i]));
                     },
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (int value) {
+                      if (value < indexPage) {
+                        isShowInfo.value = true;
+                      } else {
+                        isShowInfo.value = false;
+                      }
+                      setState(() {
+                        indexPage = value;
+                      });
+                    },
+                    loadingBuilder: (context, event) => const Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
                   )
+                : NotificationListener<ScrollNotification>(
+                    onNotification: (scrollNotification) {
+                      if (_scrollController.position.userScrollDirection ==
+                          ScrollDirection.reverse) {
+                        isShowInfo.value = false;
+                      } else if (_scrollController.position.userScrollDirection ==
+                          ScrollDirection.forward) {
+                        isShowInfo.value = true;
+                      }
+                      return true;
+                    },
+                    child: InViewNotifierList(
+                      isInViewPortCondition:
+                          (double deltaTop, double deltaBottom, double vpHeight) {
+                        return deltaTop < (0.5 * vpHeight) &&
+                            deltaBottom > (0.5 * vpHeight);
+                      },
+                      itemCount: data.length,
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      builder: (BuildContext context, int index) {
+                        return InViewNotifierWidget(
+                          id: '$index',
+                          builder: (context, isInView, child) {
+                            if (isInView) {
+                              indexPage = index;
+                            }
+                            var e = data[index];
+                            return Image.file(
+                              File(e),
+                              fit: BoxFit.fitWidth,
+                              width: double.maxFinite,
+                            );
+                          },
+                        );
+                      },
+                    )
 
-                  // SingleChildScrollView(
-                  //   controller: _scrollController,
-                  //   child: Column(
-                  //     children: [
-                  //       ...data.map((e) => Image.file(
-                  //             File(e),
-                  //             fit: BoxFit.fitWidth,
-                  //             width: double.maxFinite,
-                  //           ))
-                  //     ],
-                  //   ),
-                  // ),
-                  ),
+                    // SingleChildScrollView(
+                    //   controller: _scrollController,
+                    //   child: Column(
+                    //     children: [
+                    //       ...data.map((e) => Image.file(
+                    //             File(e),
+                    //             fit: BoxFit.fitWidth,
+                    //             width: double.maxFinite,
+                    //           ))
+                    //     ],
+                    //   ),
+                    // ),
+                    ),
+          ),
           ValueListenableBuilder<bool>(
               valueListenable: isShowInfo,
               builder: (context, value, child) => Visibility(
@@ -326,95 +329,98 @@ class _MangaReaderState extends State<MangaReader>
     return SafeArea(
       child: Stack(
         children: [
-          !isHorizontal
-              ? PhotoViewGallery.builder(
-                  pageController: _controller,
-                  itemCount: (_chapter.images ?? []).length,
-                  scrollPhysics: const BouncingScrollPhysics(),
-                  builder: (context, i) {
-                    return PhotoViewGalleryPageOptions(
-                        imageProvider: NetworkImage(
-                          (_chapter.images ?? [])[i],
-                          headers: {"Referer": "https://manganelo.com/"},
-                        ),
-                        minScale: PhotoViewComputedScale.contained * 1,
-                        maxScale: PhotoViewComputedScale.covered * 2.0,
-                        initialScale: PhotoViewComputedScale.contained * 1.0,
-                        heroAttributes: PhotoViewHeroAttributes(
-                            tag: (_chapter.images ?? [])[i]));
-                  },
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (int value) {
-                    if (value < indexPage) {
-                      isShowInfo.value = true;
-                    } else {
-                      isShowInfo.value = false;
-                    }
-                    setState(() {
-                      indexPage = value;
-                    });
-                  },
-                  loadingBuilder: (context, event) => const Center(
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                )
-              : NotificationListener<ScrollNotification>(
-                  onNotification: (scrollNotification) {
-                    if (_scrollController.position.userScrollDirection ==
-                        ScrollDirection.reverse) {
-                      isShowInfo.value = false;
-                    } else if (_scrollController.position.userScrollDirection ==
-                        ScrollDirection.forward) {
-                      isShowInfo.value = true;
-                    }
-                    return true;
-                  },
-                  child: InViewNotifierList(
-                    isInViewPortCondition:
-                        (double deltaTop, double deltaBottom, double vpHeight) {
-                      return deltaTop < (0.5 * vpHeight) &&
-                          deltaBottom > (0.5 * vpHeight);
-                    },
+          SizedBox(
+            height: double.maxFinite,
+            child: !isHorizontal
+                ? PhotoViewGallery.builder(
+                    pageController: _controller,
                     itemCount: (_chapter.images ?? []).length,
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    builder: (BuildContext context, int index) {
-                      return InViewNotifierWidget(
-                        id: '$index',
-                        builder: (context, isInView, child) {
-                          if (isInView) {
-                            indexPage = index;
-                          }
-                          var e = (_chapter.images ?? [])[index];
-                          return Image.network(
-                            e,
-                            fit: BoxFit.fitWidth,
-                            width: double.maxFinite,
+                    scrollPhysics: const BouncingScrollPhysics(),
+                    builder: (context, i) {
+                      return PhotoViewGalleryPageOptions(
+                          imageProvider: NetworkImage(
+                            (_chapter.images ?? [])[i],
                             headers: {"Referer": "https://manganelo.com/"},
-                          );
-                        },
-                      );
+                          ),
+                          minScale: PhotoViewComputedScale.contained * 1,
+                          maxScale: PhotoViewComputedScale.covered * 2.0,
+                          initialScale: PhotoViewComputedScale.contained * 1.0,
+                          heroAttributes: PhotoViewHeroAttributes(
+                              tag: (_chapter.images ?? [])[i]));
                     },
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (int value) {
+                      if (value < indexPage) {
+                        isShowInfo.value = true;
+                      } else {
+                        isShowInfo.value = false;
+                      }
+                      setState(() {
+                        indexPage = value;
+                      });
+                    },
+                    loadingBuilder: (context, event) => const Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
                   )
+                : NotificationListener<ScrollNotification>(
+                    onNotification: (scrollNotification) {
+                      if (_scrollController.position.userScrollDirection ==
+                          ScrollDirection.reverse) {
+                        isShowInfo.value = false;
+                      } else if (_scrollController.position.userScrollDirection ==
+                          ScrollDirection.forward) {
+                        isShowInfo.value = true;
+                      }
+                      return true;
+                    },
+                    child: InViewNotifierList(
+                      isInViewPortCondition:
+                          (double deltaTop, double deltaBottom, double vpHeight) {
+                        return deltaTop < (0.5 * vpHeight) &&
+                            deltaBottom > (0.5 * vpHeight);
+                      },
+                      itemCount: (_chapter.images ?? []).length,
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      builder: (BuildContext context, int index) {
+                        return InViewNotifierWidget(
+                          id: '$index',
+                          builder: (context, isInView, child) {
+                            if (isInView) {
+                              indexPage = index;
+                            }
+                            var e = (_chapter.images ?? [])[index];
+                            return Image.network(
+                              e,
+                              fit: BoxFit.fitWidth,
+                              width: double.maxFinite,
+                              headers: {"Referer": "https://manganelo.com/"},
+                            );
+                          },
+                        );
+                      },
+                    )
 
-                  // SingleChildScrollView(
-                  //   controller: _scrollController,
-                  //   child: Column(
-                  //     children: [
-                  //       ...(_chapter.images ?? []).map((e) => Image.network(
-                  //             e,
-                  //             fit: BoxFit.fitWidth,
-                  //             width: double.maxFinite,
-                  //             headers: {"Referer": "https://manganelo.com/"},
-                  //           ))
-                  //     ],
-                  //   ),
-                  // ),
-                  ),
+                    // SingleChildScrollView(
+                    //   controller: _scrollController,
+                    //   child: Column(
+                    //     children: [
+                    //       ...(_chapter.images ?? []).map((e) => Image.network(
+                    //             e,
+                    //             fit: BoxFit.fitWidth,
+                    //             width: double.maxFinite,
+                    //             headers: {"Referer": "https://manganelo.com/"},
+                    //           ))
+                    //     ],
+                    //   ),
+                    // ),
+                    ),
+          ),
           ValueListenableBuilder<bool>(
               valueListenable: isShowInfo,
               builder: (context, value, child) => Visibility(

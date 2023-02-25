@@ -52,10 +52,10 @@ dependencies:
   image_downloader: ^0.31.0
   image_gallery_saver: ^1.7.1
   flutter_local_notifications: ^13.0.0
-  permission_handler: ^10.0.0
   firebase_core: ^2.6.1
   firebase_messaging: ^14.2.4
   inview_notifier_list: ^3.0.0
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

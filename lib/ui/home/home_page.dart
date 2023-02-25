@@ -12,6 +12,7 @@ import 'package:manga_fox_app/ui/home/home_controller.dart';
 import 'package:manga_fox_app/ui/home/widget/item_category.dart';
 import 'package:manga_fox_app/ui/home/widget/item_manga.dart';
 import 'package:manga_fox_app/ui/library/library_page.dart';
+import 'package:manga_fox_app/ui/list_manga/list_manga_geners.dart';
 import 'package:manga_fox_app/ui/search/search_page.dart';
 import 'package:manga_fox_app/ui/user/user_page.dart';
 
@@ -133,44 +134,47 @@ class _HomePageState extends State<HomePage> {
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
-                        children: [
-                          HeaderContent(
-                            title: "Categories",
-                            onMore: () {},
-                            isShowMore: false,
-                          ),
-                          Expanded(
-                            child: GridView.builder(
-                              scrollDirection: Axis.horizontal,
-                              gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2),
-                              itemCount: generates.isEmpty ? 10 : generates.length,
-                              itemBuilder: (context, index) {
-                                var category = generates.isEmpty ? Generate() : generates[index];
-                                return Container(
-                                  margin: const EdgeInsets.only(right: 32),
-                                  child: ShimmerLoading(
-                                    isLoading: generates.isEmpty,
-                                    child: ItemCategory(
-                                        pathUrl: category.image ?? "",
-                                        title: category.name ?? "",
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => SearchPage(
-                                                    category:
-                                                    category.name ?? "")),
-                                          );
-                                        }, isLoading: generates.isEmpty),
-                                  ),
-                                );
-                              },
+                  children: [
+                    HeaderContent(
+                      title: "Categories",
+                      onMore: () {},
+                      isShowMore: false,
+                    ),
+                    Expanded(
+                      child: GridView.builder(
+                        scrollDirection: Axis.horizontal,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemCount: generates.isEmpty ? 10 : generates.length,
+                        itemBuilder: (context, index) {
+                          var category =
+                              generates.isEmpty ? Generate() : generates[index];
+                          return Container(
+                            margin: const EdgeInsets.only(right: 32),
+                            child: ShimmerLoading(
+                              isLoading: generates.isEmpty,
+                              child: ItemCategory(
+                                  pathUrl: category.image ?? "",
+                                  title: category.name ?? "",
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ListMangaGeners(
+                                            title: category.name ?? "",
+                                            generate: category,
+                                          )),
+                                    );
+                                  },
+                                  isLoading: generates.isEmpty),
                             ),
-                          )
-                        ],
-                      )),
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                )),
           ),
           const SizedBox(height: 20),
           ValueListenableBuilder<List<Manga>>(
@@ -182,35 +186,45 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     HeaderContent(
                       title: "Exclusively for you",
-                      onMore: () {},
+                      onMore: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListMangaGeners(
+                                mangas: exManga,
+                                title: "Exclusively for you",
+                              )),
+                        );
+                      },
                     ),
                     Expanded(
                       child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: exManga.isEmpty ? 10 : exManga.length,
-                              itemBuilder: (context, index) {
-                                var manga = exManga.isEmpty ? Manga() : exManga[index];
-                                return Container(
-                                  margin: const EdgeInsets.only(right: 20),
-                                  child: ShimmerLoading(
-                                      isLoading: exManga.isEmpty,
-                                    child: ItemManga(
-                                        pathUrl: manga.image ?? "",
-                                        title: manga.name ?? "",
-                                        viewCount: manga.mapView(),
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailMangaPage(
-                                                        manga: manga)),
-                                          );
-                                        }, isLoading: exManga.isEmpty),
-                                  ),
-                                );
-                              },
+                        scrollDirection: Axis.horizontal,
+                        itemCount: exManga.isEmpty ? 10 : exManga.length,
+                        itemBuilder: (context, index) {
+                          var manga =
+                              exManga.isEmpty ? Manga() : exManga[index];
+                          return Container(
+                            margin: const EdgeInsets.only(right: 20),
+                            child: ShimmerLoading(
+                              isLoading: exManga.isEmpty,
+                              child: ItemManga(
+                                  pathUrl: manga.image ?? "",
+                                  title: manga.name ?? "",
+                                  viewCount: manga.mapView(),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailMangaPage(manga: manga)),
+                                    );
+                                  },
+                                  isLoading: exManga.isEmpty),
                             ),
+                          );
+                        },
+                      ),
                     )
                   ],
                 )),
@@ -224,35 +238,45 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     HeaderContent(
                       title: "Top Manga",
-                      onMore: () {},
+                      onMore: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListMangaGeners(
+                                mangas: topManga,
+                                title: "Top Manga",
+                              )),
+                        );
+                      },
                     ),
                     Expanded(
                       child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: topManga.isEmpty ? 10 : topManga.length,
-                              itemBuilder: (context, index) {
-                                var manga = topManga.isEmpty ? Manga() : topManga[index];
-                                return Container(
-                                  margin: const EdgeInsets.only(right: 20),
-                                  child: ShimmerLoading(
-                                    isLoading: topManga.isEmpty,
-                                    child: ItemManga(
-                                        pathUrl: manga.image ?? "",
-                                        title: manga.name ?? "",
-                                        viewCount: manga.mapView(),
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailMangaPage(
-                                                        manga: manga)),
-                                          );
-                                        }, isLoading: topManga.isEmpty),
-                                  ),
-                                );
-                              },
+                        scrollDirection: Axis.horizontal,
+                        itemCount: topManga.isEmpty ? 10 : topManga.length,
+                        itemBuilder: (context, index) {
+                          var manga =
+                              topManga.isEmpty ? Manga() : topManga[index];
+                          return Container(
+                            margin: const EdgeInsets.only(right: 20),
+                            child: ShimmerLoading(
+                              isLoading: topManga.isEmpty,
+                              child: ItemManga(
+                                  pathUrl: manga.image ?? "",
+                                  title: manga.name ?? "",
+                                  viewCount: manga.mapView(),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailMangaPage(manga: manga)),
+                                    );
+                                  },
+                                  isLoading: topManga.isEmpty),
                             ),
+                          );
+                        },
+                      ),
                     )
                   ],
                 )),
@@ -266,37 +290,46 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     HeaderContent(
                       title: "Lastest Update",
-                      onMore: () {},
+                      onMore: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListMangaGeners(
+                                    mangas: lastManga,
+                                    title: "Lastest Update",
+                                  )),
+                        );
+                      },
                     ),
                     Expanded(
                       child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: lastManga.isEmpty ? 10 : lastManga.length,
-                              itemBuilder: (context, index) {
-                                var manga = lastManga.isEmpty ? Manga() : lastManga[index];
-                                return Container(
-                                  margin: const EdgeInsets.only(right: 20),
-                                  child: ShimmerLoading(
-                                    isLoading: lastManga.isEmpty,
-                                    child: ItemManga(
-                                      isLoading: lastManga.isEmpty,
-                                        pathUrl: manga.image ?? "",
-                                        title: manga.name ?? "",
-                                        viewCount: manga.mapView(),
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailMangaPage(
-                                                      manga: manga,
-                                                    )),
-                                          );
-                                        }),
-                                  ),
-                                );
-                              },
+                        scrollDirection: Axis.horizontal,
+                        itemCount: lastManga.isEmpty ? 10 : lastManga.length,
+                        itemBuilder: (context, index) {
+                          var manga =
+                              lastManga.isEmpty ? Manga() : lastManga[index];
+                          return Container(
+                            margin: const EdgeInsets.only(right: 20),
+                            child: ShimmerLoading(
+                              isLoading: lastManga.isEmpty,
+                              child: ItemManga(
+                                  isLoading: lastManga.isEmpty,
+                                  pathUrl: manga.image ?? "",
+                                  title: manga.name ?? "",
+                                  viewCount: manga.mapView(),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailMangaPage(
+                                                manga: manga,
+                                              )),
+                                    );
+                                  }),
                             ),
+                          );
+                        },
+                      ),
                     )
                   ],
                 )),
