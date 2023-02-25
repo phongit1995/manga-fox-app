@@ -125,7 +125,8 @@ class _MangaReaderState extends State<MangaReader>
                           minScale: PhotoViewComputedScale.contained * 1,
                           maxScale: PhotoViewComputedScale.covered * 2.0,
                           initialScale: PhotoViewComputedScale.contained * 1.0,
-                          heroAttributes: PhotoViewHeroAttributes(tag: data[i]));
+                          heroAttributes:
+                              PhotoViewHeroAttributes(tag: data[i]));
                     },
                     scrollDirection: Axis.horizontal,
                     onPageChanged: (int value) {
@@ -151,15 +152,16 @@ class _MangaReaderState extends State<MangaReader>
                       if (_scrollController.position.userScrollDirection ==
                           ScrollDirection.reverse) {
                         isShowInfo.value = false;
-                      } else if (_scrollController.position.userScrollDirection ==
+                      } else if (_scrollController
+                              .position.userScrollDirection ==
                           ScrollDirection.forward) {
                         isShowInfo.value = true;
                       }
                       return true;
                     },
                     child: InViewNotifierList(
-                      isInViewPortCondition:
-                          (double deltaTop, double deltaBottom, double vpHeight) {
+                      isInViewPortCondition: (double deltaTop,
+                          double deltaBottom, double vpHeight) {
                         return deltaTop < (0.5 * vpHeight) &&
                             deltaBottom > (0.5 * vpHeight);
                       },
@@ -372,15 +374,16 @@ class _MangaReaderState extends State<MangaReader>
                       if (_scrollController.position.userScrollDirection ==
                           ScrollDirection.reverse) {
                         isShowInfo.value = false;
-                      } else if (_scrollController.position.userScrollDirection ==
+                      } else if (_scrollController
+                              .position.userScrollDirection ==
                           ScrollDirection.forward) {
                         isShowInfo.value = true;
                       }
                       return true;
                     },
                     child: InViewNotifierList(
-                      isInViewPortCondition:
-                          (double deltaTop, double deltaBottom, double vpHeight) {
+                      isInViewPortCondition: (double deltaTop,
+                          double deltaBottom, double vpHeight) {
                         return deltaTop < (0.5 * vpHeight) &&
                             deltaBottom > (0.5 * vpHeight);
                       },
@@ -400,6 +403,28 @@ class _MangaReaderState extends State<MangaReader>
                               fit: BoxFit.fitWidth,
                               width: double.maxFinite,
                               headers: {"Referer": "https://manganelo.com/"},
+                              loadingBuilder:
+                                  (context, child, loadingProgress) => Center(
+                                child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 100),
+                                  child: const CircularProgressIndicator(),
+                                ),
+                              ),
+                              errorBuilder: (context, error, stackTrace) {
+                                return Center(
+                                  child: Container(
+                                    width: 20,
+                                    height: 20,
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 100),
+                                    child: const Icon(
+                                        Icons.image_not_supported_outlined),
+                                  ),
+                                );
+                              },
                             );
                           },
                         );
