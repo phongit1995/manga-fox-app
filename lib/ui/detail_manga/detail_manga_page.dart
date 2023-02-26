@@ -16,6 +16,7 @@ import 'package:manga_fox_app/data/dao/download_dao.dart';
 import 'package:manga_fox_app/data/dao/manga_dao.dart';
 import 'package:manga_fox_app/data/response/list_chapper_response.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_fox_app/ui/detail_manga/bottom_sheet_report.dart';
 import 'package:manga_fox_app/ui/detail_manga/detail_manga_controller.dart';
 import 'package:manga_fox_app/ui/detail_manga/widget/item_chapter.dart';
 import 'package:manga_fox_app/ui/manga_reader/manga_reader_page.dart';
@@ -86,9 +87,23 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                     ),
                     const Spacer(),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: appColor.backgroundWhite2,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                topLeft: Radius.circular(20),
+                              ),
+                            ),
+                            builder: (context) {
+                              return const BottomSheetReport();
+                            });
+                      },
                       child: SvgPicture.asset(
-                        AppImage.icSetting,
+                        AppImage.icWarring,
                         color: appColor.primaryBlack2,
                       ),
                     ),
@@ -599,16 +614,23 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                             builder: (context, Box<dynamic> box,
                                                 child) {
                                               return (box.get(e.sId ?? '',
-                                                  defaultValue: 0.0)
-                                              as double? ??
-                                                  0) == 0 ? Divider(
-                                                  color: appColor.primaryDivider,
-                                                  thickness: 1,
-                                                  height: 1) : AppProgress(
-                                                  percent: box.get(e.sId ?? '',
-                                                              defaultValue: 0.0)
-                                                          as double? ??
-                                                      0);
+                                                                  defaultValue:
+                                                                      0.0)
+                                                              as double? ??
+                                                          0) ==
+                                                      0
+                                                  ? Divider(
+                                                      color: appColor
+                                                          .primaryDivider,
+                                                      thickness: 1,
+                                                      height: 1)
+                                                  : AppProgress(
+                                                      percent: box.get(
+                                                                  e.sId ?? '',
+                                                                  defaultValue:
+                                                                      0.0)
+                                                              as double? ??
+                                                          0);
                                             }),
                                       ),
                                     ],

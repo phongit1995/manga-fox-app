@@ -39,7 +39,7 @@ class _LibraryPageState extends State<LibraryPage>
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  width: 270,
+                  width: 300,
                   alignment: Alignment.topCenter,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
