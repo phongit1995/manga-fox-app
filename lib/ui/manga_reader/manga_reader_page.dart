@@ -404,15 +404,18 @@ class _MangaReaderState extends State<MangaReader>
                               width: double.maxFinite,
                               headers: {"Referer": "https://manganelo.com/"},
                               loadingBuilder:
-                                  (context, child, loadingProgress) => Center(
+                                  (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
                                 child: Container(
                                   width: 20,
                                   height: 20,
                                   margin:
-                                      const EdgeInsets.symmetric(vertical: 100),
+                                      const EdgeInsets.symmetric(vertical: 50),
                                   child: const CircularProgressIndicator(),
                                 ),
-                              ),
+                              );
+                                  },
                               errorBuilder: (context, error, stackTrace) {
                                 return Center(
                                   child: Container(
