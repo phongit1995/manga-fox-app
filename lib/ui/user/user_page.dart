@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:launch_review/launch_review.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:store_redirect/store_redirect.dart';
 
 class UserPage extends StatefulWidget {
@@ -185,10 +185,12 @@ class _UserPageState extends State<UserPage> {
                     "Share App",
                     AppImage.icShare,
                     onTap: () {
-                      LaunchReview.launch(
-                        androidAppId: "com.example.manga_fox_app",
-                        iOSAppId: "com.example.mangaFoxApp",
-                      );
+                      Share.share(
+                          'Download and reading manga on https://play.google.com/store/details?id=com.example.manga_fox_app');
+                      // LaunchReview.launch(
+                      //   androidAppId: "com.example.manga_fox_app",
+                      //   iOSAppId: "com.example.mangaFoxApp",
+                      // );
                     },
                   ),
                   const SizedBox(height: 13),
