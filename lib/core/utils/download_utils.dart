@@ -19,8 +19,7 @@ class DownloadUtils {
           "${appDocDir.path}/${url.replaceAll("/", "_").replaceAll(":", "_")}";
       await Dio().download(url, savePath,
           options: Options(headers: {"Referer": "https://manganelo.com/"}));
-      await ImageGallerySaver.saveFile(savePath);
-      print(savePath);
+      // await ImageGallerySaver.saveFile(savePath.replaceAll(".jpg", ""));
       return savePath;
     } on PlatformException catch (error) {
       Logger().e(error);

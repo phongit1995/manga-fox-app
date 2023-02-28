@@ -712,12 +712,12 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
         ListView.builder(
           itemBuilder: (context, index) => Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(3),
                 color: Colors.black,
               ),
-              margin: const EdgeInsets.symmetric(vertical: 10),
+              margin: const EdgeInsets.symmetric(vertical: 6),
               width: 200,
-              height: 20),
+              height: 40),
           itemCount: 10,
           shrinkWrap: true,
           padding: EdgeInsets.zero,

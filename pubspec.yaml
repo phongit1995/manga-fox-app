@@ -56,6 +56,10 @@ dependencies:
   firebase_messaging: ^14.2.4
   inview_notifier_list: ^3.0.0
   permission_handler: ^10.2.0
+  store_redirect: ^2.0.1
+  launch_review: ^3.0.1
+  shimmer: ^2.0.0
+  flutter_easyloading: ^3.0.5
 
 dev_dependencies:
   flutter_lints: ^2.0.0

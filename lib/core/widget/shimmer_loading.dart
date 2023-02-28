@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ShimmerLoading extends StatefulWidget {
   const ShimmerLoading({
@@ -17,33 +19,13 @@ class ShimmerLoading extends StatefulWidget {
 class _ShimmerLoadingState extends State<ShimmerLoading> {
   @override
   Widget build(BuildContext context) {
-    if (!widget.isLoading) {
-      return widget.child;
-    }
-
-    return ShaderMask(
-      blendMode: BlendMode.srcATop,
-      shaderCallback: (bounds) {
-        return _shimmerGradient.createShader(bounds);
-      },
+    var appColor = Theme.of(context).extension<AppColor>()!;
+    if(!widget.isLoading) return widget.child;
+    return Shimmer.fromColors(
+      baseColor: appColor.shimmerLoadingBase,
+      highlightColor: appColor.shimmerLoadingHighlight,
+      enabled: widget.isLoading,
       child: widget.child,
     );
   }
 }
-
-const _shimmerGradient = LinearGradient(
-  colors: [
-    Color(0xFFEBEBF4),
-    Color(0xFFF4F4F4),
-    Color(0xFFEBEBF4),
-  ],
-  stops: [
-    0.1,
-    0.3,
-    0.4,
-  ],
-  begin: Alignment(-1.0, -0.3),
-  end: Alignment(1.0, 0.3),
-  tileMode: TileMode.clamp,
-);
-

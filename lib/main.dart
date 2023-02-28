@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
@@ -89,6 +90,7 @@ class _MyAppState extends State<MyApp> {
           theme: theme,
           darkTheme: AppThemData.dark,
           home: HomePage(),
+            builder: EasyLoading.init()
         );
       },
       valueListenable: AppThemData().themeData,

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
-import 'package:manga_fox_app/core/utils/download_utils.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
+import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
-import 'package:manga_fox_app/data/dao/download_dao.dart';
+import 'package:store_redirect/store_redirect.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -59,10 +61,8 @@ class _UserPageState extends State<UserPage> {
                     height: 48,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(colors: [
-                        Color(0xffFF734A),
-                        Color(0xffFFA14A)
-                      ]),
+                      gradient: const LinearGradient(
+                          colors: [Color(0xffFF734A), Color(0xffFFA14A)]),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -171,7 +171,6 @@ class _UserPageState extends State<UserPage> {
                   ),
                   Divider(
                       color: appColor.primaryDivider, thickness: 1, height: 1),
-
                   const SizedBox(height: 18),
                   _buildItem(
                     "About Us",
@@ -185,7 +184,12 @@ class _UserPageState extends State<UserPage> {
                   _buildItem(
                     "Share App",
                     AppImage.icShare,
-                    onTap: () {},
+                    onTap: () {
+                      LaunchReview.launch(
+                        androidAppId: "com.example.manga_fox_app",
+                        iOSAppId: "com.example.mangaFoxApp",
+                      );
+                    },
                   ),
                   const SizedBox(height: 13),
                   Divider(
@@ -194,7 +198,12 @@ class _UserPageState extends State<UserPage> {
                   _buildItem(
                     "Rating",
                     AppImage.icRating,
-                    onTap: () {},
+                    onTap: () {
+                      StoreRedirect.redirect(
+                        androidAppId: "com.example.manga_fox_app",
+                        iOSAppId: "com.example.mangaFoxApp",
+                      );
+                    },
                   ),
                   const SizedBox(height: 13),
                   Divider(
@@ -222,6 +231,23 @@ class _UserPageState extends State<UserPage> {
                     "Clear Caches",
                     AppImage.icDeleteCache,
                     onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                              contentPadding: EdgeInsets.zero,
+                              backgroundColor: appColor.backgroundWhite2,
+                              content: AppDialog.buildDialog(
+                                context,
+                                "Do You Want To Clear Caches?",
+                                yes: () {
+                                  Navigator.of(context).pop();
+                                  EasyLoading.showSuccess(
+                                      'Clear Caches success');
+                                },
+                                no: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )));
                     },
                   ),
                 ],

@@ -48,6 +48,11 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
     <string>Here write description why you accessing photo library</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+            <string>itms-beta</string>
+            <string>itms</string>
+    </array>
 	<true/>
 </dict>
 </plist>

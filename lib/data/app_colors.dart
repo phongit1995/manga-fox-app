@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class AppColor extends ThemeExtension<AppColor> {
@@ -12,8 +10,12 @@ class AppColor extends ThemeExtension<AppColor> {
   final Color activeBottomNavigator;
   final Color primaryDivider;
   final Color backgroundTabBar;
+  final Color shimmerLoadingBase;
+  final Color shimmerLoadingHighlight;
 
   AppColor({
+    required this.shimmerLoadingBase,
+    required this.shimmerLoadingHighlight,
     required this.primaryBackground,
     required this.backgroundBottomNavigator,
     required this.backgroundTabBar,
@@ -42,6 +44,8 @@ class AppColor extends ThemeExtension<AppColor> {
         activeBottomNavigator: activeBottomNavigator,
         backgroundWhite: backgroundWhite,
         backgroundWhite2: backgroundWhite2,
-        backgroundTabBar: backgroundTabBar);
+        backgroundTabBar: backgroundTabBar,
+        shimmerLoadingBase: shimmerLoadingBase,
+        shimmerLoadingHighlight: shimmerLoadingHighlight);
   }
 }

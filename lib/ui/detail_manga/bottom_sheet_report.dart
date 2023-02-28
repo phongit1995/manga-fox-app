@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 
@@ -34,6 +35,7 @@ class _BottomSheetReportState extends State<BottomSheetReport> {
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                EasyLoading.showSuccess('Report success');
               },
               style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
@@ -58,6 +60,7 @@ class _BottomSheetReportState extends State<BottomSheetReport> {
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                EasyLoading.showSuccess('Report success');
               },
               style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
@@ -82,6 +85,7 @@ class _BottomSheetReportState extends State<BottomSheetReport> {
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                EasyLoading.showSuccess('Report success');
               },
               style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
@@ -126,7 +130,6 @@ class _BottomSheetReportState extends State<BottomSheetReport> {
                       fontSize: 12),
                 ),
               )),
-          const SizedBox(height: 12),
           const SizedBox(height: 20),
         ],
       ),

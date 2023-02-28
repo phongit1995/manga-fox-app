@@ -15,21 +15,24 @@ class AppThemData {
   static ThemeData light =
       ThemeData().copyWith(extensions: <ThemeExtension<AppColor>>[
     AppColor(
-      primaryBackground: const Color(0xffFFFAF5),
-      backgroundWhite: const Color(0xffFFFFFF),
-      backgroundWhite2: const Color(0xffFFFFFF),
-      activeBottomNavigator: const Color(0xff4B526C),
-      primaryBlack: const Color(0xff000000),
-      primaryBlack2: const Color(0xff333333),
-      primaryDivider: const Color(0xff626262),
-      backgroundBottomNavigator: const Color(0xFFFFFFFF),
-      backgroundTabBar: const Color(0xffD9D9D9),
-    )
+        primaryBackground: const Color(0xffFFFAF5),
+        backgroundWhite: const Color(0xffFFFFFF),
+        backgroundWhite2: const Color(0xffFFFFFF),
+        activeBottomNavigator: const Color(0xff4B526C),
+        primaryBlack: const Color(0xff000000),
+        primaryBlack2: const Color(0xff333333),
+        primaryDivider: const Color(0xff626262),
+        backgroundBottomNavigator: const Color(0xFFFFFFFF),
+        backgroundTabBar: const Color(0xffD9D9D9),
+        shimmerLoadingBase: Colors.grey.shade300,
+        shimmerLoadingHighlight: Colors.grey.shade100)
   ]);
 
   static ThemeData dark =
       ThemeData().copyWith(extensions: <ThemeExtension<dynamic>>[
     AppColor(
+      shimmerLoadingBase: const Color(0xff333333),
+      shimmerLoadingHighlight: const Color(0xff535353),
       primaryBackground: const Color(0xff333333),
       backgroundWhite: const Color(0xff3A3A3A),
       backgroundWhite2: const Color(0xff1E1E1E),

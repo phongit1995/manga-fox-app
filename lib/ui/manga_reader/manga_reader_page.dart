@@ -37,6 +37,7 @@ class _MangaReaderState extends State<MangaReader>
   late PageController _controller;
   late ListChapter _chapter;
   late List<ListChapter> _chapters;
+  bool isLast = false;
 
   @override
   void initState() {
@@ -54,6 +55,17 @@ class _MangaReaderState extends State<MangaReader>
     updateChap(widget.chapter);
     currentData();
     _controller = PageController();
+    _scrollController.addListener(() {
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double currentScroll = _scrollController.position.pixels;
+      double delta = 150;
+      if (maxScroll - currentScroll <= delta) {
+        isLast = true;
+        isShowInfo.value = true;
+      } else {
+        isLast = false;
+      }
+    });
   }
 
   void updateChap(ListChapter c) {
@@ -91,7 +103,7 @@ class _MangaReaderState extends State<MangaReader>
           int sensitivity = 2;
           if (details.delta.dy > sensitivity) {
             isShowInfo.value = true;
-          } else if (details.delta.dy < -sensitivity) {
+          } else if (details.delta.dy < -sensitivity && !isLast) {
             isShowInfo.value = false;
           }
         },
@@ -150,7 +162,7 @@ class _MangaReaderState extends State<MangaReader>
                 : NotificationListener<ScrollNotification>(
                     onNotification: (scrollNotification) {
                       if (_scrollController.position.userScrollDirection ==
-                          ScrollDirection.reverse) {
+                          ScrollDirection.reverse && !isLast) {
                         isShowInfo.value = false;
                       } else if (_scrollController
                               .position.userScrollDirection ==
@@ -290,7 +302,7 @@ class _MangaReaderState extends State<MangaReader>
                         ),
                         const SizedBox(width: 40),
                         Text(
-                          '${(indexPage + 1)}/${_chapter.images?.length ?? 0}',
+                          '${isLast ? _chapter.images?.length ?? 0 : (indexPage + 1)}/${_chapter.images?.length ?? 0}',
                           style: AppStyle.mainStyle.copyWith(
                               color: Colors.white,
                               fontSize: 16,
@@ -372,7 +384,7 @@ class _MangaReaderState extends State<MangaReader>
                 : NotificationListener<ScrollNotification>(
                     onNotification: (scrollNotification) {
                       if (_scrollController.position.userScrollDirection ==
-                          ScrollDirection.reverse) {
+                          ScrollDirection.reverse && !isLast) {
                         isShowInfo.value = false;
                       } else if (_scrollController
                               .position.userScrollDirection ==
@@ -405,17 +417,17 @@ class _MangaReaderState extends State<MangaReader>
                               headers: {"Referer": "https://manganelo.com/"},
                               loadingBuilder:
                                   (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 50),
-                                  child: const CircularProgressIndicator(),
-                                ),
-                              );
-                                  },
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: Container(
+                                    width: 20,
+                                    height: 20,
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 50),
+                                    child: const CircularProgressIndicator(),
+                                  ),
+                                );
+                              },
                               errorBuilder: (context, error, stackTrace) {
                                 return Center(
                                   child: Container(
@@ -536,7 +548,7 @@ class _MangaReaderState extends State<MangaReader>
                         ),
                         const SizedBox(width: 40),
                         Text(
-                          '${(indexPage + 1)}/${_chapter.images?.length ?? 0}',
+                          '${isLast ? _chapter.images?.length ?? 0 : (indexPage + 1)}/${_chapter.images?.length ?? 0}',
                           style: AppStyle.mainStyle.copyWith(
                               color: Colors.white,
                               fontSize: 16,
