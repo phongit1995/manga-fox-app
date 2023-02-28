@@ -9,6 +9,7 @@ import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:store_redirect/store_redirect.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -223,7 +224,9 @@ class _UserPageState extends State<UserPage> {
                   _buildItem(
                     "Term of Privacy",
                     AppImage.icTerm,
-                    onTap: () {},
+                    onTap: () {
+                      _launchUrl();
+                    },
                   ),
                   const SizedBox(height: 13),
                   Divider(
@@ -260,6 +263,16 @@ class _UserPageState extends State<UserPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(
+      Uri.parse(
+          "https://manga-reader-6734b.firebaseapp.com/privacy-policy.html"),
+      mode: LaunchMode.externalApplication,
+    )) {
+      EasyLoading.showError("Can not open link");
+    }
   }
 
   Widget _buildItem(String content, String iconPath,
