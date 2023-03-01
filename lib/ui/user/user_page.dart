@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,6 +23,8 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   final ValueNotifier<bool> isDarkMode = ValueNotifier(false);
   final ValueNotifier<bool> isShowNotification = ValueNotifier(false);
+  final androidId = "manga.fox.manga.reader.free";
+  final appleId = "1234567890";//"com.example.mangaFoxApp";
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +180,9 @@ class _UserPageState extends State<UserPage> {
                   _buildItem(
                     "About Us",
                     AppImage.icStar,
-                    onTap: () {},
+                    onTap: () {
+                      _launchUrl(url: "https://www.facebook.com/groups/%20mangamanhwaanime");
+                    },
                   ),
                   const SizedBox(height: 13),
                   Divider(
@@ -186,12 +192,9 @@ class _UserPageState extends State<UserPage> {
                     "Share App",
                     AppImage.icShare,
                     onTap: () {
+                      var url = Platform.isAndroid ? "https://play.google.com/store/details?id=$androidId" : "https://apps.apple.com/app/id/$appleId";
                       Share.share(
-                          'Download and reading manga on https://play.google.com/store/details?id=com.example.manga_fox_app');
-                      // LaunchReview.launch(
-                      //   androidAppId: "com.example.manga_fox_app",
-                      //   iOSAppId: "com.example.mangaFoxApp",
-                      // );
+                          'Download and reading manga on $url');
                     },
                   ),
                   const SizedBox(height: 13),
@@ -203,8 +206,8 @@ class _UserPageState extends State<UserPage> {
                     AppImage.icRating,
                     onTap: () {
                       StoreRedirect.redirect(
-                        androidAppId: "com.example.manga_fox_app",
-                        iOSAppId: "com.example.mangaFoxApp",
+                        androidAppId: androidId,
+                        iOSAppId: appleId,
                       );
                     },
                   ),
@@ -215,7 +218,9 @@ class _UserPageState extends State<UserPage> {
                   _buildItem(
                     "Join - Facebook Support",
                     AppImage.icFB,
-                    onTap: () {},
+                    onTap: () {
+                      _launchUrl(url: "https://www.facebook.com/groups/%20mangamanhwaanime");
+                    },
                   ),
                   const SizedBox(height: 13),
                   Divider(
@@ -265,10 +270,10 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  Future<void> _launchUrl() async {
+  Future<void> _launchUrl({String? url}) async {
     if (!await launchUrl(
       Uri.parse(
-          "https://manga-reader-6734b.firebaseapp.com/privacy-policy.html"),
+          url ?? "https://manga-reader-6734b.firebaseapp.com/privacy-policy.html"),
       mode: LaunchMode.externalApplication,
     )) {
       EasyLoading.showError("Can not open link");
