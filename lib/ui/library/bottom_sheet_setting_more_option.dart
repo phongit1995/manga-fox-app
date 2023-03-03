@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/screen_brightness_util.dart';
@@ -123,8 +124,8 @@ class _BottomSheetSettingMoreOptionState
           InkWell(
             onTap:() {
               LaunchReview.launch(
-                androidAppId: "com.example.manga_fox_app",
-                iOSAppId: "com.example.mangaFoxApp",
+                androidAppId: AppConfig.androidId,
+                iOSAppId: AppConfig.iosId,
               );
             },
             child: Row(
