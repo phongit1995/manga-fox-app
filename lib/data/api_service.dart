@@ -8,7 +8,7 @@ class ApiService {
   final baseUrl = "";
   static Dio dio = Dio(
     BaseOptions(
-      baseUrl: 'https://manga-reader-android-v10.readingnovelfull.com/',
+      baseUrl: 'https://manga-reader-android-v13.readingnovelfull.com/',
       contentType: Headers.jsonContentType,
       // connectTimeout: 50000,
       // sendTimeout: 50000,

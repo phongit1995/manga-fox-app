@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
+import 'package:manga_fox_app/applovin.dart';
+import 'package:manga_fox_app/config.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/dao/chapter_dao.dart';
@@ -13,6 +15,7 @@ import 'package:manga_fox_app/data/response/manga_response.dart';
 import 'package:manga_fox_app/firebase_options.dart';
 import 'package:manga_fox_app/ui/home/home_page.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:applovin_max/applovin_max.dart';
 
 const highImportanceChannelId = 'highImportanceChannel';
 const highImportanceChannelName = 'High Importance Notifications';
@@ -65,6 +68,7 @@ void main() async {
     badge: true,
     sound: true,
   );
+  await applovinServiceAds.initApplovin();
   runApp(const MyApp());
 }
 
@@ -100,6 +104,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    applovinServiceAds.loadInterstital();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       if (notification != null) {

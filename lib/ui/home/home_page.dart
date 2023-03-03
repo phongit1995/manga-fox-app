@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:manga_fox_app/applovin.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/widget/header_content.dart';
 import 'package:manga_fox_app/core/widget/search_widget.dart';
@@ -158,6 +159,7 @@ class _HomePageState extends State<HomePage> {
                                   pathUrl: category.image ?? "",
                                   title: category.name ?? "",
                                   onTap: () {
+                                    applovinServiceAds.showInterstital();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
