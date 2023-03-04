@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
@@ -23,8 +24,8 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   final ValueNotifier<bool> isDarkMode = ValueNotifier(false);
   final ValueNotifier<bool> isShowNotification = ValueNotifier(false);
-  final androidId = "manga.fox.manga.reader.free";
-  final appleId = "1234567890";//"com.example.mangaFoxApp";
+  final androidId = AppConfig.androidId;
+  final appleId = AppConfig.iosId;
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +182,7 @@ class _UserPageState extends State<UserPage> {
                     "About Us",
                     AppImage.icStar,
                     onTap: () {
-                      _launchUrl(url: "https://www.facebook.com/groups/%20mangamanhwaanime");
+                      _launchUrl(url: AppConfig.urlFacebook);
                     },
                   ),
                   const SizedBox(height: 13),
@@ -192,7 +193,7 @@ class _UserPageState extends State<UserPage> {
                     "Share App",
                     AppImage.icShare,
                     onTap: () {
-                      var url = Platform.isAndroid ? "https://play.google.com/store/details?id=$androidId" : "https://apps.apple.com/app/id/$appleId";
+                      var url = Platform.isAndroid ? AppConfig.urlStoreAndroid : AppConfig.urlStoreIos;
                       Share.share(
                           'Download and reading manga on $url');
                     },
@@ -219,7 +220,7 @@ class _UserPageState extends State<UserPage> {
                     "Join - Facebook Support",
                     AppImage.icFB,
                     onTap: () {
-                      _launchUrl(url: "https://www.facebook.com/groups/%20mangamanhwaanime");
+                      _launchUrl(url: AppConfig.urlFacebook);
                     },
                   ),
                   const SizedBox(height: 13),
@@ -273,7 +274,7 @@ class _UserPageState extends State<UserPage> {
   Future<void> _launchUrl({String? url}) async {
     if (!await launchUrl(
       Uri.parse(
-          url ?? "https://manga-reader-6734b.firebaseapp.com/privacy-policy.html"),
+          url ?? AppConfig.urlTerm),
       mode: LaunchMode.externalApplication,
     )) {
       EasyLoading.showError("Can not open link");
