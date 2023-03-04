@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
@@ -15,30 +16,29 @@ class ListManga extends StatelessWidget {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     return Column(
       children: [
-        if(mangas.isEmpty)
-         ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.symmetric( vertical: 10),
-              child: ShimmerLoading(
-                isLoading: true,
-                child: ItemMangaM(
+        if (mangas.isEmpty)
+          ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: ShimmerLoading(
                   isLoading: true,
-                  title: "",
-                  pathUrl:  "",
-                  viewCount:'',
-                  category: [],
-                  onTap: () {
-                  },
+                  child: ItemMangaM(
+                    isLoading: true,
+                    title: "",
+                    pathUrl: "",
+                    viewCount: '',
+                    category: [],
+                    onTap: () {},
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
         ...mangas.map((e) => Column(
               children: [
                 ItemMangaM(
@@ -48,11 +48,11 @@ class ListManga extends StatelessWidget {
                   viewCount: e.mapView(),
                   category: e.category ?? [],
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DetailMangaPage(manga: e)),
-                    );
+                    HandlerAction().handlerAction(() => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailMangaPage(manga: e)),
+                        ));
                   },
                 ),
                 Container(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/widget/search_widget.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/response/generate_response.dart';
@@ -12,7 +11,6 @@ import 'package:manga_fox_app/ui/search/search_controller.dart';
 import 'package:manga_fox_app/ui/search/widget/item_suggest.dart';
 
 class SearchPage extends StatefulWidget {
-
   const SearchPage({Key? key}) : super(key: key);
 
   @override
@@ -55,12 +53,12 @@ class _SearchPageState extends State<SearchPage> {
                     children: [
                       Expanded(
                           child: SearchWidget(
-                            controller: controller,
-                            onSubmit: (p0) async {
-                              await _controller.search(p0);
-                              _controller.setSearchHistory(p0);
-                            },
-                          )),
+                        controller: controller,
+                        onSubmit: (p0) async {
+                          await _controller.search(p0);
+                          _controller.setSearchHistory(p0);
+                        },
+                      )),
                       const SizedBox(width: 18),
                       ElevatedButton(
                           onPressed: () {
@@ -94,25 +92,22 @@ class _SearchPageState extends State<SearchPage> {
                       return ValueListenableBuilder(
                         valueListenable: controller,
                         builder: (context, txt, child) {
-                          if (controller.text
-                              .trim()
-                              .isEmpty) {
+                          if (controller.text.trim().isEmpty) {
                             _controller.results.value.clear();
                             _controller.results.value =
                                 _controller.results.value;
-
                           }
                           return ValueListenableBuilder(
                             valueListenable: _controller.results,
                             builder: (context, value, child) {
-                              if(!isLoading && _controller.results.value.isEmpty) {
+                              if (!isLoading &&
+                                  _controller.results.value.isEmpty) {
                                 return buildSuggest(context);
                               }
                               return Container(
                                   margin: const EdgeInsets.only(top: 13),
-                              child: ListManga(
-                              mangas: _controller.results.value
-                              ));
+                                  child: ListManga(
+                                      mangas: _controller.results.value));
                             },
                           );
                         },
@@ -133,39 +128,38 @@ class _SearchPageState extends State<SearchPage> {
       children: [
         ValueListenableBuilder<List<String>>(
           valueListenable: _controller.searchHistory,
-          builder: (context, value, child) =>
-              Visibility(
-                visible: value.isNotEmpty,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          builder: (context, value, child) => Visibility(
+            visible: value.isNotEmpty,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "History",
+                    style: AppStyle.mainStyle.copyWith(
+                        fontSize: 12,
+                        color: appColor.primaryBlack,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Wrap(
                   children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "History",
-                        style: AppStyle.mainStyle.copyWith(
-                            fontSize: 12,
-                            color: appColor.primaryBlack,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Wrap(
-                      children: [
-                        ...value.map((e) =>
-                            Container(
-                                margin: const EdgeInsets.only(
-                                    right: 8, bottom: 8),
-                                child: InkWell(onTap: () async{
-                                  controller.text = e;
-                                  await _controller.search(e);
-                                },child: ItemSuggest(content: e))))
-                      ],
-                    ),
-                    const SizedBox(height: 20),
+                    ...value.map((e) => Container(
+                        margin: const EdgeInsets.only(right: 8, bottom: 8),
+                        child: InkWell(
+                            onTap: () async {
+                              controller.text = e;
+                              await _controller.search(e);
+                            },
+                            child: ItemSuggest(content: e))))
                   ],
                 ),
-              ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
         ),
         Container(
           alignment: Alignment.topLeft,
@@ -180,28 +174,25 @@ class _SearchPageState extends State<SearchPage> {
         const SizedBox(height: 20),
         ValueListenableBuilder<List<Generate>>(
           valueListenable: _controllerHome.generates,
-          builder: (context, value, child) =>
-              Wrap(
-                children: [
-                  ..._controllerHome.generates.value.map((e) =>
-                      Container(
-                          margin: const EdgeInsets.only(right: 8, bottom: 8),
-                          child: InkWell(
-                            child: ItemSuggest(content: e.name ?? ""),
-                            onTap: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ListMangaGeners(
-                                          title: e.name ?? "",
-                                          generate: e,
-                                        )),
-                              );
-                            },
-                          )))
-                ],
-              ),
+          builder: (context, value, child) => Wrap(
+            children: [
+              ..._controllerHome.generates.value.map((e) => Container(
+                  margin: const EdgeInsets.only(right: 8, bottom: 8),
+                  child: InkWell(
+                    child: ItemSuggest(content: e.name ?? ""),
+                    onTap: () async {
+                      HandlerAction().handlerAction(() => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ListMangaGeners(
+                                      title: e.name ?? "",
+                                      generate: e,
+                                    )),
+                          ));
+                    },
+                  )))
+            ],
+          ),
         )
       ],
     );

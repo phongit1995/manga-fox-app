@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/dao/chapter_dao.dart';
 import 'package:manga_fox_app/data/dao/manga_dao.dart';
@@ -10,7 +11,8 @@ import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
 import 'package:manga_fox_app/ui/library/bottom_sheet_setting_more_option.dart';
 
 class LibraryDownload extends StatelessWidget {
-  const LibraryDownload({Key? key}) : super(key: key);
+  LibraryDownload({Key? key}) : super(key: key);
+  final HandlerAction appAction = HandlerAction();
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +75,7 @@ class LibraryDownload extends StatelessWidget {
         visible: download.isNotEmpty,
         child: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      DetailMangaPage(
-                        manga: manga, toDownload: true,)),
-            );
+            DetailMangaPage.transfer(context, manga: manga, toDownload: true);
           },
           child: Container(
             height: 80,
@@ -149,6 +145,7 @@ class LibraryDownload extends StatelessWidget {
                        ),
                        builder: (context) {
                          return BottomSheetSettingMoreOption(type: 2,read: () {
+
                            Navigator.push(
                              context,
                              MaterialPageRoute(

@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/download_utils.dart';
+import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/core/widget/progress_bar.dart';
 import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
@@ -32,6 +33,19 @@ class DetailMangaPage extends StatefulWidget {
 
   @override
   State<DetailMangaPage> createState() => _DetailMangaPageState();
+
+  static Future transfer(BuildContext context,
+      {required Manga manga, bool? toHistory, bool? toDownload}) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => DetailMangaPage(
+                manga: manga,
+                toDownload: toDownload,
+                toHistory: toHistory,
+              )),
+    );
+  }
 }
 
 class _DetailMangaPageState extends State<DetailMangaPage> {
@@ -40,6 +54,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
   final readMore = ValueNotifier<bool>(false);
   final viewGrid = ValueNotifier<bool>(false);
   final loading = ValueNotifier<bool>(true);
+  final HandlerAction appAction = HandlerAction();
 
   @override
   void initState() {
@@ -140,14 +155,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
             await _controller.cacheChapter(
                 widget.manga.sId ?? "", chapter.sId ?? "");
             ChapterDAO().addReading(chapter.sId ?? "", widget.manga.sId ?? "");
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => MangaReader(
-                        chapter: chapter,
-                        chapters: chapters,
-                      )),
-            );
+            await transferMangaReader(chapter, chapters);
             setState(() {});
           },
           child: _buildItemGrid(
@@ -161,6 +169,13 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
         );
       },
     );
+  }
+
+  Future transferMangaReader(
+      ListChapter chapter, List<ListChapter> chapters) async {
+    appAction.handlerAction(() {
+      MangaReader.transferMangaReader(context, chapter, chapters);
+    });
   }
 
   Widget _buildContent({required bool isLoading}) {
@@ -306,7 +321,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                         builder: (context, _, child) => Opacity(
                           opacity: _controller.chapter.value.isNotEmpty ? 1 : 0,
                           child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 var chapterId = ChapterDAO()
                                         .getReading(widget.manga.sId ?? "") ??
                                     widget.manga.firstChapter?.sId ??
@@ -317,15 +332,9 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                       (element) => element.sId == chapterId,
                                       orElse: () => ListChapter());
                                   if (e.sId == null) return;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MangaReader(
-                                              chapter: e,
-                                              chapters:
-                                                  _controller.chapter.value,
-                                            )),
-                                  );
+                                  await transferMangaReader(
+                                      e, _controller.chapter.value);
+                                  setState(() {});
                                 }
                               },
                               style: TextButton.styleFrom(
@@ -529,15 +538,8 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                 e.sId ?? "");
                                             ChapterDAO().addReading(e.sId ?? "",
                                                 widget.manga.sId ?? "");
-                                            await Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MangaReader(
-                                                        chapter: e,
-                                                        chapters: chapter,
-                                                      )),
-                                            );
+                                            await transferMangaReader(
+                                                e, chapter);
                                             setState(() {});
                                           },
                                           child: ItemChapter(

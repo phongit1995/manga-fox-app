@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/dao/manga_dao.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
@@ -63,11 +64,8 @@ class LibraryFavorite extends StatelessWidget {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DetailMangaPage(manga: manga)),
-        );
+        HandlerAction().handlerAction(
+            () => DetailMangaPage.transfer(context, manga: manga));
       },
       child: Container(
         height: 80,
@@ -136,22 +134,18 @@ class LibraryFavorite extends StatelessWidget {
                     ),
                   ),
                   builder: (context) {
-                    return BottomSheetSettingMoreOption(type: 1,read: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                DetailMangaPage(
-                                  manga: manga)),
-                      );
-                    },remove: () {
-                      MangaDAO().deleteMangaFavorite(manga);
-                      Navigator.of(
-                          context)
-                          .pop();
-                    },share: () {
-
-                    },);
+                    return BottomSheetSettingMoreOption(
+                      type: 1,
+                      read: () {
+                        HandlerAction().handlerAction(() =>
+                            DetailMangaPage.transfer(context, manga: manga));
+                      },
+                      remove: () {
+                        MangaDAO().deleteMangaFavorite(manga);
+                        Navigator.of(context).pop();
+                      },
+                      share: () {},
+                    );
                   },
                 );
               },

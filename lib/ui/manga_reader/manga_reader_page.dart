@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:inview_notifier_list/inview_notifier_list.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/dao/chapter_dao.dart';
@@ -24,6 +25,30 @@ class MangaReader extends StatefulWidget {
 
   @override
   State<MangaReader> createState() => _MangaReaderState();
+
+  static Future transferMangaReader(BuildContext context,
+      ListChapter chapter, List<ListChapter> chapters) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MangaReader(
+            chapter: chapter,
+            chapters: chapters,
+          )),
+    );
+  }
+
+  static Future transferReplace(BuildContext context,
+      ListChapter chapter, List<ListChapter> chapters) async {
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MangaReader(
+            chapter: chapter,
+            chapters: chapters,
+          )),
+    );
+  }
 }
 
 class _MangaReaderState extends State<MangaReader>
@@ -72,6 +97,7 @@ class _MangaReaderState extends State<MangaReader>
     _chapter = c;
     _indexChapter =
         _chapters.indexWhere((element) => element.sId == _chapter.sId);
+    HandlerAction().handlerAction(() { });
   }
 
   @override
@@ -285,15 +311,19 @@ class _MangaReaderState extends State<MangaReader>
                           opacity: _indexChapter <= 0 ? 0 : 1,
                           child: InkWell(
                               onTap: () {
-                                setState(() {
-                                  if (_indexChapter > 0) {
-                                    _indexChapter--;
-                                    updateChap(_chapters[_indexChapter]);
-                                    // if(isHorizontal) {
-                                    //   _controller.jumpToPage(0);
-                                    // }
-                                  }
-                                });
+                                if (_indexChapter > 0) {
+                                  _indexChapter--;
+                                  MangaReader.transferReplace(context, _chapters[_indexChapter], _chapters);
+                                }
+                                // setState(() {
+                                //   if (_indexChapter > 0) {
+                                //     _indexChapter--;
+                                //     updateChap(_chapters[_indexChapter]);
+                                //     // if(isHorizontal) {
+                                //     //   _controller.jumpToPage(0);
+                                //     // }
+                                //   }
+                                // });
                               },
                               child: const Icon(
                                   Icons.keyboard_arrow_left_outlined,
@@ -316,12 +346,16 @@ class _MangaReaderState extends State<MangaReader>
                               _indexChapter >= _chapters.length - 1 ? 0 : 1,
                           child: InkWell(
                               onTap: () {
-                                setState(() {
-                                  if (_indexChapter <= _chapters.length - 1) {
-                                    _indexChapter++;
-                                    updateChap(_chapters[_indexChapter]);
-                                  }
-                                });
+                                if (_indexChapter <= _chapters.length - 1) {
+                                  _indexChapter++;
+                                  MangaReader.transferReplace(context, _chapters[_indexChapter], _chapters);
+                                }
+                                // setState(() {
+                                //   if (_indexChapter <= _chapters.length - 1) {
+                                //     _indexChapter++;
+                                //     updateChap(_chapters[_indexChapter]);
+                                //   }
+                                // });
                               },
                               child: const Icon(
                                   Icons.keyboard_arrow_right_outlined,
@@ -534,12 +568,10 @@ class _MangaReaderState extends State<MangaReader>
                           opacity: _indexChapter < 0 ? 0 : 1,
                           child: InkWell(
                               onTap: () {
-                                setState(() {
                                   if (_indexChapter > 0) {
-                                    _indexChapter--;
-                                    updateChap(_chapters[_indexChapter]);
+                                      _indexChapter--;
+                                      MangaReader.transferReplace(context, _chapters[_indexChapter], _chapters);
                                   }
-                                });
                               },
                               child: const Icon(
                                   Icons.keyboard_arrow_left_outlined,
@@ -564,12 +596,17 @@ class _MangaReaderState extends State<MangaReader>
                                   : 1,
                           child: InkWell(
                               onTap: () {
-                                setState(() {
-                                  if (_indexChapter < _chapters.length - 1) {
-                                    _indexChapter++;
-                                    updateChap(_chapters[_indexChapter]);
-                                  }
-                                });
+                                if (_indexChapter < _chapters.length - 1) {
+                                  _indexChapter++;
+                                  MangaReader.transferReplace(context, _chapters[_indexChapter], _chapters);
+                                }
+
+                                // setState(() {
+                                //   if (_indexChapter < _chapters.length - 1) {
+                                //     _indexChapter++;
+                                //     updateChap(_chapters[_indexChapter]);
+                                //   }
+                                // });
                               },
                               child: const Icon(
                                   Icons.keyboard_arrow_right_outlined,

@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/dao/manga_dao.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
 import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
 import 'package:manga_fox_app/ui/library/bottom_sheet_setting_more_option.dart';
 import 'package:manga_fox_app/ui/library/library_controller.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class LibraryHistory extends StatefulWidget {
-
   LibraryHistory({Key? key}) : super(key: key);
 
   @override
@@ -28,6 +28,7 @@ class _LibraryHistoryState extends State<LibraryHistory> {
 
     boxManga = Hive.box("manga");
   }
+
   @override
   Widget build(BuildContext context) {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
@@ -49,7 +50,7 @@ class _LibraryHistoryState extends State<LibraryHistory> {
           const SizedBox(height: 16),
           ValueListenableBuilder(
               valueListenable: boxManga.listenable(),
-              builder: (context,Box<dynamic> box, child) {
+              builder: (context, Box<dynamic> box, child) {
                 var data = box.get("mangaHistory")?.cast<Manga>() ?? [];
                 return Column(
                   children: [
@@ -58,17 +59,19 @@ class _LibraryHistoryState extends State<LibraryHistory> {
                         children: [
                           _buildItem(context, e),
                           Container(
-                            margin: const EdgeInsets.only(left: 107, right: 20, bottom: 7, top: 7),
-                            child: Divider(color: appColor.primaryDivider, thickness: 1, height: 1),
+                            margin: const EdgeInsets.only(
+                                left: 107, right: 20, bottom: 7, top: 7),
+                            child: Divider(
+                                color: appColor.primaryDivider,
+                                thickness: 1,
+                                height: 1),
                           ),
                         ],
                       );
                     })
                   ],
                 );
-              }
-          ),
-
+              }),
         ],
       ),
     );
@@ -78,13 +81,8 @@ class _LibraryHistoryState extends State<LibraryHistory> {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  DetailMangaPage(
-                    manga: manga, toHistory: true,)),
-        );
+        HandlerAction().handlerAction(() =>
+            DetailMangaPage.transfer(context, manga: manga, toHistory: true));
       },
       child: Container(
         height: 80,
@@ -97,8 +95,7 @@ class _LibraryHistoryState extends State<LibraryHistory> {
             ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: CachedNetworkImage(
-                imageUrl:
-                manga.image ?? "",
+                imageUrl: manga.image ?? "",
                 width: 80,
                 height: 100,
                 fit: BoxFit.fill,
@@ -154,22 +151,19 @@ class _LibraryHistoryState extends State<LibraryHistory> {
                     ),
                   ),
                   builder: (context) {
-                    return BottomSheetSettingMoreOption(type: 3,read: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                DetailMangaPage(
-                                  manga: manga, toHistory: true,)),
-                      );
-                    },remove: () {
-                      MangaDAO().deleteMangaHistory(manga);
-                      Navigator.of(
-                          context)
-                          .pop();
-                    },share: () {
-
-                    },);
+                    return BottomSheetSettingMoreOption(
+                      type: 3,
+                      read: () {
+                        HandlerAction().handlerAction(() =>
+                            DetailMangaPage.transfer(context,
+                                manga: manga, toHistory: true));
+                      },
+                      remove: () {
+                        MangaDAO().deleteMangaHistory(manga);
+                        Navigator.of(context).pop();
+                      },
+                      share: () {},
+                    );
                   },
                 );
               },

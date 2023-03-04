@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:manga_fox_app/applovin.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
+import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/widget/header_content.dart';
 import 'package:manga_fox_app/core/widget/search_widget.dart';
 import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
@@ -27,6 +28,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ValueNotifier<int> currentIndex = ValueNotifier<int>(0);
   final HomeController _controller = HomeController();
+  final HandlerAction appAction = HandlerAction();
 
   @override
   void initState() {
@@ -108,11 +110,13 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SearchPage()),
-                      );
+                      appAction.handlerAction(() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SearchPage()),
+                        );
+                      });
                     },
                     child: const SearchWidget(
                       isOnlyTap: true,
@@ -159,15 +163,17 @@ class _HomePageState extends State<HomePage> {
                                   pathUrl: category.image ?? "",
                                   title: category.name ?? "",
                                   onTap: () {
-                                    applovinServiceAds.showInterstital();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ListMangaGeners(
-                                            title: category.name ?? "",
-                                            generate: category,
-                                          )),
-                                    );
+                                    appAction.handlerAction(() {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ListMangaGeners(
+                                                  title: category.name ?? "",
+                                                  generate: category,
+                                                )),
+                                      );
+                                    });
                                   },
                                   isLoading: generates.isEmpty),
                             ),
@@ -189,14 +195,17 @@ class _HomePageState extends State<HomePage> {
                     HeaderContent(
                       title: "Exclusively for you",
                       onMore: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ListMangaGeners(
-                                mangas: exManga,
-                                title: "Exclusively for you",
-                              )),
-                        );
+                         applovinServiceAds.showInterstital();
+                        appAction.handlerAction(() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ListMangaGeners(
+                                      mangas: exManga,
+                                      title: "Exclusively for you",
+                                    )),
+                          );
+                        });
                       },
                     ),
                     Expanded(
@@ -215,12 +224,7 @@ class _HomePageState extends State<HomePage> {
                                   title: manga.name ?? "",
                                   viewCount: manga.mapView(),
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DetailMangaPage(manga: manga)),
-                                    );
+                                    transferToDetailManga(manga);
                                   },
                                   isLoading: exManga.isEmpty),
                             ),
@@ -241,14 +245,16 @@ class _HomePageState extends State<HomePage> {
                     HeaderContent(
                       title: "Top Manga",
                       onMore: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ListMangaGeners(
-                                mangas: topManga,
-                                title: "Top Manga",
-                              )),
-                        );
+                        appAction.handlerAction(() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ListMangaGeners(
+                                  mangas: topManga,
+                                  title: "Top Manga",
+                                )),
+                          );
+                        });
                       },
                     ),
                     Expanded(
@@ -267,12 +273,7 @@ class _HomePageState extends State<HomePage> {
                                   title: manga.name ?? "",
                                   viewCount: manga.mapView(),
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DetailMangaPage(manga: manga)),
-                                    );
+                                    transferToDetailManga(manga);
                                   },
                                   isLoading: topManga.isEmpty),
                             ),
@@ -293,14 +294,16 @@ class _HomePageState extends State<HomePage> {
                     HeaderContent(
                       title: "Lastest Update",
                       onMore: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ListMangaGeners(
-                                    mangas: lastManga,
-                                    title: "Lastest Update",
-                                  )),
-                        );
+                        appAction.handlerAction(() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ListMangaGeners(
+                                  mangas: lastManga,
+                                  title: "Lastest Update",
+                                )),
+                          );
+                        });
                       },
                     ),
                     Expanded(
@@ -320,13 +323,7 @@ class _HomePageState extends State<HomePage> {
                                   title: manga.name ?? "",
                                   viewCount: manga.mapView(),
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailMangaPage(
-                                                manga: manga,
-                                              )),
-                                    );
+                                    transferToDetailManga(manga);
                                   }),
                             ),
                           );
@@ -339,5 +336,17 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  transferToDetailManga(Manga manga) {
+    appAction.handlerAction(() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailMangaPage(
+              manga: manga,
+            )),
+      );
+    });
   }
 }
