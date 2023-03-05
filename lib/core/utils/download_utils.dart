@@ -22,7 +22,6 @@ class DownloadUtils {
       // await ImageGallerySaver.saveFile(savePath.replaceAll(".jpg", ""));
       return savePath;
     } on PlatformException catch (error) {
-      Logger().e(error);
       return null;
     }
   }

@@ -34,7 +34,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
+       <meta-data android:name="applovin.sdk.key"
+           android:value="G7GyTASvrcNSxVS8ImoCTesFXLeb7DPWFnkLzie9ui3n_ieyx82wTGhbhpkp9FMQdcPXrk6BDI20QUg3AhBbHm"/>
+<!--       <meta-data-->
+<!--           android:name="com.google.android.gms.ads.APPLICATION_ID"-->
+<!--           android:value="ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy"/>-->
        <provider
            android:name="com.ko2ic.imagedownloader.FileProvider"
            android:authorities="${applicationId}.image_downloader.provider"

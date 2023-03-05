@@ -99,7 +99,6 @@ class ApiService {
           });
       return MangaResponse.fromJson(response.data);
     } catch (e) {
-      Logger().e(e);
       return null;
     }
   }
