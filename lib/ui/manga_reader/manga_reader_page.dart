@@ -68,15 +68,15 @@ class _MangaReaderState extends State<MangaReader>
   void initState() {
     super.initState();
     _chapters = widget.chapters;
-    _chapters.sort(
-      (a, b) {
-        if ((a.index ?? 0) > (b.index ?? 0)) {
-          return 1;
-        } else {
-          return 0;
-        }
-      },
-    );
+    // _chapters.sort(
+    //   (a, b) {
+    //     if ((a.index ?? 0) > (b.index ?? 0)) {
+    //       return 1;
+    //     } else {
+    //       return 0;
+    //     }
+    //   },
+    // );
     updateChap(widget.chapter);
     currentData();
     _controller = PageController();
