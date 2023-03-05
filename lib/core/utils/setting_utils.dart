@@ -6,16 +6,19 @@ class SettingUtils {
   final _searchHistory = "_searchHistory";
   final _chap = "_chap";
   final _topic = "topic";
-  final _initApp = "initApp";
+  final _initApp = "initAppTimestamp";
+  static int? timeInitApp;
 
-  Future<bool> get initApp async {
+  Future<int?> get initApp async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_initApp) ?? true;
+    timeInitApp = prefs.getInt(_initApp);
+    return timeInitApp;
   }
 
   Future<void> setInitApp() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(_initApp, false);
+    timeInitApp = DateTime.now().millisecondsSinceEpoch;
+    prefs.setInt(_initApp, SettingUtils.timeInitApp ?? DateTime.now().millisecondsSinceEpoch);
   }
 
   Future<void> setTopic(String value, {bool isRemove = false}) async {

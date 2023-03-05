@@ -51,8 +51,6 @@
 	<true/>
 	<key>AppLovinSdkKey</key>
     <string>G7GyTASvrcNSxVS8ImoCTesFXLeb7DPWFnkLzie9ui3n_ieyx82wTGhbhpkp9FMQdcPXrk6BDI20QUg3AhBbHm</string>
-	<key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-3940256099942544~1458002511</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>SKAdNetworkItems</key>

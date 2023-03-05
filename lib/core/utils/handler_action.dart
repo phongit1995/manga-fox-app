@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/applovin.dart';
 
 class HandlerAction {
@@ -8,7 +9,10 @@ class HandlerAction {
   Future handlerAction(VoidCallback action, {bool handlerAds = true}) async {
     if (handlerAds) {
       _countClickAction++;
-      if (_countClickAction % 5 == 0) {
+      if (_countClickAction % AppConfig.loadAdsClickAction == 0) {
+        applovinServiceAds.loadInterstital();
+      }
+      if (_countClickAction % AppConfig.countClickAction == 0) {
         await applovinServiceAds.showInterstital();
       }
     }

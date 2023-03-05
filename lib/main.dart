@@ -129,7 +129,7 @@ class _MyAppState extends State<MyApp> {
         AppThemData().themeData.value = await SettingUtils().dartMode
             ? AppThemData.dark
             : AppThemData.light;
-        if(await SettingUtils().initApp) {
+        if(await SettingUtils().initApp == null) {
           FirebaseMessaging.instance.subscribeToTopic("all");
           SettingUtils().setInitApp();
         }
