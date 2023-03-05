@@ -69,6 +69,10 @@ void main() async {
     sound: true,
   );
   await applovinServiceAds.initApplovin();
+  if(await SettingUtils().initApp == null) {
+    FirebaseMessaging.instance.subscribeToTopic("all");
+    SettingUtils().setInitApp();
+  }
   runApp(const MyApp());
 }
 
@@ -129,10 +133,6 @@ class _MyAppState extends State<MyApp> {
         AppThemData().themeData.value = await SettingUtils().dartMode
             ? AppThemData.dark
             : AppThemData.light;
-        if(await SettingUtils().initApp == null) {
-          FirebaseMessaging.instance.subscribeToTopic("all");
-          SettingUtils().setInitApp();
-        }
       },
     );
   }
