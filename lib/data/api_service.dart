@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/response/generate_response.dart';
 import 'package:manga_fox_app/data/response/list_chapper_response.dart';
@@ -8,7 +9,7 @@ import 'package:manga_fox_app/data/response/manga_response.dart';
 class ApiService {
   final baseUrl = "";
   static Dio dio = Dio(BaseOptions(
-      baseUrl: 'https://manga-reader-android-v13.readingnovelfull.com/',
+      baseUrl: AppConfig.baseApiUrl,
       contentType: Headers.jsonContentType,
       headers: {
         "appCreatedTime":

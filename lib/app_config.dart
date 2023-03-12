@@ -1,4 +1,5 @@
 class AppConfig {
+  static const String baseApiUrl= 'https://manga-reader-android-v13.readingnovelfull.com/';
   static const String androidId = "manga.fox.manga.reader.free";
   static const String iosId = "com.example.mangaFoxApp";
   static const String urlFacebook =
