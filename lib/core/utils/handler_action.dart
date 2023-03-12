@@ -4,7 +4,7 @@ import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/applovin.dart';
 
 class HandlerAction {
-  int _countClickAction = 0;
+  int _countClickAction = 3;
 
   Future handlerAction(VoidCallback action, {bool handlerAds = true}) async {
     if (handlerAds) {
