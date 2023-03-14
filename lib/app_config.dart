@@ -18,4 +18,5 @@ class AppConfig {
   //Count click to show ads
   static int countClickAction = 5;
   static int loadAdsClickAction = 4;
+  static List<String> androidIapSubcription = ["manga.fox.manga.reader.free.one.month","manga.fox.manga.reader.free.one.year"];
 }

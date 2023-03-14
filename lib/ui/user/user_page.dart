@@ -10,6 +10,7 @@ import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:manga_fox_app/iap.helper.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -55,9 +56,12 @@ class _UserPageState extends State<UserPage> {
             ),
             const SizedBox(height: 32),
             Visibility(
-              visible: false,
+              visible: true,
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print('buy subcription');
+                    inappPurchaseHelper.buyInapp();
+                  },
                   style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                       elevation: 0,
