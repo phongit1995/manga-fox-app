@@ -13,7 +13,7 @@ class AppConfig {
   //APPLOVIN config
   static String APPLOVIN_SDK_KEY =
       'o76oOvpIrLCJEhI9iVJm6ZGfW7dLTtygvErJpweFwfnfz2towWZBk000snxdhamHLP9pT5INWM8vr3na-QqOi1';
-  static String APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID = '79a8949388c3e814';
+  static String APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID = '697b37b429068eff';
 
   //Count click to show ads
   static int countClickAction = 5;
