@@ -11,6 +11,7 @@ import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/iap.helper.dart';
+import 'package:manga_fox_app/ui/user/in_app_page.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -59,8 +60,10 @@ class _UserPageState extends State<UserPage> {
               visible: true,
               child: ElevatedButton(
                   onPressed: () {
-                    print('buy subcription');
-                    inappPurchaseHelper.buyInapp();
+                    // print('buy subcription');
+                    // inappPurchaseHelper.buyInapp();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => InAppPage()));
                   },
                   style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -126,8 +129,8 @@ class _UserPageState extends State<UserPage> {
                           return Switch(
                             value: value == AppThemData.dark,
                             thumbColor:
-                                MaterialStateProperty.resolveWith<Color?>(
-                              (Set<MaterialState> states) {
+                            MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
                                 return Colors.white;
                               },
                             ),
@@ -166,8 +169,8 @@ class _UserPageState extends State<UserPage> {
                           return Switch(
                             value: value,
                             thumbColor:
-                                MaterialStateProperty.resolveWith<Color?>(
-                              (Set<MaterialState> states) {
+                            MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
                                 return Colors.white;
                               },
                             ),
@@ -197,7 +200,9 @@ class _UserPageState extends State<UserPage> {
                     "Share App",
                     AppImage.icShare,
                     onTap: () {
-                      var url = Platform.isAndroid ? AppConfig.urlStoreAndroid : AppConfig.urlStoreIos;
+                      var url = Platform.isAndroid
+                          ? AppConfig.urlStoreAndroid
+                          : AppConfig.urlStoreIos;
                       Share.share(
                           'Download and reading manga on $url');
                     },
@@ -248,21 +253,22 @@ class _UserPageState extends State<UserPage> {
                     onTap: () {
                       showDialog(
                           context: context,
-                          builder: (context) => AlertDialog(
-                              contentPadding: EdgeInsets.zero,
-                              backgroundColor: appColor.backgroundWhite2,
-                              content: AppDialog.buildDialog(
-                                context,
-                                "Do You Want To Clear Caches?",
-                                yes: () {
-                                  Navigator.of(context).pop();
-                                  EasyLoading.showSuccess(
-                                      'Clear Caches success');
-                                },
-                                no: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )));
+                          builder: (context) =>
+                              AlertDialog(
+                                  contentPadding: EdgeInsets.zero,
+                                  backgroundColor: appColor.backgroundWhite2,
+                                  content: AppDialog.buildDialog(
+                                    context,
+                                    "Do You Want To Clear Caches?",
+                                    yes: () {
+                                      Navigator.of(context).pop();
+                                      EasyLoading.showSuccess(
+                                          'Clear Caches success');
+                                    },
+                                    no: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )));
                     },
                   ),
                 ],
