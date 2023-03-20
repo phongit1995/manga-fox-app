@@ -99,4 +99,15 @@ class ApiService {
       return null;
     }
   }
+
+  static Future<ListChapter?> detailChapter(String chapterId) async {
+    try {
+      var response =
+          await dio.post("chapter/detial-chapter", data: {"id": chapterId});
+      return ListChapter.fromJson(response.data['data']);
+    } catch (e) {
+      print('error ${e}');
+      return null;
+    }
+  }
 }

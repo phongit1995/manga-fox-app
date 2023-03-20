@@ -35,7 +35,7 @@ class ListChapterResponse {
 }
 
 @HiveType(typeId: 1)
-class ListChapter extends Equatable{
+class ListChapter extends Equatable {
   @HiveField(0)
   int? index;
   @HiveField(1)

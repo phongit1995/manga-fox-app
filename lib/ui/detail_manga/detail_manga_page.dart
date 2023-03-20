@@ -11,6 +11,7 @@ import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/core/widget/progress_bar.dart';
 import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
+import 'package:manga_fox_app/data/api_service.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/dao/chapter_dao.dart';
 import 'package:manga_fox_app/data/dao/download_dao.dart';
@@ -551,8 +552,14 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                 if (data.isEmpty) {
                                                   DownloadUtils.task
                                                       .add(e.sId ?? "");
+
                                                   setState(() {});
-                                                  var url = e.images ?? [];
+                                                  final dataChapter =
+                                                      await ApiService
+                                                          .detailChapter(
+                                                              e.sId!);
+                                                  var url =
+                                                      dataChapter!.images ?? [];
                                                   List<String> paths = [];
                                                   for (var u in url) {
                                                     try {
