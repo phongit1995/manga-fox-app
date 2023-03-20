@@ -7,6 +7,7 @@ import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
+import 'package:manga_fox_app/core/app_setting.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
@@ -54,42 +55,82 @@ class _UserPageState extends State<UserPage> {
               ),
             ),
             const SizedBox(height: 32),
-            Visibility(
-              visible: false,
-              child: ElevatedButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      elevation: 0,
-                      backgroundColor: Colors.transparent),
-                  child: Container(
-                    width: double.maxFinite,
-                    height: 48,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                          colors: [Color(0xffFF734A), Color(0xffFFA14A)]),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(width: 20),
-                        SvgPicture.asset(AppImage.icDiamond),
-                        const SizedBox(width: 16),
-                        Text(
-                          "Become to V.I.P Member",
-                          style: AppStyle.mainStyle.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  )),
-            ),
+            ValueListenableBuilder<bool>(
+                valueListenable: AppSettingData().userPremium,
+                builder: (context, value, child) {
+                  return Visibility(
+                    visible: !value,
+                    child: ElevatedButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            elevation: 0,
+                            backgroundColor: Colors.transparent),
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 48,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                                colors: [Color(0xffFF734A), Color(0xffFFA14A)]),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(width: 20),
+                              SvgPicture.asset(AppImage.icDiamond),
+                              const SizedBox(width: 16),
+                              Text(
+                                "Become to V.I.P Member",
+                                style: AppStyle.mainStyle.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        )),
+                  );
+                }),
+            // Visibility(
+            //   visible: true,
+            //   child: ElevatedButton(
+            //       onPressed: () {},
+            //       style: TextButton.styleFrom(
+            //           padding: EdgeInsets.zero,
+            //           elevation: 0,
+            //           backgroundColor: Colors.transparent),
+            //       child: Container(
+            //         width: double.maxFinite,
+            //         height: 48,
+            //         alignment: Alignment.centerLeft,
+            //         decoration: BoxDecoration(
+            //           gradient: const LinearGradient(
+            //               colors: [Color(0xffFF734A), Color(0xffFFA14A)]),
+            //           borderRadius: BorderRadius.circular(8),
+            //         ),
+            //         child: Row(
+            //           mainAxisSize: MainAxisSize.min,
+            //           mainAxisAlignment: MainAxisAlignment.start,
+            //           crossAxisAlignment: CrossAxisAlignment.center,
+            //           children: [
+            //             const SizedBox(width: 20),
+            //             SvgPicture.asset(AppImage.icDiamond),
+            //             const SizedBox(width: 16),
+            //             Text(
+            //               "Become to V.I.P Member",
+            //               style: AppStyle.mainStyle.copyWith(
+            //                   color: Colors.white,
+            //                   fontWeight: FontWeight.w400,
+            //                   fontSize: 12),
+            //             ),
+            //           ],
+            //         ),
+            //       )),
+            // ),
             Container(
               width: double.maxFinite,
               margin: const EdgeInsets.only(top: 20),
@@ -193,9 +234,10 @@ class _UserPageState extends State<UserPage> {
                     "Share App",
                     AppImage.icShare,
                     onTap: () {
-                      var url = Platform.isAndroid ? AppConfig.urlStoreAndroid : AppConfig.urlStoreIos;
-                      Share.share(
-                          'Download and reading manga on $url');
+                      var url = Platform.isAndroid
+                          ? AppConfig.urlStoreAndroid
+                          : AppConfig.urlStoreIos;
+                      Share.share('Download and reading manga on $url');
                     },
                   ),
                   const SizedBox(height: 13),
@@ -273,8 +315,7 @@ class _UserPageState extends State<UserPage> {
 
   Future<void> _launchUrl({String? url}) async {
     if (!await launchUrl(
-      Uri.parse(
-          url ?? AppConfig.urlTerm),
+      Uri.parse(url ?? AppConfig.urlTerm),
       mode: LaunchMode.externalApplication,
     )) {
       EasyLoading.showError("Can not open link");
