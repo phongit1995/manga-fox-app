@@ -64,6 +64,7 @@ dependencies:
   url_launcher: ^6.1.10
   applovin_max: ^2.4.4
   in_app_purchase: ^3.1.5
+  in_app_review: ^2.0.6
 
 dev_dependencies:
   flutter_lints: ^2.0.0

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/applovin.dart';
 import 'package:manga_fox_app/core/app_setting.dart';
+import 'package:manga_fox_app/core/inapp_review.helper.dart';
 
 class HandlerAction {
   int _countClickAction = 3;
@@ -18,6 +19,7 @@ class HandlerAction {
       }
     }
     action();
+    InAppReviewHelper().requestReview();
   }
 
   static final HandlerAction _singleton = HandlerAction._internal();

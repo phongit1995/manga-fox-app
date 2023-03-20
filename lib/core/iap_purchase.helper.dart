@@ -41,7 +41,7 @@ class IapPurchaseHelper {
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
           AppSettingData().updateIsVip(true);
-          print('Status purchased');
+          print('Status restored');
         }
         if (purchaseDetails.pendingCompletePurchase) {
           await InAppPurchase.instance.completePurchase(purchaseDetails);
