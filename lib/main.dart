@@ -60,7 +60,7 @@ void main() async {
   await Hive.openBox(ChapterDAO().chapterPercentReadingDao);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -69,7 +69,7 @@ void main() async {
     sound: true,
   );
   await applovinServiceAds.initApplovin();
-  if(await SettingUtils().initApp == null) {
+  if (await SettingUtils().initApp == null) {
     FirebaseMessaging.instance.subscribeToTopic("all");
     SettingUtils().setInitApp();
   }
@@ -98,7 +98,8 @@ class _MyAppState extends State<MyApp> {
           theme: theme,
           darkTheme: AppThemData.dark,
           home: HomePage(),
-            builder: EasyLoading.init()
+          builder: EasyLoading.init(),
+          debugShowCheckedModeBanner: false,
         );
       },
       valueListenable: AppThemData().themeData,
