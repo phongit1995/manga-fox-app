@@ -74,7 +74,7 @@ class _UserPageState extends State<UserPage> {
                             backgroundColor: Colors.transparent),
                         child: Container(
                           width: double.maxFinite,
-                          height: 48,
+                          height: 53,
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
@@ -94,7 +94,7 @@ class _UserPageState extends State<UserPage> {
                                 style: AppStyle.mainStyle.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 12),
+                                    fontSize: 15),
                               ),
                             ],
                           ),
