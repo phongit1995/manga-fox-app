@@ -54,11 +54,10 @@ class _InAppPageState extends State<InAppPage> {
               visible: selectedIap != -1,
               child: ElevatedButton(
                   onPressed: () async {
-                    print('selectedIap  ${selectedIap}');
                     final PurchaseParam purchaseParam =
                         PurchaseParam(productDetails: purchases[selectedIap]);
                     await IapPurchaseHelper().buyIap(purchaseParam);
-                    print('Buy Iap Success');
+                    Navigator.of(context).pop();
                   },
                   style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,

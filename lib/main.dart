@@ -88,6 +88,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     Hive.close();
+    IapPurchaseHelper().disposeIap();
     super.dispose();
   }
 
