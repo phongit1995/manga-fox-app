@@ -1,5 +1,8 @@
+import 'dart:io';
+
 class AppConfig {
-  static const String baseApiUrl= 'https://manga-reader-android-v13.readingnovelfull.com/';
+  static const String baseApiUrl =
+      'https://manga-reader-android-v13.readingnovelfull.com/';
   static const String androidId = "manga.fox.manga.reader.free";
   static const String iosId = "manga.fox.manga.reader.free";
   static const String urlFacebook =
@@ -18,4 +21,11 @@ class AppConfig {
   //Count click to show ads
   static int countClickAction = 5;
   static int loadAdsClickAction = 4;
+
+  static List<String> iapSubscription = Platform.isAndroid
+      ? [
+          "manga.fox.manga.reader.free.one.month",
+          "manga.fox.manga.reader.free.one.year"
+        ]
+      : [];
 }

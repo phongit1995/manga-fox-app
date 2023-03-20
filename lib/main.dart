@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:manga_fox_app/applovin.dart';
 import 'package:manga_fox_app/config.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
+import 'package:manga_fox_app/core/iap_purchase.helper.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/dao/chapter_dao.dart';
 import 'package:manga_fox_app/data/dao/manga_dao.dart';
@@ -128,6 +129,7 @@ class _MyAppState extends State<MyApp> {
             ));
       }
     });
+    IapPurchaseHelper().initStoreInfo();
     Future.delayed(
       Duration.zero,
       () async {

@@ -11,6 +11,7 @@ import 'package:manga_fox_app/core/app_setting.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:manga_fox_app/ui/user/in_app_page.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -61,7 +62,12 @@ class _UserPageState extends State<UserPage> {
                   return Visibility(
                     visible: !value,
                     child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InAppPage()));
+                        },
                         style: TextButton.styleFrom(
                             padding: EdgeInsets.zero,
                             elevation: 0,
