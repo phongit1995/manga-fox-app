@@ -15,6 +15,8 @@ class InAppPage extends StatefulWidget {
 class _InAppPageState extends State<InAppPage> {
   List<ProductDetails> purchases = <ProductDetails>[];
 
+  int selectedIap = -1;
+
   @override
   initState() {
     super.initState();
@@ -24,9 +26,12 @@ class _InAppPageState extends State<InAppPage> {
   Future<void> intStateIap() async {
     final res =
         await IapPurchaseHelper().getProductDetail(AppConfig.iapSubscription);
-    setState(() {
-      purchases = res.productDetails;
-    });
+    if (res.productDetails.isNotEmpty) {
+      setState(() {
+        purchases = res.productDetails;
+        selectedIap = 0;
+      });
+    }
   }
 
   @override
@@ -45,29 +50,38 @@ class _InAppPageState extends State<InAppPage> {
         floatingActionButton: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    elevation: 0,
-                    backgroundColor: Colors.transparent),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  height: 48,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        colors: [Color(0xffFF734A), Color(0xffFFA14A)]),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    "Become VIP",
-                    style: AppStyle.mainStyle.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14),
-                  ),
-                )),
+            Visibility(
+              visible: selectedIap != -1,
+              child: ElevatedButton(
+                  onPressed: () async {
+                    print('selectedIap  ${selectedIap}');
+                    final PurchaseParam purchaseParam =
+                        PurchaseParam(productDetails: purchases[selectedIap]);
+                    await IapPurchaseHelper().buyIap(purchaseParam);
+                    print('Buy Iap Success');
+                  },
+                  style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      elevation: 0,
+                      backgroundColor: Colors.transparent),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    height: 48,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          colors: [Color(0xffFF734A), Color(0xffFFA14A)]),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      "Buy VIP",
+                      style: AppStyle.mainStyle.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14),
+                    ),
+                  )),
+            ),
             SizedBox(height: 12),
             Container(
               alignment: Alignment.center,
@@ -131,93 +145,82 @@ class _InAppPageState extends State<InAppPage> {
                   const SizedBox(height: 6),
                   _buildCheck("Download more chapter"),
                   const SizedBox(height: 50),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 33),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "1 Year",
-                              style: AppStyle.mainStyle.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12),
+                  ListView.builder(
+                    itemCount: purchases.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedIap = index;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 33),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        purchases[index].id ==
+                                                AppConfig.iapSubscription[0]
+                                            ? "1 Month"
+                                            : "1 Year",
+                                        style: AppStyle.mainStyle.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        "${purchases[index].id == AppConfig.iapSubscription[0] ? "30" : "365"} days VIP",
+                                        style: AppStyle.mainStyle.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 8),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 20),
+                                  Text(
+                                    purchases[index].price,
+                                    style: AppStyle.mainStyle.copyWith(
+                                        color: const Color(0xffFF734A),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 20),
+                                  ),
+                                  Visibility(
+                                    visible: index == selectedIap,
+                                    child: Expanded(
+                                        flex: 1,
+                                        child: Icon(
+                                          Icons.ac_unit,
+                                          color: Colors.greenAccent[400],
+                                          size: 28,
+                                        )),
+                                  ),
+                                ],
+                              ),
+                              // const SizedBox(height: 30),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              "365 days read manga",
-                              style: AppStyle.mainStyle.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 8),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          "899.000 đ",
-                          style: AppStyle.mainStyle.copyWith(
-                              color: const Color(0xffFF734A),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20),
-                        ),
-                      ],
-                    ),
+                          ),
+                          const SizedBox(height: 30),
+                        ],
+                      );
+                    },
                   ),
-                  const SizedBox(height: 50),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 33),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "1 Month",
-                              style: AppStyle.mainStyle.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              "30 days read manga",
-                              style: AppStyle.mainStyle.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 8),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 30),
-                        Text(
-                          "99.000 đ",
-                          style: AppStyle.mainStyle.copyWith(
-                              color: const Color(0xffFF734A),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  )
                 ],
               ),
             ),

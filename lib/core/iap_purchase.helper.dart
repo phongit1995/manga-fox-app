@@ -26,5 +26,7 @@ class IapPurchaseHelper {
     return inAppPurchaseInstance.queryProductDetails(productsId.toSet());
   }
 
-  Future<void> buyInapp() async {}
+  Future<void> buyIap(PurchaseParam purchaseParam) async {
+    inAppPurchaseInstance.buyConsumable(purchaseParam: purchaseParam);
+  }
 }
