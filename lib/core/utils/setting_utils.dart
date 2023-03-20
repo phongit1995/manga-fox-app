@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingUtils {
@@ -7,7 +8,31 @@ class SettingUtils {
   final _chap = "_chap";
   final _topic = "topic";
   final _initApp = "initAppTimestamp";
+  final _downloadCountForDate = "downloadCountForDate";
   static int? timeInitApp;
+
+  // now [0], count [1]
+  Future<void> setDownloadCountForDateNow(String count) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_downloadCountForDate,
+        [DateFormat.yMMMEd().format(DateTime.now()), count]);
+  }
+
+  Future<int> getDownloadCountForDateNow() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      var data = (prefs.getStringList(_downloadCountForDate) ?? []);
+      if(data.isNotEmpty && data[0] == DateFormat.yMMMEd().format(DateTime.now())) {
+        return int.tryParse(data[1]) ?? 0;
+      } else {
+        setDownloadCountForDateNow("0");
+        return 0;
+      }
+    } catch (e) {
+      setDownloadCountForDateNow("0");
+      return 0;
+    }
+  }
 
   Future<int?> get initApp async {
     final prefs = await SharedPreferences.getInstance();
@@ -18,14 +43,15 @@ class SettingUtils {
   Future<void> setInitApp() async {
     final prefs = await SharedPreferences.getInstance();
     timeInitApp = DateTime.now().millisecondsSinceEpoch;
-    prefs.setInt(_initApp, SettingUtils.timeInitApp ?? DateTime.now().millisecondsSinceEpoch);
+    prefs.setInt(_initApp,
+        SettingUtils.timeInitApp ?? DateTime.now().millisecondsSinceEpoch);
   }
 
   Future<void> setTopic(String value, {bool isRemove = false}) async {
     final prefs = await SharedPreferences.getInstance();
     var topics = prefs.getStringList(_topic) ?? [];
-    if(!topics.contains(value)) {
-      if(isRemove) {
+    if (!topics.contains(value)) {
+      if (isRemove) {
         topics.remove(value);
       } else {
         topics.add(value);

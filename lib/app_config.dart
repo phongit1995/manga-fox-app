@@ -21,6 +21,7 @@ class AppConfig {
   //Count click to show ads
   static int countClickAction = 5;
   static int loadAdsClickAction = 4;
+  static int limitDownload = 10;
 
   static List<String> iapSubscription = Platform.isAndroid
       ? [

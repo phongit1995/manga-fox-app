@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/download_utils.dart';
 import 'package:manga_fox_app/core/utils/handler_action.dart';
+import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/core/widget/app_dialog.dart';
 import 'package:manga_fox_app/core/widget/progress_bar.dart';
 import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
@@ -22,6 +24,7 @@ import 'package:manga_fox_app/ui/detail_manga/bottom_sheet_report.dart';
 import 'package:manga_fox_app/ui/detail_manga/detail_manga_controller.dart';
 import 'package:manga_fox_app/ui/detail_manga/widget/item_chapter.dart';
 import 'package:manga_fox_app/ui/manga_reader/manga_reader_page.dart';
+import 'package:manga_fox_app/ui/user/in_app_page.dart';
 
 class DetailMangaPage extends StatefulWidget {
   final Manga manga;
@@ -56,6 +59,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
   final viewGrid = ValueNotifier<bool>(false);
   final loading = ValueNotifier<bool>(true);
   final HandlerAction appAction = HandlerAction();
+  final countDown = SettingUtils().getDownloadCountForDateNow();
 
   @override
   void initState() {
@@ -549,10 +553,19 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                   .contains(e.sId ?? ""),
                                               chapter: e,
                                               onDownload: () async {
+                                                var count = await SettingUtils()
+                                                    .getDownloadCountForDateNow();
+                                                if (count >=
+                                                    AppConfig.limitDownload) {
+                                                  showDialogLimitDownload();
+                                                  return;
+                                                }
                                                 if (data.isEmpty) {
                                                   DownloadUtils.task
                                                       .add(e.sId ?? "");
-
+                                                  SettingUtils()
+                                                      .setDownloadCountForDateNow(
+                                                          "${count + 1}");
                                                   setState(() {});
                                                   final dataChapter =
                                                       await ApiService
@@ -655,6 +668,30 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                 },
               )
       ],
+    );
+  }
+
+  Future showDialogLimitDownload() async {
+    AppColor appColor = Theme.of(context).extension<AppColor>()!;
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            backgroundColor: appColor.backgroundWhite2,
+            content: AppDialog.buildDialog(
+              context,
+              "Become a vip to download unlimited stories and many other attractive features",
+              no: () {
+                Navigator.of(context).pop();
+              },
+              yes: () async {
+                Navigator.of(context).pop();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => InAppPage()));
+              },
+            ));
+      },
     );
   }
 
