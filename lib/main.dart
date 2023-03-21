@@ -5,7 +5,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:manga_fox_app/applovin.dart';
-import 'package:manga_fox_app/config.dart';
 import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
 import 'package:manga_fox_app/core/iap_purchase.helper.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
@@ -16,7 +15,8 @@ import 'package:manga_fox_app/data/response/manga_response.dart';
 import 'package:manga_fox_app/firebase_options.dart';
 import 'package:manga_fox_app/ui/home/home_page.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:applovin_max/applovin_max.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 const highImportanceChannelId = 'highImportanceChannel';
 const highImportanceChannelName = 'High Importance Notifications';
@@ -70,10 +70,14 @@ void main() async {
     sound: true,
   );
   await applovinServiceAds.initApplovin();
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   if (await SettingUtils().initApp == null) {
     FirebaseMessaging.instance.subscribeToTopic("all");
     SettingUtils().setInitApp();
   }
+  String? token = await messaging.getToken();
+  print('tokenFirebase $token');
   runApp(const MyApp());
 }
 

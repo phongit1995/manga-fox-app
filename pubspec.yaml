@@ -65,6 +65,8 @@ dependencies:
   applovin_max: ^2.4.4
   in_app_purchase: ^3.1.5
   in_app_review: ^2.0.6
+  firebase_analytics: ^10.1.6
+  firebase_crashlytics: ^3.0.17
 
 dev_dependencies:
   flutter_lints: ^2.0.0
