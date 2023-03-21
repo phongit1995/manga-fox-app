@@ -8,9 +8,14 @@ class InAppReviewHelper {
   factory InAppReviewHelper() {
     return _singleton;
   }
+  int _count = 2;
+
   Future<void> requestReview() async {
     if (await inAppReview.isAvailable()) {
-      inAppReview.requestReview();
+      if (_count % 5 == 0) {
+        inAppReview.requestReview();
+        _count++;
+      }
     }
   }
 }
