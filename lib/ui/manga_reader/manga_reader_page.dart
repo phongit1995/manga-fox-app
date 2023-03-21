@@ -9,6 +9,7 @@ import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
+import 'package:manga_fox_app/data/api_service.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/dao/chapter_dao.dart';
 import 'package:manga_fox_app/data/response/list_chapper_response.dart';
@@ -19,34 +20,41 @@ import 'package:photo_view/photo_view_gallery.dart';
 class MangaReader extends StatefulWidget {
   final ListChapter chapter;
   final List<ListChapter> chapters;
+  final bool toDownload;
 
-  const MangaReader({Key? key, required this.chapter, required this.chapters})
+  const MangaReader(
+      {Key? key,
+      required this.chapter,
+      required this.chapters,
+      this.toDownload = false})
       : super(key: key);
 
   @override
   State<MangaReader> createState() => _MangaReaderState();
 
-  static Future transferMangaReader(BuildContext context,
-      ListChapter chapter, List<ListChapter> chapters) async {
+  static Future transferMangaReader(
+      BuildContext context, ListChapter chapter, List<ListChapter> chapters,
+      {bool toDownload = false}) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => MangaReader(
-            chapter: chapter,
-            chapters: chapters,
-          )),
+                chapter: chapter,
+                chapters: chapters,
+                toDownload: toDownload,
+              )),
     );
   }
 
-  static Future transferReplace(BuildContext context,
-      ListChapter chapter, List<ListChapter> chapters) async {
+  static Future transferReplace(BuildContext context, ListChapter chapter,
+      List<ListChapter> chapters) async {
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute(
           builder: (context) => MangaReader(
-            chapter: chapter,
-            chapters: chapters,
-          )),
+                chapter: chapter,
+                chapters: chapters,
+              )),
     );
   }
 }
@@ -54,7 +62,6 @@ class MangaReader extends StatefulWidget {
 class _MangaReaderState extends State<MangaReader>
     with TickerProviderStateMixin {
   var indexPage = 0;
-  var _indexChapter = 0;
   var isHorizontal = true;
   final settingUtils = SettingUtils();
   ValueNotifier<bool> isShowInfo = ValueNotifier<bool>(false);
@@ -63,6 +70,18 @@ class _MangaReaderState extends State<MangaReader>
   late ListChapter _chapter;
   late List<ListChapter> _chapters;
   bool isLast = false;
+
+  ListChapter? nextChapter() {
+    if(_chapter.after == null) return null;
+    var i = _chapters.indexWhere((element) => element.sId == _chapter.after);
+    return i >= 0 ? _chapters[i] : null;
+  }
+
+  ListChapter? backChapter() {
+    if(_chapter.before == null) return null;
+    var i = _chapters.indexWhere((element) => element.sId == _chapter.before);
+    return i >= 0 ? _chapters[i] : null;
+  }
 
   @override
   void initState() {
@@ -95,9 +114,7 @@ class _MangaReaderState extends State<MangaReader>
 
   void updateChap(ListChapter c) {
     _chapter = c;
-    _indexChapter =
-        _chapters.indexWhere((element) => element.sId == _chapter.sId);
-    HandlerAction().handlerAction(() { });
+    HandlerAction().handlerAction(() {});
   }
 
   @override
@@ -121,7 +138,6 @@ class _MangaReaderState extends State<MangaReader>
 
   @override
   Widget build(BuildContext context) {
-    final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
@@ -188,7 +204,8 @@ class _MangaReaderState extends State<MangaReader>
                 : NotificationListener<ScrollNotification>(
                     onNotification: (scrollNotification) {
                       if (_scrollController.position.userScrollDirection ==
-                          ScrollDirection.reverse && !isLast) {
+                              ScrollDirection.reverse &&
+                          !isLast) {
                         isShowInfo.value = false;
                       } else if (_scrollController
                               .position.userScrollDirection ==
@@ -222,21 +239,7 @@ class _MangaReaderState extends State<MangaReader>
                           },
                         );
                       },
-                    )
-
-                    // SingleChildScrollView(
-                    //   controller: _scrollController,
-                    //   child: Column(
-                    //     children: [
-                    //       ...data.map((e) => Image.file(
-                    //             File(e),
-                    //             fit: BoxFit.fitWidth,
-                    //             width: double.maxFinite,
-                    //           ))
-                    //     ],
-                    //   ),
-                    // ),
-                    ),
+                    )),
           ),
           ValueListenableBuilder<bool>(
               valueListenable: isShowInfo,
@@ -308,22 +311,18 @@ class _MangaReaderState extends State<MangaReader>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Opacity(
-                          opacity: _indexChapter <= 0 ? 0 : 1,
+                          opacity: backChapter() == null || widget.toDownload
+                              ? 0
+                              : 1,
                           child: InkWell(
                               onTap: () {
-                                if (_indexChapter > 0) {
-                                  _indexChapter--;
-                                  MangaReader.transferReplace(context, _chapters[_indexChapter], _chapters);
+                                if (!widget.toDownload) {
+                                  var chapter = backChapter();
+                                  if (chapter != null) {
+                                    MangaReader.transferReplace(
+                                        context, chapter, _chapters);
+                                  }
                                 }
-                                // setState(() {
-                                //   if (_indexChapter > 0) {
-                                //     _indexChapter--;
-                                //     updateChap(_chapters[_indexChapter]);
-                                //     // if(isHorizontal) {
-                                //     //   _controller.jumpToPage(0);
-                                //     // }
-                                //   }
-                                // });
                               },
                               child: const Icon(
                                   Icons.keyboard_arrow_left_outlined,
@@ -332,7 +331,7 @@ class _MangaReaderState extends State<MangaReader>
                         ),
                         const SizedBox(width: 40),
                         Text(
-                          '${isLast ? _chapter.images?.length ?? 0 : (indexPage + 1)}/${_chapter.images?.length ?? 0}',
+                          '${isLast ? data.length : (indexPage + 1)}/${data.length}',
                           style: AppStyle.mainStyle.copyWith(
                               color: Colors.white,
                               fontSize: 16,
@@ -342,20 +341,16 @@ class _MangaReaderState extends State<MangaReader>
                         ),
                         const SizedBox(width: 40),
                         Opacity(
-                          opacity:
-                              _indexChapter >= _chapters.length - 1 ? 0 : 1,
+                          opacity: nextChapter() == null || widget.toDownload
+                              ? 0
+                              : 1,
                           child: InkWell(
                               onTap: () {
-                                if (_indexChapter <= _chapters.length - 1) {
-                                  _indexChapter++;
-                                  MangaReader.transferReplace(context, _chapters[_indexChapter], _chapters);
+                                var chapter = nextChapter();
+                                if (chapter != null && !widget.toDownload) {
+                                  MangaReader.transferReplace(
+                                      context, chapter, _chapters);
                                 }
-                                // setState(() {
-                                //   if (_indexChapter <= _chapters.length - 1) {
-                                //     _indexChapter++;
-                                //     updateChap(_chapters[_indexChapter]);
-                                //   }
-                                // });
                               },
                               child: const Icon(
                                   Icons.keyboard_arrow_right_outlined,
@@ -374,6 +369,17 @@ class _MangaReaderState extends State<MangaReader>
 
   _buildNetwork() {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
+    if (_chapter.images?.isNotEmpty != true) {
+      ApiService.detailChapter(_chapter.sId ?? "").then(
+        (value) {
+          if (value != null) {
+            setState(() {
+              _chapter = value;
+            });
+          }
+        },
+      );
+    }
     return SafeArea(
       child: Stack(
         children: [
@@ -418,7 +424,8 @@ class _MangaReaderState extends State<MangaReader>
                 : NotificationListener<ScrollNotification>(
                     onNotification: (scrollNotification) {
                       if (_scrollController.position.userScrollDirection ==
-                          ScrollDirection.reverse && !isLast) {
+                              ScrollDirection.reverse &&
+                          !isLast) {
                         isShowInfo.value = false;
                       } else if (_scrollController
                               .position.userScrollDirection ==
@@ -448,7 +455,7 @@ class _MangaReaderState extends State<MangaReader>
                               e,
                               fit: BoxFit.fitWidth,
                               width: double.maxFinite,
-                              headers: {"Referer": "https://manganelo.com/"},
+                              headers: const {"Referer": "https://manganelo.com/"},
                               loadingBuilder:
                                   (context, child, loadingProgress) {
                                 if (loadingProgress == null) return child;
@@ -565,13 +572,14 @@ class _MangaReaderState extends State<MangaReader>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Opacity(
-                          opacity: _indexChapter < 0 ? 0 : 1,
+                          opacity: backChapter() != null ? 1 : 0,
                           child: InkWell(
                               onTap: () {
-                                  if (_indexChapter > 0) {
-                                      _indexChapter--;
-                                      MangaReader.transferReplace(context, _chapters[_indexChapter], _chapters);
-                                  }
+                                var chapter = backChapter();
+                                if (chapter != null) {
+                                  MangaReader.transferReplace(
+                                      context, chapter, _chapters);
+                                }
                               },
                               child: const Icon(
                                   Icons.keyboard_arrow_left_outlined,
@@ -590,15 +598,13 @@ class _MangaReaderState extends State<MangaReader>
                         ),
                         const SizedBox(width: 40),
                         Opacity(
-                          opacity:
-                              _indexChapter >= (_chapters.last.index ?? 0) - 1
-                                  ? 0
-                                  : 1,
+                          opacity: nextChapter() == null ? 0 : 1,
                           child: InkWell(
                               onTap: () {
-                                if (_indexChapter < _chapters.length - 1) {
-                                  _indexChapter++;
-                                  MangaReader.transferReplace(context, _chapters[_indexChapter], _chapters);
+                                var chapter = nextChapter();
+                                if (chapter != null) {
+                                  MangaReader.transferReplace(
+                                      context, chapter, _chapters);
                                 }
 
                                 // setState(() {

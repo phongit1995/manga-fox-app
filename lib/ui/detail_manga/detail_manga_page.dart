@@ -180,7 +180,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
   Future transferMangaReader(
       ListChapter chapter, List<ListChapter> chapters) async {
     appAction.handlerAction(() {
-      MangaReader.transferMangaReader(context, chapter, chapters);
+      MangaReader.transferMangaReader(context, chapter, chapters, toDownload: widget.toDownload ?? false);
     });
   }
 
