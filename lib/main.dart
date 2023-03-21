@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -76,8 +78,10 @@ void main() async {
     FirebaseMessaging.instance.subscribeToTopic("all");
     SettingUtils().setInitApp();
   }
-  String? token = await messaging.getToken();
-  print('tokenFirebase $token');
+  if(!Platform.isIOS){
+    String? token = await messaging.getToken();
+    print('tokenFirebase $token');
+  }
   runApp(const MyApp());
 }
 
