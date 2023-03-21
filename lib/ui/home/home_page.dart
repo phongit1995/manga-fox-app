@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:manga_fox_app/applovin.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
+import 'package:manga_fox_app/core/app_setting.dart';
 import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/widget/header_content.dart';
 import 'package:manga_fox_app/core/widget/search_widget.dart';
@@ -16,6 +17,7 @@ import 'package:manga_fox_app/ui/home/widget/item_manga.dart';
 import 'package:manga_fox_app/ui/library/library_page.dart';
 import 'package:manga_fox_app/ui/list_manga/list_manga_geners.dart';
 import 'package:manga_fox_app/ui/search/search_page.dart';
+import 'package:manga_fox_app/ui/user/in_app_page.dart';
 import 'package:manga_fox_app/ui/user/user_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -123,8 +125,22 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                // const SizedBox(width: 18),
-                // SvgPicture.asset(AppImage.icVip)
+                const SizedBox(width: 10),
+                ValueListenableBuilder<bool>(
+                    valueListenable: AppSettingData().userPremium,
+                    builder: (context, value, child) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InAppPage()));
+                        },
+                        child: Visibility(
+                            visible: !value,
+                            child: SvgPicture.asset(AppImage.icVip)),
+                      );
+                    }),
               ],
             ),
           ),
@@ -195,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                     HeaderContent(
                       title: "Exclusively for you",
                       onMore: () {
-                         applovinServiceAds.showInterstital();
+                        applovinServiceAds.showInterstital();
                         appAction.handlerAction(() {
                           Navigator.push(
                             context,
@@ -250,9 +266,9 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ListMangaGeners(
-                                  mangas: topManga,
-                                  title: "Top Manga",
-                                )),
+                                      mangas: topManga,
+                                      title: "Top Manga",
+                                    )),
                           );
                         });
                       },
@@ -299,9 +315,9 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ListMangaGeners(
-                                  mangas: lastManga,
-                                  title: "Lastest Update",
-                                )),
+                                      mangas: lastManga,
+                                      title: "Lastest Update",
+                                    )),
                           );
                         });
                       },
@@ -344,8 +360,8 @@ class _HomePageState extends State<HomePage> {
         context,
         MaterialPageRoute(
             builder: (context) => DetailMangaPage(
-              manga: manga,
-            )),
+                  manga: manga,
+                )),
       );
     });
   }
