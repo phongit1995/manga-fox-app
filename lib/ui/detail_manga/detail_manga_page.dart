@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/core/app_setting.dart';
 import 'package:manga_fox_app/core/utils/download_utils.dart';
 import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
@@ -556,7 +557,11 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                                                 var count = await SettingUtils()
                                                     .getDownloadCountForDateNow();
                                                 if (count >=
-                                                    AppConfig.limitDownload) {
+                                                        AppConfig
+                                                            .limitDownload &&
+                                                    !AppSettingData()
+                                                        .userPremium
+                                                        .value) {
                                                   showDialogLimitDownload();
                                                   return;
                                                 }
@@ -681,7 +686,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
             backgroundColor: appColor.backgroundWhite2,
             content: AppDialog.buildDialog(
               context,
-              "Become a vip to download unlimited stories and many other attractive features",
+              "Limit download today.Become a vip to download unlimited stories and many other attractive features",
               no: () {
                 Navigator.of(context).pop();
               },
