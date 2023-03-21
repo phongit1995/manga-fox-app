@@ -59,12 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCxYdVSJgd-mITl8mTMMJebG4SpCvit1nY',
-    appId: '1:467544295906:ios:766e6701f6787d3df811bb',
+    appId: '1:467544295906:ios:410cef79d593c13ef811bb',
     messagingSenderId: '467544295906',
     projectId: 'manga-reader-manganelo',
     storageBucket: 'manga-reader-manganelo.appspot.com',
     androidClientId: '467544295906-8gu7292hgqfag9m516ccpr8ufa208k2o.apps.googleusercontent.com',
-    iosClientId: '467544295906-nidumdh5bgpphvj5r7ds54kfo70vmbj9.apps.googleusercontent.com',
-    iosBundleId: 'com.example.mangaFoxApp',
+    iosClientId: '467544295906-t4dg613rq1q8f0bb5nlgjq3ue6fptf1k.apps.googleusercontent.com',
+    iosBundleId: 'manga.fox.manga.reader.free',
   );
 }

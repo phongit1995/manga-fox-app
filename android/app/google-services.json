@@ -7,89 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:467544295906:android:363d968eeb59f453f811bb",
-        "android_client_info": {
-          "package_name": "com.example.manga_fox_app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "467544295906-8gu7292hgqfag9m516ccpr8ufa208k2o.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.manga_fox_app",
-            "certificate_hash": "7168a062534878efdb1dd8a246db7f17a71cb6a2"
-          }
-        },
-        {
-          "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDM-Au7eTr4N2Wz5anS3W8hwyvO2t8FB4g"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "467544295906-nidumdh5bgpphvj5r7ds54kfo70vmbj9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.mangaFoxApp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:467544295906:android:09bf3ca8fbb5382df811bb",
         "android_client_info": {
           "package_name": "manga.fox.manga.reader.free"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDM-Au7eTr4N2Wz5anS3W8hwyvO2t8FB4g"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "467544295906-nidumdh5bgpphvj5r7ds54kfo70vmbj9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.mangaFoxApp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:467544295906:android:df6378b5aac40afef811bb",
-        "android_client_info": {
-          "package_name": "manga.reader.manhwa.nelo"
         }
       },
       "oauth_client": [
