@@ -72,13 +72,13 @@ class _MangaReaderState extends State<MangaReader>
   bool isLast = false;
 
   ListChapter? nextChapter() {
-    if(_chapter.after == null) return null;
+    if (_chapter.after == null) return null;
     var i = _chapters.indexWhere((element) => element.sId == _chapter.after);
     return i >= 0 ? _chapters[i] : null;
   }
 
   ListChapter? backChapter() {
-    if(_chapter.before == null) return null;
+    if (_chapter.before == null) return null;
     var i = _chapters.indexWhere((element) => element.sId == _chapter.before);
     return i >= 0 ? _chapters[i] : null;
   }
@@ -455,7 +455,9 @@ class _MangaReaderState extends State<MangaReader>
                               e,
                               fit: BoxFit.fitWidth,
                               width: double.maxFinite,
-                              headers: const {"Referer": "https://manganelo.com/"},
+                              headers: const {
+                                "Referer": "https://manganelo.com/"
+                              },
                               loadingBuilder:
                                   (context, child, loadingProgress) {
                                 if (loadingProgress == null) return child;
@@ -463,8 +465,11 @@ class _MangaReaderState extends State<MangaReader>
                                   child: Container(
                                     width: 20,
                                     height: 20,
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 50),
+                                    margin: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                3 /
+                                                8),
                                     child: const CircularProgressIndicator(),
                                   ),
                                 );
