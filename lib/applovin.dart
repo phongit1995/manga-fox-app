@@ -12,7 +12,7 @@ class ApplovinService {
 
   void loadInterstital() {
     AppLovinMAX.loadInterstitial(
-        AppConfig.APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID);
+        AppConfig.APPLOVIN_INTERSTITAL_AD_UNIT);
   }
 
   void attachAdListeners() {
@@ -28,11 +28,11 @@ class ApplovinService {
 
   Future<void> showInterstital() async {
     bool isReady = (await AppLovinMAX.isInterstitialReady(
-            AppConfig.APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID)) ??
+            AppConfig.APPLOVIN_INTERSTITAL_AD_UNIT)) ??
         false;
     if (isReady) {
       AppLovinMAX.showInterstitial(
-          AppConfig.APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID);
+          AppConfig.APPLOVIN_INTERSTITAL_AD_UNIT);
     }
   }
 }
