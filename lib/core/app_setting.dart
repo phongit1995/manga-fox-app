@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class AppSettingData {
@@ -9,7 +11,7 @@ class AppSettingData {
     return _singleton;
   }
 
-  final ValueNotifier<bool> userPremium = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> userPremium = ValueNotifier<bool>(Platform.isIOS? true:false);
 
   void updateIsVip(bool update) {
     userPremium.value = update;

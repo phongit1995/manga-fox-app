@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:manga_fox_app/core/app_setting.dart';
@@ -21,7 +22,10 @@ class IapPurchaseHelper {
     subscription = purchaseUpdated.listen((event) {
       listenToPurchaseUpdated(event);
     }, onDone: () => {subscription.cancel()}, onError: (Object error) {});
-    await inAppPurchaseInstance.restorePurchases();
+    if(!Platform.isIOS){
+      await inAppPurchaseInstance.restorePurchases();
+    }
+    
   }
 
   Future<ProductDetailsResponse> getProductDetail(
