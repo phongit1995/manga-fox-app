@@ -63,57 +63,57 @@ class _GenresPageState extends State<GenresPage> {
           ],
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: ValueListenableBuilder<List<Generate>>(
-                valueListenable: homeController.generates,
-                builder: (context, generes, child) {
-                  final i = generes.indexWhere(
-                      (element) => element.name == _controller.genres.value);
-                  if (i < 0 && generes.isNotEmpty) {
-                    _controller.genres.value = generes.first.name ?? '';
-                    _controller.loadMangas(generes.first.name ?? '');
-                  }
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DefaultTabController(
-                          length: generes.length,
-                          initialIndex: i >= 0 ? i : 0,
-                          child: TabBar(
-                            isScrollable: true,
-                            onTap: (value) async {
-                              _controller.mangas.value = [];
-                              _controller.genresSelect.value = generes[value].name ?? '';
-                              await _controller
-                                  .loadMangas(generes[value].name ?? '');
-                            },
-                            indicatorColor: appColor.primary,
-                            labelStyle: AppStyle.mainStyle
-                                .copyWith(color: appColor.primaryBlack2),
-                            labelColor: appColor.primary,
-                            unselectedLabelColor: appColor.primaryBlack2,
-                            indicator: UnderlineTabIndicator(
-                                borderSide: BorderSide(
-                                    width: 1, color: appColor.primary),
-                                insets: const EdgeInsets.symmetric(
-                                    horizontal: 25, vertical: 2)),
-                            unselectedLabelStyle: AppStyle.mainStyle
-                                .copyWith(color: appColor.primaryBlack2),
-                            tabs: List.generate(generes.length,
-                                (index) => Text(generes[index].name ?? '')),
-                          )),
-                      Container(height: 20),
-                      ValueListenableBuilder<List<Manga>>(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: ValueListenableBuilder<List<Generate>>(
+              valueListenable: homeController.generates,
+              builder: (context, generes, child) {
+                final i = generes.indexWhere(
+                    (element) => element.name == _controller.genres.value);
+                if (i < 0 && generes.isNotEmpty) {
+                  _controller.genres.value = generes.first.name ?? '';
+                  _controller.loadMangas(generes.first.name ?? '');
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DefaultTabController(
+                        length: generes.length,
+                        initialIndex: i >= 0 ? i : 0,
+                        child: TabBar(
+                          isScrollable: true,
+                          onTap: (value) async {
+                            _controller.mangas.value = [];
+                            _controller.genresSelect.value = generes[value].name ?? '';
+                            await _controller
+                                .loadMangas(generes[value].name ?? '');
+                          },
+                          indicatorColor: appColor.primary,
+                          labelStyle: AppStyle.mainStyle
+                              .copyWith(color: appColor.primaryBlack2),
+                          labelColor: appColor.primary,
+                          unselectedLabelColor: appColor.primaryBlack2,
+                          indicator: UnderlineTabIndicator(
+                              borderSide: BorderSide(
+                                  width: 1, color: appColor.primary),
+                              insets: const EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 2)),
+                          unselectedLabelStyle: AppStyle.mainStyle
+                              .copyWith(color: appColor.primaryBlack2),
+                          tabs: List.generate(generes.length,
+                              (index) => Text(generes[index].name ?? '')),
+                        )),
+                    Container(height: 20),
+                    Expanded(
+                      child: ValueListenableBuilder<List<Manga>>(
                         builder: (context, value, child) =>
                             ListMangaGenres(mangas: value),
                         valueListenable: _controller.mangas,
-                      )
-                    ],
-                  );
-                },
-              ),
+                      ),
+                    )
+                  ],
+                );
+              },
             ),
           ),
         ));

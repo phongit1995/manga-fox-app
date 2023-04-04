@@ -64,12 +64,12 @@ class ApiService {
   }
 
   static Future<MangaResponse?> loadMangaCategoryResponse(
-      String category) async {
+      String category, {int numberItem = 100}) async {
     try {
       var response = await dio.post("manga/suggest-manga", data: {
         "category": [category],
         "page": 1,
-        "numberItem": 100,
+        "numberItem": numberItem,
         "type_sort": 1
       });
       return MangaResponse.fromJson(response.data);
