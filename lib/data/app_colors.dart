@@ -12,6 +12,8 @@ class AppColor extends ThemeExtension<AppColor> {
   final Color backgroundTabBar;
   final Color shimmerLoadingBase;
   final Color shimmerLoadingHighlight;
+  final Color indicatorBanner;
+  final Color primary;
 
   AppColor({
     required this.shimmerLoadingBase,
@@ -25,6 +27,8 @@ class AppColor extends ThemeExtension<AppColor> {
     required this.activeBottomNavigator,
     required this.backgroundWhite,
     required this.backgroundWhite2,
+    required this.indicatorBanner,
+    required this.primary,
   });
 
   @override
@@ -36,16 +40,18 @@ class AppColor extends ThemeExtension<AppColor> {
   @override
   ThemeExtension<AppColor> lerp(ThemeExtension<AppColor>? other, double t) {
     return AppColor(
+        shimmerLoadingBase: shimmerLoadingBase,
+        shimmerLoadingHighlight: shimmerLoadingHighlight,
         primaryBackground: primaryBackground,
         backgroundBottomNavigator: backgroundBottomNavigator,
+        backgroundTabBar: backgroundTabBar,
         primaryBlack2: primaryBlack2,
         primaryDivider: primaryDivider,
         primaryBlack: primaryBlack,
         activeBottomNavigator: activeBottomNavigator,
         backgroundWhite: backgroundWhite,
         backgroundWhite2: backgroundWhite2,
-        backgroundTabBar: backgroundTabBar,
-        shimmerLoadingBase: shimmerLoadingBase,
-        shimmerLoadingHighlight: shimmerLoadingHighlight);
+        indicatorBanner: indicatorBanner,
+        primary: primary);
   }
 }

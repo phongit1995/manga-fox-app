@@ -67,6 +67,7 @@ dependencies:
   in_app_review: ^2.0.6
   firebase_analytics: ^10.1.6
   firebase_crashlytics: ^3.0.17
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -114,6 +115,10 @@ flutter:
     - family: Lexend
       fonts:
         - asset: assets/font/Lexend-VariableFont_wght.ttf
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/font/PlayfairDisplay-VariableFont_wght.ttf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

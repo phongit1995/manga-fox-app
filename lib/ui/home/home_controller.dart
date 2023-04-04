@@ -8,6 +8,7 @@ class HomeController {
   ValueNotifier<List<Manga>> topManga = ValueNotifier<List<Manga>>([]);
   ValueNotifier<List<Manga>> lastManga = ValueNotifier<List<Manga>>([]);
   ValueNotifier<List<Manga>> exManga = ValueNotifier<List<Manga>>([]);
+  ValueNotifier<List<Manga>> bannerManga = ValueNotifier<List<Manga>>([]);
 
   Future loadGenerate() async {
     var response = await ApiService.loadGenerateResponse();
@@ -25,8 +26,26 @@ class HomeController {
   }
 
   Future loadExManga() async {
-    var response = await ApiService.loadMangaExclusivelyResponse();
+    var response = await ApiService.loadMangaExclusivelyResponse(
+      category: [
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Drama",
+        "Fantasy",
+        "Shounen"
+      ]
+    );
     exManga.value = response?.data ?? [];
+  }
+
+  Future loadBannerManga() async {
+    var response = await ApiService.loadMangaExclusivelyResponse(
+    category: [
+      "Fantasy",
+      "Drama",
+    ],numberItem: 4);
+    bannerManga.value = response?.data ?? [];
   }
 
   static final HomeController _singleton = HomeController._internal();

@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
 import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/response/generate_response.dart';
@@ -79,7 +78,10 @@ class ApiService {
     }
   }
 
-  static Future<MangaResponse?> loadMangaExclusivelyResponse() async {
+  static Future<MangaResponse?> loadMangaExclusivelyResponse({
+    List<String>? category,
+    int numberItem = 20,
+  }) async {
     try {
       var response = await dio.post("manga/suggest-manga", data: {
         "category": [
@@ -91,7 +93,7 @@ class ApiService {
           "Shounen"
         ],
         "page": 1,
-        "numberItem": 20,
+        "numberItem": numberItem,
         "type_sort": 1
       });
       return MangaResponse.fromJson(response.data);
