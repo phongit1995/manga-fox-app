@@ -25,7 +25,9 @@ class AppThemData {
         backgroundBottomNavigator: const Color(0xFFFFFFFF),
         backgroundTabBar: const Color(0xffD9D9D9),
         shimmerLoadingBase: Colors.grey.shade300,
-        shimmerLoadingHighlight: Colors.grey.shade100)
+        indicatorBanner: const Color(0xff4B526C),
+        shimmerLoadingHighlight: Colors.grey.shade100,
+        primary: const Color(0xffFF734A))
   ]);
 
   static ThemeData dark =
@@ -42,6 +44,8 @@ class AppThemData {
       backgroundBottomNavigator: const Color(0xFF262626),
       activeBottomNavigator: const Color(0xffFFFFFF),
       backgroundTabBar: const Color(0xff232222),
+      primary: const Color(0xffFF734A),
+      indicatorBanner: const Color(0xffFFFFFF),
     )
   ]);
 }

@@ -1,6 +1,8 @@
 class AppImage {
   static String icHomeDefault = "assets/icon/ic_home_default.svg";
   static String icHomeActive = "assets/icon/ic_home_active.svg";
+  static String icGenresDefault = "assets/icon/ic_genres_default.svg";
+  static String icGenresActive = "assets/icon/ic_genres_active.svg";
   static String icUserDefault = "assets/icon/ic_user_default.svg";
   static String icUserActive = "assets/icon/ic_user_active.svg";
   static String icLibraryDefault = "assets/icon/ic_library_default.svg";
