@@ -30,13 +30,13 @@ class _BannerWidgetState extends State<BannerWidget> {
           children: [
             CarouselSlider(
                 carouselController: _controller,
-                items: List.generate(4, (index) => ShimmerLoading(
+                items: List.generate(5, (index) => ShimmerLoading(
                   isLoading: true,
                   child: Container(
                       decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(8)),
-                      width: 335,
+                      width: double.maxFinite,
                       height: 160),
                 )),
                 options: CarouselOptions(
@@ -69,7 +69,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 ...widget.mangas.map((m) => Stack(
                       children: [
                         SizedBox(
-                          width: 335,
+                          width: double.maxFinite,
                           height: 160,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
@@ -84,7 +84,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                             decoration: BoxDecoration(
                                 color: Colors.black.withOpacity(0.4),
                                 borderRadius: BorderRadius.circular(8)),
-                            width: 335,
+                            width: double.maxFinite,
                             height: 160),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -97,16 +97,17 @@ class _BannerWidgetState extends State<BannerWidget> {
                                   maxLines: 1,
                                   style: AppStyle.mainStyle.copyWith(
                                       color: Colors.white,
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontFamily: "PlayfairDisplay",
-                                      fontWeight: FontWeight.w600)),
+                                      fontWeight: FontWeight.w400)),
                               const SizedBox(height: 4),
                               Text(m.author ?? "",
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: AppStyle.mainStyle.copyWith(
                                       color: Colors.white,
-                                      fontSize: 8,
+                                      fontSize: 7,
+                                      letterSpacing: 0.8,
                                       fontFamily: "PlayfairDisplay",
                                       fontWeight: FontWeight.w400)),
                               const SizedBox(height: 17),
@@ -126,7 +127,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 autoPlayAnimationDuration: const Duration(milliseconds: 800),
                 autoPlayCurve: Curves.fastOutSlowIn,
                 enlargeCenterPage: true,
-                enlargeFactor: 0.3,
+                enlargeFactor: 0.2,
                 onPageChanged: (index, reason) {
                   indexPage.value = index;
                 },
@@ -134,7 +135,7 @@ class _BannerWidgetState extends State<BannerWidget> {
               )),
           const SizedBox(height: 12),
           Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: List.generate(
                   widget.mangas.length,
                   (index) => InkWell(

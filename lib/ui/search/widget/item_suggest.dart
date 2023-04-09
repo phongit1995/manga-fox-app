@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/data/app_colors.dart';
 
 class ItemSuggest extends StatelessWidget {
   final String content;
@@ -8,6 +9,7 @@ class ItemSuggest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appColor = Theme.of(context).extension<AppColor>()!;
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -15,7 +17,7 @@ class ItemSuggest extends StatelessWidget {
       child: Text(
         content,
         style: AppStyle.mainStyle.copyWith(
-            fontSize: 10, fontWeight: FontWeight.w300, color: Colors.black),
+            fontSize: 13, fontWeight: FontWeight.w400, color: const Color(0xff333333)),
       ),
     );
   }

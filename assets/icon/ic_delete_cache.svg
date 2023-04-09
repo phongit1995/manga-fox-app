@@ -1,13 +1,6 @@
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#clip0_461_392)">
-        <path d="M2 4.00024H3.33333H14" stroke="#FF0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M12.6667 4.00016V13.3335C12.6667 13.6871 12.5262 14.0263 12.2762 14.2763C12.0261 14.5264 11.687 14.6668 11.3333 14.6668H4.66668C4.31305 14.6668 3.97392 14.5264 3.72387 14.2763C3.47382 14.0263 3.33334 13.6871 3.33334 13.3335V4.00016M5.33334 4.00016V2.66683C5.33334 2.31321 5.47382 1.97407 5.72387 1.72402C5.97392 1.47397 6.31305 1.3335 6.66668 1.3335H9.33334C9.68697 1.3335 10.0261 1.47397 10.2762 1.72402C10.5262 1.97407 10.6667 2.31321 10.6667 2.66683V4.00016" stroke="#FF0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M6.66666 7.3335V11.3335" stroke="#FF0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M9.33334 7.3335V11.3335" stroke="#FF0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-    <defs>
-        <clipPath id="clip0_461_392">
-            <rect width="16" height="16" fill="white" transform="translate(0 0.000244141)"/>
-        </clipPath>
-    </defs>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#D00000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M17.8996 9.04994C15.7196 8.82994 13.5196 8.71994 11.3296 8.71994C10.0296 8.71994 8.72961 8.78994 7.43961 8.91994L6.09961 9.04994" stroke="#D00000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9.70898 8.38994L9.84898 7.52994C9.94898 6.90994 10.029 6.43994 11.139 6.43994H12.859C13.969 6.43994 14.049 6.92994 14.149 7.52994L14.289 8.37994" stroke="#D00000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M16.49 9.12988L16.06 15.7299C15.99 16.7599 15.93 17.5599 14.1 17.5599H9.89C8.06 17.5599 7.99999 16.7599 7.92999 15.7299L7.5 9.12988" stroke="#D00000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

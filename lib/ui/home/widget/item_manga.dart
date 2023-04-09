@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 
 class ItemManga extends StatelessWidget {
   final String title;
   final String pathUrl;
+  final String rate;
   final String viewCount;
   final bool isLoading;
   final VoidCallback onTap;
@@ -16,7 +19,8 @@ class ItemManga extends StatelessWidget {
       required this.pathUrl,
       required this.viewCount,
       required this.onTap,
-      required this.isLoading})
+      required this.isLoading,
+      required this.rate})
       : super(key: key);
 
   @override
@@ -24,8 +28,8 @@ class ItemManga extends StatelessWidget {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     if (isLoading) {
       return SizedBox(
-          width: 80,
-          height: 142,
+          width: 103,
+          height: 200,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,8 +37,8 @@ class ItemManga extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Container(
-                  width: 80,
-                  height: 100,
+                  width: 103,
+                  height: 129,
                   color: Colors.black,
                 ),
               ),
@@ -62,41 +66,59 @@ class ItemManga extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: SizedBox(
-            width: 80,
-            height: 142,
+            width: 103,
+            height: 200,
             child: Column(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: CachedNetworkImage(
                     imageUrl: pathUrl,
-                    width: 80,
-                    height: 100,
+                    width: 103,
+                    height: 129,
                     fit: BoxFit.fill,
                   ),
                 ),
                 const SizedBox(height: 4),
                 SizedBox(
-                  width: 80,
+                  width: 103,
                   height: 30,
                   child: Text(
                     title,
                     maxLines: 2,
                     style: AppStyle.mainStyle.copyWith(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w300,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
                         color: appColor.primaryBlack),
                   ),
                 ),
+                const SizedBox(height: 4),
                 SizedBox(
-                  width: 80,
-                  child: Text(
-                    viewCount,
-                    maxLines: 1,
-                    style: AppStyle.mainStyle.copyWith(
-                        fontSize: 8,
-                        fontWeight: FontWeight.w400,
-                        color: appColor.primaryBlack),
+                  width: 103,
+                  child: Row(
+                    children: [
+                      Text(
+                        "$viewCount Views",
+                        maxLines: 1,
+                        style: AppStyle.mainStyle.copyWith(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w500,
+                            color: appColor.primaryBlack3),
+                      ),
+                      const Spacer(),
+                      Expanded(
+                        child: Text(
+                          rate,
+                          maxLines: 1,
+                          style: AppStyle.mainStyle.copyWith(
+                              fontSize: 9,
+                              fontWeight: FontWeight.w500,
+                              color: appColor.yellow),
+                        ),
+                      ),
+                      const SizedBox(width: 2),
+                      SvgPicture.asset(AppImage.icStarYellow)
+                    ],
                   ),
                 )
               ],

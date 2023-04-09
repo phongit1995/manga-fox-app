@@ -42,7 +42,7 @@ class _LibraryPageState extends State<LibraryPage>
                   width: 300,
                   alignment: Alignment.topCenter,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(5),
                     color: appColor.backgroundTabBar,
                   ),
                   child: TabBar(
@@ -52,10 +52,13 @@ class _LibraryPageState extends State<LibraryPage>
                     unselectedLabelColor: appColor.primaryBlack2,
                     labelPadding: const EdgeInsets.symmetric(horizontal: 10),
                     labelStyle: AppStyle.mainStyle
-                        .copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+                        .copyWith(fontSize: 13, fontWeight: FontWeight.w400),
                     indicator: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xffFF734A)),
+                        borderRadius: BorderRadius.circular(5),
+                        gradient: const LinearGradient(colors: [
+                          Color(0xffFF9171),
+                          Color(0xffFF5E5E),
+                        ])),
                     tabs: const [
                       Tab(text: "Favorite"),
                       Tab(text: "Download"),

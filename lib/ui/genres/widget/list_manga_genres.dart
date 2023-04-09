@@ -30,6 +30,7 @@ class ListMangaGenres extends StatelessWidget {
             child: ItemManga(
                 title: '',
                 pathUrl: '',
+                rate: '',
                 viewCount: '',
                 onTap: () {},
                 isLoading: true),
@@ -53,6 +54,7 @@ class ListMangaGenres extends StatelessWidget {
             title: manga.name ?? '',
             pathUrl: manga.image ?? '',
             viewCount: manga.mapView(),
+            rate: manga.mapRate(),
             onTap: () {
               transferToDetailManga(context, manga);
             },

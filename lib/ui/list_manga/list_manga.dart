@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manga_fox_app/core/utils/handler_action.dart';
+import 'package:manga_fox_app/core/widget/separator.dart';
 import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
@@ -45,7 +46,7 @@ class ListManga extends StatelessWidget {
                   isLoading: false,
                   title: e.name ?? "",
                   pathUrl: e.image ?? "",
-                  viewCount: e.mapView(),
+                  viewCount: "${e.mapView()} Views",
                   category: e.category ?? [],
                   onTap: () {
                     HandlerAction().handlerAction(() => Navigator.push(
@@ -56,11 +57,8 @@ class ListManga extends StatelessWidget {
                   },
                 ),
                 Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: Divider(
-                        color: appColor.primaryDivider,
-                        thickness: 1,
-                        height: 1)),
+                  margin: const EdgeInsets.only(bottom: 7, top: 7),
+                  child: const Separator(),),
               ],
             ))
       ],

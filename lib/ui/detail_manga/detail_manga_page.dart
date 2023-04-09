@@ -284,24 +284,21 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                   Row(
                     children: [
                       RatingBar(
-                        initialRating:
-                            (widget.manga.chapterUpdateCount ?? 0).toDouble(),
+                        initialRating: widget.manga.startRate?.toDouble() ?? 4.0,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
                         itemSize: 8,
                         itemCount: 5,
+                        itemPadding: const EdgeInsets.only(right: 3),
                         ratingWidget: RatingWidget(
-                          full: Icon(
-                            Icons.star,
-                            color: appColor.primaryBlack,
-                          ),
+                          full: SvgPicture.asset(AppImage.icStarYellow),
                           half: Icon(
                             Icons.star_half,
-                            color: appColor.primaryBlack,
+                            color: appColor.yellow,
                           ),
                           empty: Icon(
                             Icons.star_border,
-                            color: appColor.primaryBlack,
+                            color: appColor.yellow,
                           ),
                         ),
                         ignoreGestures: true,
@@ -310,11 +307,11 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                       const SizedBox(width: 4),
                       RichText(
                         text: TextSpan(
-                          text: widget.manga.chapterUpdateCount.toString(),
+                          text: widget.manga.mapRate(),
                           style: AppStyle.mainStyle.copyWith(
                               fontSize: 10,
                               fontWeight: FontWeight.w400,
-                              color: appColor.primaryBlack),
+                              color: appColor.yellow),
                         ),
                       )
                     ],
@@ -369,7 +366,6 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                       ElevatedButton(
                           onPressed: () async {
                             MangaDAO().addMangaFavorite(widget.manga);
-                            print(widget.manga.sId ?? "");
                             await FirebaseMessaging.instance
                                 .subscribeToTopic(widget.manga.sId ?? "");
                             //     .unsubscribeFromTopic('myTopic');

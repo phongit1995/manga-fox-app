@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:manga_fox_app/applovin.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
+import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/app_setting.dart';
 import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/widget/header_content.dart';
@@ -55,6 +56,7 @@ class _HomePageState extends State<HomePage> {
             type: BottomNavigationBarType.fixed,
             selectedFontSize: 10,
             unselectedFontSize: 10,
+            unselectedLabelStyle: AppStyle.mainStyle,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                   label: 'Homepage',
@@ -90,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                 child: tab == 0
                     ? buildHome(context)
                     : tab == 1
-                        ? GenresPage()
+                        ? const GenresPage()
                         : tab == 2
                             ? LibraryPage()
                             : const UserPage());
@@ -135,22 +137,48 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => InAppPage()));
+                                  builder: (context) => const InAppPage()));
                         },
                         child: Visibility(
                             visible: !value,
-                            child: SvgPicture.asset(AppImage.icVip)),
+                            child: Container(
+                              height: 44,
+                              width: 83,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  gradient: const LinearGradient(colors: [
+                                    Color(0xffFF9171),
+                                    Color(0xffFF5E5E),
+                                  ])),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(AppImage.icDiamond),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    "V.I.P",
+                                    style: AppStyle.mainStyle.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12),
+                                  )
+                                ],
+                              ),
+                            )),
                       );
                     }),
               ],
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 12),
           banner(),
-          const SizedBox(height: 20),
-          lastUpdate(),
+          const SizedBox(height: 14),
           topUpdate(),
-          exfy()
+          lastUpdate(),
+          exfy(),
+          const SizedBox(height: 14),
         ],
       ),
     );
@@ -171,7 +199,7 @@ class _HomePageState extends State<HomePage> {
     return ValueListenableBuilder<List<Manga>>(
       valueListenable: _controller.exManga,
       builder: (context, exManga, child) => Container(
-          height: 210,
+          height: 230,
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
@@ -204,6 +232,7 @@ class _HomePageState extends State<HomePage> {
                         child: ItemManga(
                             pathUrl: manga.image ?? "",
                             title: manga.name ?? "",
+                            rate: manga.mapRate(),
                             viewCount: manga.mapView(),
                             onTap: () {
                               transferToDetailManga(manga);
@@ -223,12 +252,13 @@ class _HomePageState extends State<HomePage> {
     return ValueListenableBuilder<List<Manga>>(
       valueListenable: _controller.topManga,
       builder: (context, topManga, child) => Container(
-          height: 210,
+          height: 240,
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               HeaderContent(
-                title: "Top Manga",
+                title: "Hot Manga",
+                iconLeft: SvgPicture.asset(AppImage.icHotManga),
                 onMore: () {
                   appAction.handlerAction(() {
                     Navigator.push(
@@ -236,7 +266,7 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(
                           builder: (context) => ListMangaGeners(
                                 mangas: topManga,
-                                title: "Top Manga",
+                                title: "Hot Manga",
                               )),
                     );
                   });
@@ -255,6 +285,7 @@ class _HomePageState extends State<HomePage> {
                         child: ItemManga(
                             pathUrl: manga.image ?? "",
                             title: manga.name ?? "",
+                            rate: manga.mapRate(),
                             viewCount: manga.mapView(),
                             onTap: () {
                               transferToDetailManga(manga);
@@ -274,12 +305,13 @@ class _HomePageState extends State<HomePage> {
     return ValueListenableBuilder<List<Manga>>(
       valueListenable: _controller.lastManga,
       builder: (context, lastManga, child) => Container(
-          height: 210,
+          height: 260,
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               HeaderContent(
-                title: "Lastest Update",
+                title: "Last Update",
+                iconLeft: SvgPicture.asset(AppImage.icLastManga),
                 onMore: () {
                   appAction.handlerAction(() {
                     Navigator.push(
@@ -287,7 +319,7 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(
                           builder: (context) => ListMangaGeners(
                                 mangas: lastManga,
-                                title: "Lastest Update",
+                                title: "Last Update",
                               )),
                     );
                   });
@@ -306,6 +338,7 @@ class _HomePageState extends State<HomePage> {
                         child: ItemManga(
                             isLoading: lastManga.isEmpty,
                             pathUrl: manga.image ?? "",
+                            rate: manga.mapRate(),
                             title: manga.name ?? "",
                             viewCount: manga.mapView(),
                             onTap: () {

@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
+import 'package:logger/logger.dart';
+
 part 'manga_response.g.dart';
 
 class MangaResponse {
@@ -32,7 +34,7 @@ class MangaResponse {
 }
 
 @HiveType(typeId: 0)
-class Manga extends Equatable{
+class Manga extends Equatable {
   @HiveField(0)
   List<String>? category;
   @HiveField(1)
@@ -71,6 +73,8 @@ class Manga extends Equatable{
   @HiveField(17)
   String? imageLocal;
   String? lastChapter;
+  @HiveField(18)
+  num? startRate;
 
   bool isRead = false;
   bool isDownload = false;
@@ -95,6 +99,10 @@ class Manga extends Equatable{
     return mangaStatus == 0 ? "Continue" : "Done";
   }
 
+  String mapRate() {
+    return startRate == null ? "4.0" : "$startRate";
+  }
+
   Manga(
       {this.category,
       this.views,
@@ -114,9 +122,11 @@ class Manga extends Equatable{
       this.description,
       this.firstChapter,
       this.image,
+      this.startRate,
       this.lastChapter});
 
   Manga.fromJson(Map<String, dynamic> json) {
+    Logger().e(json);
     category = json['category']?.cast<String>() ?? [];
     views = json['views'];
     mangaStatus = json['manga_status'];
@@ -127,6 +137,7 @@ class Manga extends Equatable{
     sId = json['_id'];
     name = json['name'];
     url = json['url'];
+    // startRate = json['startRate'];
     chapterUpdate = json['chapter_update'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -157,6 +168,7 @@ class Manga extends Equatable{
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
     data['author'] = author;
+    data['startRate'] = startRate;
     data['description'] = description;
     if (firstChapter != null) {
       data['first_chapter'] = firstChapter!.toJson();

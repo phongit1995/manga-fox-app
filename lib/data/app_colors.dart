@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppColor extends ThemeExtension<AppColor> {
   final Color primaryBlack;
   final Color primaryBlack2;
+  final Color primaryBlack3;
   final Color primaryBackground;
   final Color backgroundWhite;
   final Color backgroundWhite2;
@@ -14,6 +15,7 @@ class AppColor extends ThemeExtension<AppColor> {
   final Color shimmerLoadingHighlight;
   final Color indicatorBanner;
   final Color primary;
+  final Color yellow;
 
   AppColor({
     required this.shimmerLoadingBase,
@@ -22,6 +24,7 @@ class AppColor extends ThemeExtension<AppColor> {
     required this.backgroundBottomNavigator,
     required this.backgroundTabBar,
     required this.primaryBlack2,
+    required this.primaryBlack3,
     required this.primaryDivider,
     required this.primaryBlack,
     required this.activeBottomNavigator,
@@ -29,6 +32,7 @@ class AppColor extends ThemeExtension<AppColor> {
     required this.backgroundWhite2,
     required this.indicatorBanner,
     required this.primary,
+    required this.yellow,
   });
 
   @override
@@ -46,12 +50,14 @@ class AppColor extends ThemeExtension<AppColor> {
         backgroundBottomNavigator: backgroundBottomNavigator,
         backgroundTabBar: backgroundTabBar,
         primaryBlack2: primaryBlack2,
+        primaryBlack3: primaryBlack3,
         primaryDivider: primaryDivider,
         primaryBlack: primaryBlack,
         activeBottomNavigator: activeBottomNavigator,
         backgroundWhite: backgroundWhite,
         backgroundWhite2: backgroundWhite2,
         indicatorBanner: indicatorBanner,
+        yellow: yellow,
         primary: primary);
   }
 }

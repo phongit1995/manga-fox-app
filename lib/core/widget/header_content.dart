@@ -8,8 +8,14 @@ class HeaderContent extends StatelessWidget {
   final String title;
   final VoidCallback onMore;
   final bool? isShowMore;
+  final Widget? iconLeft;
 
-  const HeaderContent({Key? key, required this.title, required this.onMore, this.isShowMore})
+  const HeaderContent(
+      {Key? key,
+      required this.title,
+      required this.onMore,
+      this.isShowMore,
+      this.iconLeft})
       : super(key: key);
 
   @override
@@ -18,12 +24,16 @@ class HeaderContent extends StatelessWidget {
 
     return Row(
       children: [
+        Container(
+          margin: const EdgeInsets.only(right: 4),
+          child: iconLeft,
+        ),
         Text(
           title,
           style: AppStyle.mainStyle.copyWith(
               color: appColor.primaryBlack,
-              fontWeight: FontWeight.w400,
-              fontSize: 12),
+              fontWeight: FontWeight.w600,
+              fontSize: 15),
         ),
         const Spacer(),
         Opacity(
@@ -39,7 +49,7 @@ class HeaderContent extends StatelessWidget {
                     style: AppStyle.mainStyle.copyWith(
                         color: appColor.primaryBlack,
                         fontWeight: FontWeight.w400,
-                        fontSize: 12),
+                        fontSize: 15),
                   ),
                   const SizedBox(width: 4),
                   SvgPicture.asset(

@@ -118,6 +118,9 @@ flutter:
     - family: PlayfairDisplay
       fonts:
         - asset: assets/font/PlayfairDisplay-VariableFont_wght.ttf
+    - family: SpaceGrotesk
+      fonts:
+        - asset: assets/font/SpaceGrotesk-VariableFont_wght.ttf
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

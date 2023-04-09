@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/utils/handler_action.dart';
+import 'package:manga_fox_app/core/widget/separator.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/dao/manga_dao.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
@@ -60,12 +64,8 @@ class _LibraryHistoryState extends State<LibraryHistory> {
                           _buildItem(context, e),
                           Container(
                             margin: const EdgeInsets.only(
-                                left: 107, right: 20, bottom: 7, top: 7),
-                            child: Divider(
-                                color: appColor.primaryDivider,
-                                thickness: 1,
-                                height: 1),
-                          ),
+                                left: 20, right: 20, bottom: 7, top: 7),
+                            child: const Separator(),)
                         ],
                       );
                     })
@@ -84,7 +84,7 @@ class _LibraryHistoryState extends State<LibraryHistory> {
         HandlerAction().handlerAction(() =>
             DetailMangaPage.transfer(context, manga: manga, toHistory: true));
       },
-      child: Container(
+      child: SizedBox(
         height: 80,
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -108,30 +108,43 @@ class _LibraryHistoryState extends State<LibraryHistory> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  const SizedBox(height: 8),
-                  // Text(
-                  //   "Adventure",
-                  //   style: AppStyle.mainStyle.copyWith(
-                  //       fontSize: 10,
-                  //       fontWeight: FontWeight.w300,
-                  //       color: appColor.primaryBlack),
-                  // ),
-                  const SizedBox(height: 4),
                   Text(
                     manga.name ?? "",
                     maxLines: 2,
                     style: AppStyle.mainStyle.copyWith(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                         color: appColor.primaryBlack),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
+                  RatingBar(
+                    initialRating: manga.startRate?.toDouble() ?? 4.0,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemSize: 8,
+                    itemCount: 5,
+                    itemPadding: const EdgeInsets.only(right: 6),
+                    ratingWidget: RatingWidget(
+                      full: SvgPicture.asset(AppImage.icStarYellow),
+                      half: Icon(
+                        Icons.star_half,
+                        color: appColor.yellow,
+                      ),
+                      empty: Icon(
+                        Icons.star_border,
+                        color: appColor.yellow,
+                      ),
+                    ),
+                    ignoreGestures: true,
+                    onRatingUpdate: (rating) {},
+                  ),
+                  const SizedBox(height: 4),
                   Text(
-                    manga.mapView(),
+                    "${manga.mapView()} Views",
                     maxLines: 1,
                     style: AppStyle.mainStyle.copyWith(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w500,
                         color: appColor.primaryBlack),
                   ),
                   const SizedBox(height: 4),

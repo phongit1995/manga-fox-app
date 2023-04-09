@@ -41,7 +41,7 @@ class _GenresPageState extends State<GenresPage> {
           title: Text("Genres",
               style: AppStyle.mainStyle.copyWith(
                   fontWeight: FontWeight.w400,
-                  fontSize: 20,
+                  fontSize: 22,
                   color: appColor.primary)),
           centerTitle: true,
           actions: [
@@ -84,22 +84,27 @@ class _GenresPageState extends State<GenresPage> {
                           isScrollable: true,
                           onTap: (value) async {
                             _controller.mangas.value = [];
-                            _controller.genresSelect.value = generes[value].name ?? '';
+                            _controller.genresSelect.value =
+                                generes[value].name ?? '';
                             await _controller
                                 .loadMangas(generes[value].name ?? '');
                           },
                           indicatorColor: appColor.primary,
-                          labelStyle: AppStyle.mainStyle
-                              .copyWith(color: appColor.primaryBlack2),
+                          labelStyle: AppStyle.mainStyle.copyWith(
+                              color: appColor.primaryBlack2,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400),
                           labelColor: appColor.primary,
                           unselectedLabelColor: appColor.primaryBlack2,
                           indicator: UnderlineTabIndicator(
-                              borderSide: BorderSide(
-                                  width: 1, color: appColor.primary),
+                              borderSide:
+                                  BorderSide(width: 1, color: appColor.primary),
                               insets: const EdgeInsets.symmetric(
                                   horizontal: 25, vertical: 2)),
-                          unselectedLabelStyle: AppStyle.mainStyle
-                              .copyWith(color: appColor.primaryBlack2),
+                          unselectedLabelStyle: AppStyle.mainStyle.copyWith(
+                              color: appColor.primaryBlack2,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400),
                           tabs: List.generate(generes.length,
                               (index) => Text(generes[index].name ?? '')),
                         )),

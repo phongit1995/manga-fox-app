@@ -34,13 +34,14 @@ class MangaAdapter extends TypeAdapter<Manga> {
       author: fields[14] as String?,
       description: fields[15] as String?,
       image: fields[16] as String?,
+      startRate: fields[18] as num?,
     )..imageLocal = fields[17] as String?;
   }
 
   @override
   void write(BinaryWriter writer, Manga obj) {
     writer
-      ..writeByte(18)
+      ..writeByte(19)
       ..writeByte(0)
       ..write(obj.category)
       ..writeByte(1)
@@ -76,7 +77,9 @@ class MangaAdapter extends TypeAdapter<Manga> {
       ..writeByte(16)
       ..write(obj.image)
       ..writeByte(17)
-      ..write(obj.imageLocal);
+      ..write(obj.imageLocal)
+      ..writeByte(18)
+      ..write(obj.startRate);
   }
 
   @override

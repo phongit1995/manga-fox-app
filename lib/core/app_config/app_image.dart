@@ -33,4 +33,7 @@ class AppImage {
   static String icTerm = "assets/icon/ic_term.svg";
   static String icStar = "assets/icon/ic_star.svg";
   static String icRating = "assets/icon/ic_rating.svg";
+  static String icHotManga = "assets/icon/ic_hot.svg";
+  static String icLastManga = "assets/icon/ic_last_manga.svg";
+  static String icStarYellow = "assets/icon/ic_star_yellow.svg";
 }

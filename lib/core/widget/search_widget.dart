@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
-import 'package:manga_fox_app/ui/search/search_page.dart';
 
 class SearchWidget extends StatelessWidget {
   final TextEditingController? controller;
@@ -23,7 +22,7 @@ class SearchWidget extends StatelessWidget {
         filled: true,
         fillColor: const Color(0xffF5F5F5),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(5),
           borderSide: BorderSide.none,
         ),
         hintText: "Search your manga, author...",

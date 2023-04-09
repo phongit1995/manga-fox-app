@@ -27,8 +27,8 @@ class AppConfig {
   static String APPLOVIN_INTERSTITAL_AD_UNIT_IOS = '697b37b429068eff';
 
   //Count click to show ads
-  static int countClickAction = 5;
-  static int loadAdsClickAction = 4;
+  static int countClickAction = 50000;
+  static int loadAdsClickAction = 40000;
   static int limitDownload = 10;
 
   static List<String> iapSubscription = Platform.isAndroid

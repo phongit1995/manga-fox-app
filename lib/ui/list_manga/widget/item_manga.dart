@@ -25,52 +25,54 @@ class ItemMangaM extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     if(isLoading) {
-      return Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Container(
-              width: 80,
-              height: 100,
-              color: Colors.black,
+      return InkWell(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Container(
+                width: 80,
+                height: 100,
+                color: Colors.black,
+              ),
             ),
-          ),
-          const SizedBox(width: 7),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.black,
-                    ),
-                    width: 100,
-                    height: 10),
-                const SizedBox(height: 8),
-                Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.black,
-                    ),
-                    width: 20,
-                    height: 10),
-                const SizedBox(height: 8),
-                Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.black,
-                    ),
-                    width: 80,
-                    height: 10),
-              ],
-            ),
-          )
-        ],
+            const SizedBox(width: 7),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.black,
+                      ),
+                      width: 100,
+                      height: 10),
+                  const SizedBox(height: 8),
+                  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.black,
+                      ),
+                      width: 20,
+                      height: 10),
+                  const SizedBox(height: 8),
+                  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.black,
+                      ),
+                      width: 80,
+                      height: 10),
+                ],
+              ),
+            )
+          ],
+        ),
       );
     }
     return InkWell(

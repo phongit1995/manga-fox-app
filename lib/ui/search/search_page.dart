@@ -70,22 +70,28 @@ class _SearchPageState extends State<SearchPage> {
                               backgroundColor: Colors.transparent,
                               alignment: Alignment.centerRight),
                           child: Container(
-                            width: 63,
-                            height: 40,
+                            width: 83,
+                            height: 44,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xffFF734A)),
+                                borderRadius: BorderRadius.circular(5),
+                                gradient: const LinearGradient(
+                                    colors: [
+                                      Color(0xffFF9171),
+                                      Color(0xffFF5E5E),
+                                    ]
+                                )),
                             child: Text(
                               "Cancel",
                               style: AppStyle.mainStyle.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 10),
+                                  fontSize: 15),
                             ),
                           ))
                     ],
                   ),
+                  const SizedBox(height: 20),
                   ValueListenableBuilder<bool>(
                     valueListenable: _controller.isLoading,
                     builder: (context, isLoading, child) {

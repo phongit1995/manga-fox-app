@@ -38,11 +38,8 @@ class _InAppPageState extends State<InAppPage> {
   Widget build(BuildContext context) {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xff4B526C), Color(0xff7BA8D2)]),
+      decoration: BoxDecoration(
+        color: appColor.primaryBackground
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -73,7 +70,7 @@ class _InAppPageState extends State<InAppPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      "Buy VIP",
+                      "BECOME VIP",
                       style: AppStyle.mainStyle.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
@@ -81,16 +78,16 @@ class _InAppPageState extends State<InAppPage> {
                     ),
                   )),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Container(
               alignment: Alignment.center,
               child: Text(
                 "Restore purchase",
                 style: AppStyle.mainStyle.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
+                    color: const Color(0xff4B526C),
+                    fontWeight: FontWeight.w500,
                     decoration: TextDecoration.underline,
-                    fontSize: 13),
+                    fontSize: 11),
               ),
             )
           ],
@@ -125,15 +122,15 @@ class _InAppPageState extends State<InAppPage> {
                   Text(
                     "Become to VIP\nMember".toUpperCase(),
                     style: AppStyle.mainStyle.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                        color: appColor.primary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 26),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     "When you pay the fee to become a vip\nmember, you will get the following benefits:",
                     style: AppStyle.mainStyle.copyWith(
-                        color: Colors.white,
+                        color: const Color(0xff4B526C),
                         fontWeight: FontWeight.w300,
                         fontSize: 12),
                   ),
@@ -237,7 +234,7 @@ class _InAppPageState extends State<InAppPage> {
         Text(
           content,
           style: AppStyle.mainStyle.copyWith(
-              color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12),
+              color: const Color(0xff4B526C), fontWeight: FontWeight.w400, fontSize: 12),
         ),
       ],
     );
