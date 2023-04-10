@@ -137,7 +137,7 @@ class Manga extends Equatable {
     sId = json['_id'];
     name = json['name'];
     url = json['url'];
-    // startRate = json['startRate'];
+    startRate = json['startRate'];
     chapterUpdate = json['chapter_update'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];

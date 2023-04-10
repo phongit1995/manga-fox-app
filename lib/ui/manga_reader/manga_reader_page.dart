@@ -138,6 +138,7 @@ class _MangaReaderState extends State<MangaReader>
 
   @override
   Widget build(BuildContext context) {
+    final appColor = Theme.of(context).extension<AppColor>()!;
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
@@ -246,7 +247,7 @@ class _MangaReaderState extends State<MangaReader>
               builder: (context, value, child) => Visibility(
                     visible: value,
                     child: Container(
-                      color: const Color(0xff333333),
+                      color: appColor.primaryBackground,
                       padding: const EdgeInsets.only(
                           bottom: 22, top: 22, left: 20, right: 20),
                       child: Row(
@@ -257,16 +258,17 @@ class _MangaReaderState extends State<MangaReader>
                             onTap: () {
                               Navigator.of(context).pop();
                             },
-                            child: SvgPicture.asset(AppImage.icBackWhite),
+                            child: SvgPicture.asset(AppImage.icBackWhite,
+                                color: appColor.primaryBlack),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
                               child: Text(
                             _chapter.name ?? "",
                             style: AppStyle.mainStyle.copyWith(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
+                                color: appColor.primaryBlack3,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                           )),
@@ -289,7 +291,8 @@ class _MangaReaderState extends State<MangaReader>
                               );
                               await currentData();
                             },
-                            child: SvgPicture.asset(AppImage.icSetting),
+                            child: SvgPicture.asset(AppImage.icSetting,
+                                color: appColor.primaryBlack),
                           ),
                         ],
                       ),
@@ -304,7 +307,7 @@ class _MangaReaderState extends State<MangaReader>
                 left: 0,
                 right: 0,
                 child: Container(
-                    color: const Color(0xff333333),
+                    color: appColor.primaryBackground,
                     height: 70,
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
@@ -324,16 +327,27 @@ class _MangaReaderState extends State<MangaReader>
                                   }
                                 }
                               },
-                              child: const Icon(
-                                  Icons.keyboard_arrow_left_outlined,
-                                  color: Colors.white,
-                                  size: 30)),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.keyboard_arrow_left_outlined,
+                                      color: appColor.primaryBlack, size: 30),
+                                  Text(
+                                    'Back   ',
+                                    style: AppStyle.mainStyle.copyWith(
+                                        color: appColor.primaryBlack,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                  ),
+                                ],
+                              )),
                         ),
                         const SizedBox(width: 40),
                         Text(
                           '${isLast ? data.length : (indexPage + 1)}/${data.length}',
                           style: AppStyle.mainStyle.copyWith(
-                              color: Colors.white,
+                              color: appColor.primaryBlack,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
                           textAlign: TextAlign.center,
@@ -352,10 +366,21 @@ class _MangaReaderState extends State<MangaReader>
                                       context, chapter, _chapters);
                                 }
                               },
-                              child: const Icon(
-                                  Icons.keyboard_arrow_right_outlined,
-                                  color: Colors.white,
-                                  size: 30)),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Next   ',
+                                    style: AppStyle.mainStyle.copyWith(
+                                        color: appColor.primaryBlack,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                  ),
+                                  Icon(Icons.keyboard_arrow_right_outlined,
+                                      color: appColor.primaryBlack, size: 30),
+                                ],
+                              )),
                         ),
                       ],
                     )),
@@ -512,7 +537,7 @@ class _MangaReaderState extends State<MangaReader>
               builder: (context, value, child) => Visibility(
                     visible: value,
                     child: Container(
-                      color: const Color(0xff333333),
+                      color: appColor.primaryBackground,
                       padding: const EdgeInsets.only(
                           bottom: 22, top: 22, left: 20, right: 20),
                       child: Row(
@@ -523,16 +548,17 @@ class _MangaReaderState extends State<MangaReader>
                             onTap: () {
                               Navigator.of(context).pop();
                             },
-                            child: SvgPicture.asset(AppImage.icBackWhite),
+                            child: SvgPicture.asset(AppImage.icBackWhite,
+                                color: appColor.primaryBlack),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
                               child: Text(
                             _chapter.name ?? "",
                             style: AppStyle.mainStyle.copyWith(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
+                                color: appColor.primaryBlack3,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                           )),
@@ -555,7 +581,8 @@ class _MangaReaderState extends State<MangaReader>
                               );
                               await currentData();
                             },
-                            child: SvgPicture.asset(AppImage.icSetting),
+                            child: SvgPicture.asset(AppImage.icSetting,
+                                color: appColor.primaryBlack),
                           ),
                         ],
                       ),
@@ -570,7 +597,7 @@ class _MangaReaderState extends State<MangaReader>
                 left: 0,
                 right: 0,
                 child: Container(
-                    color: const Color(0xff333333),
+                    color: appColor.primaryBackground,
                     height: 70,
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
@@ -586,16 +613,27 @@ class _MangaReaderState extends State<MangaReader>
                                       context, chapter, _chapters);
                                 }
                               },
-                              child: const Icon(
-                                  Icons.keyboard_arrow_left_outlined,
-                                  color: Colors.white,
-                                  size: 30)),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.keyboard_arrow_left_outlined,
+                                      color: appColor.primaryBlack, size: 30),
+                                  Text(
+                                    'Back   ',
+                                    style: AppStyle.mainStyle.copyWith(
+                                        color: appColor.primaryBlack,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                  ),
+                                ],
+                              )),
                         ),
                         const SizedBox(width: 40),
                         Text(
                           '${isLast ? _chapter.images?.length ?? 0 : (indexPage + 1)}/${_chapter.images?.length ?? 0}',
                           style: AppStyle.mainStyle.copyWith(
-                              color: Colors.white,
+                              color: appColor.primaryBlack,
                               fontSize: 16,
                               fontWeight: FontWeight.w400),
                           textAlign: TextAlign.center,
@@ -619,10 +657,21 @@ class _MangaReaderState extends State<MangaReader>
                                 //   }
                                 // });
                               },
-                              child: const Icon(
-                                  Icons.keyboard_arrow_right_outlined,
-                                  color: Colors.white,
-                                  size: 30)),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Next   ',
+                                    style: AppStyle.mainStyle.copyWith(
+                                        color: appColor.primaryBlack,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                  ),
+                                  Icon(Icons.keyboard_arrow_right_outlined,
+                                      color: appColor.primaryBlack, size: 30),
+                                ],
+                              )),
                         ),
                       ],
                     )),

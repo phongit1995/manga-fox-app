@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 part 'list_chapper_response.g.dart';
 
 class ListChapterResponse {
@@ -60,6 +61,14 @@ class ListChapter extends Equatable {
   List<String>? imagesLocal;
   bool? isRead;
   int? indexPage;
+
+  String get getDateCreates {
+    String dateTime = createdAt ?? '';
+    if (dateTime.isEmpty) return '';
+    DateTime parsedDateFormat = DateFormat("yyyy-MM-ddTHH:mm:ssZ").parseUTC(dateTime).toLocal();
+
+    return DateFormat.yMd().add_jm().format(parsedDateFormat).toString();
+  }
 
   ListChapter(
       {this.index,

@@ -27,14 +27,28 @@ class ItemChapter extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Text(chapter.name ?? "",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppStyle.mainStyle.copyWith(
-                  color:
-                      isRead ? const Color(0xffFF734A) : appColor.primaryBlack,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 10)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(chapter.name ?? "",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppStyle.mainStyle.copyWith(
+                      color:
+                          isRead ? const Color(0xffFF734A) : appColor.primaryBlack,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 13)),
+              const SizedBox(height: 6),
+              Text(chapter.getDateCreates,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppStyle.mainStyle.copyWith(
+                      color: const Color(0xff828282),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11)),
+            ],
+          ),
         ),
         Container(
           height: 32,

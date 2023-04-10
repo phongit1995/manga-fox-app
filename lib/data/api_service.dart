@@ -108,7 +108,6 @@ class ApiService {
           await dio.post("chapter/detial-chapter", data: {"id": chapterId});
       return ListChapter.fromJson(response.data['data']);
     } catch (e) {
-      print('error ${e}');
       return null;
     }
   }

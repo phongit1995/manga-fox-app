@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ import 'package:manga_fox_app/ui/detail_manga/detail_manga_controller.dart';
 import 'package:manga_fox_app/ui/detail_manga/widget/item_chapter.dart';
 import 'package:manga_fox_app/ui/manga_reader/manga_reader_page.dart';
 import 'package:manga_fox_app/ui/user/in_app_page.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DetailMangaPage extends StatefulWidget {
   final Manga manga;
@@ -180,7 +183,8 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
   Future transferMangaReader(
       ListChapter chapter, List<ListChapter> chapters) async {
     appAction.handlerAction(() {
-      MangaReader.transferMangaReader(context, chapter, chapters, toDownload: widget.toDownload ?? false);
+      MangaReader.transferMangaReader(context, chapter, chapters,
+          toDownload: widget.toDownload ?? false);
     });
   }
 
@@ -199,12 +203,12 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
               borderRadius: BorderRadius.circular(5),
               child: CachedNetworkImage(
                 imageUrl: widget.manga.image ?? "",
-                width: 142,
-                height: 178,
+                width: 162,
+                height: 212,
                 fit: BoxFit.fill,
               ),
             ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,26 +217,26 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                   Text(
                     widget.manga.name ?? "",
                     style: AppStyle.mainStyle.copyWith(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
                         color: appColor.primaryBlack),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
                   Text(
                     widget.manga.author ?? "",
                     maxLines: 1,
                     style: AppStyle.mainStyle.copyWith(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w300,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
                         color: appColor.primaryBlack),
                   ),
                   const SizedBox(height: 16),
                   RichText(
                     text: TextSpan(
-                      text: 'Status: ',
+                      text: 'STATUS: ',
                       style: AppStyle.mainStyle.copyWith(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
                           color: appColor.primaryBlack),
                       children: <TextSpan>[
                         TextSpan(
@@ -247,17 +251,17 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                   const SizedBox(height: 4),
                   RichText(
                     text: TextSpan(
-                      text: 'Language: ',
+                      text: 'Language: '.toUpperCase(),
                       style: AppStyle.mainStyle.copyWith(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
                           color: appColor.primaryBlack),
                       children: <TextSpan>[
                         TextSpan(
-                            text: 'English',
+                            text: 'English'.toUpperCase(),
                             style: AppStyle.mainStyle.copyWith(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
                                 color: appColor.primaryBlack))
                       ],
                     ),
@@ -267,15 +271,15 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                     text: TextSpan(
                       text: 'Views: ',
                       style: AppStyle.mainStyle.copyWith(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
                           color: appColor.primaryBlack),
                       children: <TextSpan>[
                         TextSpan(
                             text: widget.manga.mapView(),
                             style: AppStyle.mainStyle.copyWith(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
                                 color: appColor.primaryBlack))
                       ],
                     ),
@@ -284,10 +288,11 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                   Row(
                     children: [
                       RatingBar(
-                        initialRating: widget.manga.startRate?.toDouble() ?? 4.0,
+                        initialRating:
+                            widget.manga.startRate?.toDouble() ?? 4.0,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
-                        itemSize: 8,
+                        itemSize: 12,
                         itemCount: 5,
                         itemPadding: const EdgeInsets.only(right: 3),
                         ratingWidget: RatingWidget(
@@ -309,7 +314,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                         text: TextSpan(
                           text: widget.manga.mapRate(),
                           style: AppStyle.mainStyle.copyWith(
-                              fontSize: 10,
+                              fontSize: 13,
                               fontWeight: FontWeight.w400,
                               color: appColor.yellow),
                         ),
@@ -317,94 +322,106 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                     ],
                   ),
                   const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      ValueListenableBuilder(
-                        valueListenable: _controller.chapter,
-                        builder: (context, _, child) => Opacity(
-                          opacity: _controller.chapter.value.isNotEmpty ? 1 : 0,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                var chapterId = ChapterDAO()
-                                        .getReading(widget.manga.sId ?? "") ??
-                                    widget.manga.firstChapter?.sId ??
-                                    "";
-                                if (chapterId.isNotEmpty &&
-                                    _controller.chapter.value.isNotEmpty) {
-                                  var e = _controller.chapter.value.firstWhere(
-                                      (element) => element.sId == chapterId,
-                                      orElse: () => ListChapter());
-                                  if (e.sId == null) return;
-                                  await transferMangaReader(
-                                      e, _controller.chapter.value);
-                                  setState(() {});
-                                }
-                              },
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  elevation: 0,
-                                  backgroundColor: Colors.transparent,
-                                  alignment: Alignment.centerRight),
-                              child: Container(
-                                width: 94,
-                                height: 37,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color(0xffFF734A)),
-                                child: Text(
-                                  "Read Now",
-                                  style: AppStyle.mainStyle.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 10),
-                                ),
-                              )),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      ElevatedButton(
-                          onPressed: () async {
-                            MangaDAO().addMangaFavorite(widget.manga);
-                            await FirebaseMessaging.instance
-                                .subscribeToTopic(widget.manga.sId ?? "");
-                            //     .unsubscribeFromTopic('myTopic');
-                          },
-                          style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                              alignment: Alignment.centerRight),
-                          child: Container(
-                            width: 75,
-                            height: 37,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: const Color(0xffFF734A)),
-                                color: Colors.transparent),
-                            child: Text(
-                              "Save",
-                              style: AppStyle.mainStyle.copyWith(
-                                  color: const Color(0xffFF734A),
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 10),
-                            ),
-                          )),
-                    ],
-                  ),
                 ],
               ),
             )
           ],
         ),
         const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: ElevatedButton(
+                onPressed: () async {
+                  if(widget.toDownload == true) {
+                    var url = Platform.isAndroid
+                        ? AppConfig.urlStoreAndroid
+                        : AppConfig.urlStoreIos;
+                    Share.share('Download and reading manga on $url');
+                  } else {
+                    MangaDAO().addMangaFavorite(widget.manga);
+                    await FirebaseMessaging.instance
+                        .subscribeToTopic(widget.manga.sId ?? "");
+                  }
+                  //     .unsubscribeFromTopic('myTopic');
+                },
+                style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    alignment: Alignment.centerRight),
+                child: Container(
+                  height: 43,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: const Color(0xffFF734A)),
+                      color: Colors.transparent),
+                  child: Text(
+                    widget.toDownload == true ? "SHARE" : "FAVORITE",
+                    style: AppStyle.mainStyle.copyWith(
+                        color: const Color(0xffFF734A),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            ValueListenableBuilder(
+              valueListenable: _controller.chapter,
+              builder: (context, _, child) => Expanded(
+                flex: 1,
+                child: Opacity(
+                  opacity: _controller.chapter.value.isNotEmpty ? 1 : 0,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      var chapterId =
+                          ChapterDAO().getReading(widget.manga.sId ?? "") ??
+                              widget.manga.firstChapter?.sId ??
+                              "";
+                      if (chapterId.isNotEmpty &&
+                          _controller.chapter.value.isNotEmpty) {
+                        var e = _controller.chapter.value.firstWhere(
+                            (element) => element.sId == chapterId,
+                            orElse: () => ListChapter());
+                        if (e.sId == null) return;
+                        await transferMangaReader(e, _controller.chapter.value);
+                        setState(() {});
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        alignment: Alignment.centerRight),
+                    child: Container(
+                      height: 43,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: const Color(0xffFF734A)),
+                      child: Text(
+                        "Read Now".toUpperCase(),
+                        style: AppStyle.mainStyle.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
         Text("What is about?",
             style: AppStyle.mainStyle.copyWith(
                 color: appColor.primaryBlack,
-                fontWeight: FontWeight.w400,
-                fontSize: 12)),
+                fontWeight: FontWeight.w500,
+                fontSize: 15)),
         const SizedBox(height: 10),
         ValueListenableBuilder(
           valueListenable: readMore,
@@ -415,8 +432,8 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                 maxLines: !readMore.value ? 4 : null,
                 style: AppStyle.mainStyle.copyWith(
                     color: appColor.primaryBlack,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 10),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 13),
               ),
               const SizedBox(height: 10),
               Visibility(
@@ -456,40 +473,78 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                   alignment: Alignment.topLeft,
                   margin: const EdgeInsets.symmetric(vertical: 16),
                   child: Text(
-                    "Downloaded Book",
+                    "Downloaded Chapters",
                     style: AppStyle.mainStyle.copyWith(
-                        color: appColor.primaryBlack,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16),
+                        color: appColor.primaryBlack3,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15),
                   ),
                 )
               : Row(
                   children: [
                     Text("Chapters",
                         style: AppStyle.mainStyle.copyWith(
-                            color: appColor.primaryBlack,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14)),
+                            color: appColor.primaryBlack3,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15)),
                     const Spacer(),
-                    InkWell(
-                      child: SvgPicture.asset(AppImage.icFilter,
-                          color: appColor.primaryBlack),
-                      onTap: () {
-                        _controller.revert = !_controller.revert;
-                        setState(() {});
-                      },
-                    ),
-                    const SizedBox(width: 12),
-                    InkWell(
-                      onTap: () {
-                        viewGrid.value = !viewGrid.value;
-                      },
-                      child: SvgPicture.asset(AppImage.icList,
-                          color: appColor.primaryBlack),
-                    ),
+                    // InkWell(
+                    //   child: SvgPicture.asset(AppImage.icFilter,
+                    //       color: appColor.primaryBlack),
+                    //   onTap: () {
+                    //     _controller.revert = !_controller.revert;
+                    //     setState(() {});
+                    //   },
+                    // ),
+                    // const SizedBox(width: 12),
+                    // InkWell(
+                    //   onTap: () {
+                    //     viewGrid.value = !viewGrid.value;
+                    //   },
+                    //   child: SvgPicture.asset(AppImage.icList,
+                    //       color: appColor.primaryBlack),
+                    // ),
                   ],
                 ),
         const SizedBox(height: 10),
+        Row(
+          children: [
+            InkWell(
+              onTap: () {
+                if (_controller.revert) {
+                  _controller.revert = !_controller.revert;
+                  setState(() {});
+                }
+              },
+              child: Text("LATEST",
+                  style: AppStyle.mainStyle.copyWith(
+                      color: _controller.revert ? appColor.primaryBlack3 : appColor.primary,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11)),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 12),
+              child: Text("|",
+                  style: AppStyle.mainStyle.copyWith(
+                      color: appColor.primaryBlack3,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11)),
+            ),
+            InkWell(
+              onTap: () {
+                if (!_controller.revert) {
+                  _controller.revert = !_controller.revert;
+                  setState(() {});
+                }
+              },
+              child: Text("OLDEST",
+                  style: AppStyle.mainStyle.copyWith(
+                      color: !_controller.revert ? appColor.primaryBlack3 : appColor.primary,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11)),
+            ),
+          ],
+        ),
         isLoading
             ? ShimmerLoading(isLoading: isLoading, child: _buildLoading())
             : ValueListenableBuilder(
@@ -689,7 +744,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
               yes: () async {
                 Navigator.of(context).pop();
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => InAppPage()));
+                    MaterialPageRoute(builder: (context) => const InAppPage()));
               },
             ));
       },
