@@ -126,7 +126,6 @@ class Manga extends Equatable {
       this.lastChapter});
 
   Manga.fromJson(Map<String, dynamic> json) {
-    Logger().e(json);
     category = json['category']?.cast<String>() ?? [];
     views = json['views'];
     mangaStatus = json['manga_status'];
