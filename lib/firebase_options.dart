@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDM-Au7eTr4N2Wz5anS3W8hwyvO2t8FB4g',
-    appId: '1:467544295906:android:09bf3ca8fbb5382df811bb',
+    appId: '1:467544295906:android:d61f2590f2e6129bf811bb',
     messagingSenderId: '467544295906',
     projectId: 'manga-reader-manganelo',
     storageBucket: 'manga-reader-manganelo.appspot.com',
