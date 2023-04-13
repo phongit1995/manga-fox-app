@@ -497,13 +497,6 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                     //   },
                     // ),
                     // const SizedBox(width: 12),
-                    // InkWell(
-                    //   onTap: () {
-                    //     viewGrid.value = !viewGrid.value;
-                    //   },
-                    //   child: SvgPicture.asset(AppImage.icList,
-                    //       color: appColor.primaryBlack),
-                    // ),
                   ],
                 ),
         const SizedBox(height: 10),
@@ -543,8 +536,18 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                       fontWeight: FontWeight.w500,
                       fontSize: 11)),
             ),
+            const Spacer(),
+            if (widget.toDownload != true)
+              InkWell(
+                onTap: () {
+                  viewGrid.value = !viewGrid.value;
+                },
+                child: SvgPicture.asset(AppImage.icList,
+                    color: appColor.primaryBlack),
+              ),
           ],
         ),
+        const SizedBox(height: 10),
         isLoading
             ? ShimmerLoading(isLoading: isLoading, child: _buildLoading())
             : ValueListenableBuilder(
