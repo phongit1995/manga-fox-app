@@ -6,10 +6,22 @@ class SettingUtils {
   final _horizontal = "horizontal";
   final _searchHistory = "_searchHistory";
   final _chap = "_chap";
+  final _chapNovel = "_chapNovel";
   final _topic = "topic";
   final _initApp = "initAppTimestamp";
   final _downloadCountForDate = "downloadCountForDate";
+  final _fontSizeNovel = "_fontSizeNovel";
   static int? timeInitApp;
+
+  Future<void> setFontSizeNovel(double size) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_fontSizeNovel, size);
+  }
+
+  Future<double> getFontSizeNovel() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getDouble(_fontSizeNovel) ?? 13.0;
+  }
 
   // now [0], count [1]
   Future<void> setDownloadCountForDateNow(String count) async {
@@ -58,6 +70,16 @@ class SettingUtils {
       }
     }
     await prefs.setStringList(_topic, topics);
+  }
+
+  Future<void> setChapterNovel(String key, List<String> value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_chapNovel + key, value);
+  }
+
+  Future<List<String>> getChapterNovel(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(_chapNovel + key) ?? [];
   }
 
   Future<void> setChapter(String key, List<String> value) async {

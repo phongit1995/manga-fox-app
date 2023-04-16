@@ -17,6 +17,7 @@ import 'package:manga_fox_app/ui/home/widget/banner.dart';
 import 'package:manga_fox_app/ui/home/widget/item_manga.dart';
 import 'package:manga_fox_app/ui/library/library_page.dart';
 import 'package:manga_fox_app/ui/list_manga/list_manga_geners.dart';
+import 'package:manga_fox_app/ui/novel/novel_page.dart';
 import 'package:manga_fox_app/ui/search/search_page.dart';
 import 'package:manga_fox_app/ui/user/in_app_page.dart';
 import 'package:manga_fox_app/ui/user/user_page.dart';
@@ -43,6 +44,31 @@ class _HomePageState extends State<HomePage> {
     _controller.loadExManga();
   }
 
+  final bottomNav = <BottomNavigationBarItem>[
+    BottomNavigationBarItem(
+        label: 'Homepage',
+        icon: SvgPicture.asset(AppImage.icHomeDefault),
+        activeIcon: SvgPicture.asset(AppImage.icHomeActive)),
+    BottomNavigationBarItem(
+        label: 'Genres',
+        icon: SvgPicture.asset(AppImage.icGenresDefault),
+        activeIcon: SvgPicture.asset(AppImage.icGenresActive)),
+    BottomNavigationBarItem(
+        label: 'Novel',
+        icon: SvgPicture.asset(AppImage.icNovelDefault),
+        activeIcon: SvgPicture.asset(AppImage.icNovelActive)),
+    BottomNavigationBarItem(
+      label: 'Library',
+      icon: SvgPicture.asset(AppImage.icLibraryDefault),
+      activeIcon: SvgPicture.asset(AppImage.icLibraryActive),
+    ),
+    BottomNavigationBarItem(
+      label: 'User',
+      icon: SvgPicture.asset(AppImage.icUserDefault),
+      activeIcon: SvgPicture.asset(AppImage.icUserActive),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
@@ -57,26 +83,7 @@ class _HomePageState extends State<HomePage> {
             selectedFontSize: 10,
             unselectedFontSize: 10,
             unselectedLabelStyle: AppStyle.mainStyle,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  label: 'Homepage',
-                  icon: SvgPicture.asset(AppImage.icHomeDefault),
-                  activeIcon: SvgPicture.asset(AppImage.icHomeActive)),
-              BottomNavigationBarItem(
-                  label: 'Genres',
-                  icon: SvgPicture.asset(AppImage.icGenresDefault),
-                  activeIcon: SvgPicture.asset(AppImage.icGenresActive)),
-              BottomNavigationBarItem(
-                label: 'Library',
-                icon: SvgPicture.asset(AppImage.icLibraryDefault),
-                activeIcon: SvgPicture.asset(AppImage.icLibraryActive),
-              ),
-              BottomNavigationBarItem(
-                label: 'User',
-                icon: SvgPicture.asset(AppImage.icUserDefault),
-                activeIcon: SvgPicture.asset(AppImage.icUserActive),
-              ),
-            ],
+            items: bottomNav,
             currentIndex: currentIndex.value,
             unselectedItemColor: const Color(0xff4B526C),
             selectedItemColor: appColor.primary,
@@ -94,8 +101,10 @@ class _HomePageState extends State<HomePage> {
                     : tab == 1
                         ? const GenresPage()
                         : tab == 2
-                            ? LibraryPage()
-                            : const UserPage());
+                            ? const NovelPage()
+                            : tab == 3
+                                ? LibraryPage()
+                                : const UserPage());
           },
           valueListenable: currentIndex,
         )));

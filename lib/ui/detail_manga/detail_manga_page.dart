@@ -25,8 +25,8 @@ import 'package:manga_fox_app/data/response/list_chapper_response.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
 import 'package:manga_fox_app/ui/detail_manga/bottom_sheet_report.dart';
 import 'package:manga_fox_app/ui/detail_manga/detail_manga_controller.dart';
-import 'package:manga_fox_app/ui/detail_manga/widget/item_chapter.dart';
 import 'package:manga_fox_app/ui/manga_reader/manga_reader_page.dart';
+import 'package:manga_fox_app/ui/novel/detail/widget/item_chapter.dart';
 import 'package:manga_fox_app/ui/user/in_app_page.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -334,7 +334,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
               flex: 1,
               child: ElevatedButton(
                 onPressed: () async {
-                  if(widget.toDownload == true) {
+                  if (widget.toDownload == true) {
                     var url = Platform.isAndroid
                         ? AppConfig.urlStoreAndroid
                         : AppConfig.urlStoreIos;
@@ -518,7 +518,9 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
               },
               child: Text("LATEST",
                   style: AppStyle.mainStyle.copyWith(
-                      color: _controller.revert ? appColor.primaryBlack3 : appColor.primary,
+                      color: _controller.revert
+                          ? appColor.primaryBlack3
+                          : appColor.primary,
                       fontWeight: FontWeight.w500,
                       fontSize: 11)),
             ),
@@ -539,7 +541,9 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
               },
               child: Text("OLDEST",
                   style: AppStyle.mainStyle.copyWith(
-                      color: !_controller.revert ? appColor.primaryBlack3 : appColor.primary,
+                      color: !_controller.revert
+                          ? appColor.primaryBlack3
+                          : appColor.primary,
                       fontWeight: FontWeight.w500,
                       fontSize: 11)),
             ),
