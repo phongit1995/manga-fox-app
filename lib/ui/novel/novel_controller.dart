@@ -16,7 +16,7 @@ class NovelController {
 
   Future loadMangas(String category) async {
     var response = await ApiServiceNovel.loadMangaCategoryResponse(category,
-        numberItem: 500);
+        numberItem: 50);
     genres.value = category;
     novels.value = response?.data ?? [];
   }

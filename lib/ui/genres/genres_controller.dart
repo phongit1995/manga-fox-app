@@ -8,7 +8,7 @@ class GenresController {
   ValueNotifier<String> genresSelect = ValueNotifier<String>('');
 
   Future loadMangas(String category) async {
-    var response = await ApiService.loadMangaCategoryResponse(category, numberItem: 500);
+    var response = await ApiService.loadMangaCategoryResponse(category, numberItem: 50);
     genres.value = category;
     mangas.value = response?.data ?? [];
   }
