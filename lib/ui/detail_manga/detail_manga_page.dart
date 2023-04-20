@@ -547,8 +547,17 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                       fontWeight: FontWeight.w500,
                       fontSize: 11)),
             ),
+            const Spacer(),
+            InkWell(
+              onTap: () {
+                viewGrid.value = !viewGrid.value;
+              },
+              child: SvgPicture.asset(AppImage.icList,
+                  color: appColor.primaryBlack),
+            ),
           ],
         ),
+        const SizedBox(height: 10),
         isLoading
             ? ShimmerLoading(isLoading: isLoading, child: _buildLoading())
             : ValueListenableBuilder(

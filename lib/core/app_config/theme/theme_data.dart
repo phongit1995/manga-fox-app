@@ -8,7 +8,7 @@ class AppThemData {
     return _singleton;
   }
 
-  final ValueNotifier<ThemeData> themeData = ValueNotifier<ThemeData>(light);
+  final ValueNotifier<ThemeData> themeData = ValueNotifier<ThemeData>(dark);
 
   AppThemData._internal();
 

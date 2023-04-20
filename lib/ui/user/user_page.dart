@@ -24,7 +24,7 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  final ValueNotifier<bool> isDarkMode = ValueNotifier(false);
+  final ValueNotifier<bool> isDarkMode = ValueNotifier(true);
   final ValueNotifier<bool> isShowNotification = ValueNotifier(false);
   final androidId = AppConfig.androidId;
   final appleId = AppConfig.iosId;
