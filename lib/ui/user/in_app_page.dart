@@ -4,6 +4,7 @@ import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/iap_purchase.helper.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class InAppPage extends StatefulWidget {
   const InAppPage({super.key});
@@ -54,7 +55,6 @@ class _InAppPageState extends State<InAppPage> {
                     final PurchaseParam purchaseParam =
                         PurchaseParam(productDetails: purchases[selectedIap]);
                     await IapPurchaseHelper().buyIap(purchaseParam);
-                    Navigator.of(context).pop();
                   },
                   style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -79,15 +79,28 @@ class _InAppPageState extends State<InAppPage> {
                   )),
             ),
             const SizedBox(height: 12),
-            Container(
-              alignment: Alignment.center,
-              child: Text(
-                "Restore purchase",
-                style: AppStyle.mainStyle.copyWith(
-                    color: const Color(0xff4B526C),
-                    fontWeight: FontWeight.w500,
-                    decoration: TextDecoration.underline,
-                    fontSize: 11),
+            InkWell(
+              onTap: (){
+                IapPurchaseHelper().restorePurchases();
+                Fluttertoast.showToast(
+                  msg: "Restore Purchase Success",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  fontSize: 16.0
+                );
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "Restore purchase",
+                  style: AppStyle.mainStyle.copyWith(
+                      color: const Color(0xff4B526C),
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline,
+                      fontSize: 11),
+                ),
               ),
             )
           ],

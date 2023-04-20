@@ -55,7 +55,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 )),
                 options: CarouselOptions(
                   height: 160,
-                  initialPage: 0,
+                  initialPage: 1,
                   enableInfiniteScroll: false,
                   reverse: false,
                   autoPlay: false,
