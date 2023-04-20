@@ -44,7 +44,7 @@ class HomeController {
     category: [
       "Fantasy",
       "Drama",
-    ],numberItem: 4);
+    ],numberItem: 7);
     bannerManga.value = response?.data ?? [];
   }
 

@@ -25,7 +25,7 @@ class AppConfig {
   static String APPLOVIN_INTERSTITAL_AD_UNIT = Platform.isAndroid ?  APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID : APPLOVIN_INTERSTITAL_AD_UNIT_IOS;
   static String APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID = '697b37b429068eff';
 
-  static String APPLOVIN_INTERSTITAL_AD_UNIT_IOS = '697b37b429068eff';
+  static String APPLOVIN_INTERSTITAL_AD_UNIT_IOS = '07de4b9dca7190fe';
 
   //Count click to show ads
   static int countClickAction = 5;
@@ -37,5 +37,8 @@ class AppConfig {
           "manga.fox.manga.reader.free.one.month",
           "manga.fox.manga.reader.free.one.year"
         ]
-      : [];
+      : [
+        "manga.fox.manga.reader.free.one.month",
+        "manga.fox.manga.reader.free.one.year"
+      ];
 }

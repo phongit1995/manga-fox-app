@@ -11,7 +11,7 @@ class AppSettingData {
     return _singleton;
   }
 
-  final ValueNotifier<bool> userPremium = ValueNotifier<bool>(Platform.isIOS? true:false);
+  final ValueNotifier<bool> userPremium = ValueNotifier<bool>(false);
 
   void updateIsVip(bool update) {
     userPremium.value = update;

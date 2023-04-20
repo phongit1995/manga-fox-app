@@ -2,14 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
 
 class BannerWidget extends StatefulWidget {
   final List<Manga> mangas;
-
+  
   const BannerWidget({super.key, required this.mangas});
+  
 
   @override
   State<BannerWidget> createState() => _BannerWidgetState();
@@ -17,9 +20,20 @@ class BannerWidget extends StatefulWidget {
 
 class _BannerWidgetState extends State<BannerWidget> {
   final CarouselController _controller = CarouselController();
-
+  final HandlerAction appAction = HandlerAction();
   final indexPage = ValueNotifier<int>(0);
-
+  
+  transferToDetailManga(Manga manga) {
+      appAction.handlerAction(() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DetailMangaPage(
+                    manga: manga,
+                  )),
+        );
+      });
+    }
   @override
   Widget build(BuildContext context) {
     final appColor = Theme.of(context).extension<AppColor>()!;
@@ -66,56 +80,62 @@ class _BannerWidgetState extends State<BannerWidget> {
           CarouselSlider(
               carouselController: _controller,
               items: [
-                ...widget.mangas.map((m) => Stack(
-                      children: [
-                        SizedBox(
-                          width: double.maxFinite,
-                          height: 160,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: CachedNetworkImage(
-                              imageUrl: m.image ?? '',
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
+                ...widget.mangas.map((m) => InkWell(
+                  onTap: (){
+                    print('onTab');
+                    transferToDetailManga(m);
+                  },
+                  child: Stack(
+                        children: [
+                          SizedBox(
+                            width: double.maxFinite,
+                            height: 160,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: CachedNetworkImage(
+                                imageUrl: m.image ?? '',
+                                fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(8)),
+                          Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(8)),
+                              width: double.maxFinite,
+                              height: 160),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
                             width: double.maxFinite,
-                            height: 160),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          width: double.maxFinite,
-                          child: Column(
-                            children: [
-                              const Spacer(),
-                              Text(m.name ?? "",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: AppStyle.mainStyle.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontFamily: "PlayfairDisplay",
-                                      fontWeight: FontWeight.w400)),
-                              const SizedBox(height: 4),
-                              Text(m.author ?? "",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: AppStyle.mainStyle.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 7,
-                                      letterSpacing: 0.8,
-                                      fontFamily: "PlayfairDisplay",
-                                      fontWeight: FontWeight.w400)),
-                              const SizedBox(height: 17),
-                            ],
-                          ),
-                        )
-                      ],
-                    ))
+                            child: Column(
+                              children: [
+                                const Spacer(),
+                                Text(m.name ?? "",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: AppStyle.mainStyle.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontFamily: "PlayfairDisplay",
+                                        fontWeight: FontWeight.w400)),
+                                const SizedBox(height: 4),
+                                Text(m.author ?? "",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: AppStyle.mainStyle.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 7,
+                                        letterSpacing: 0.8,
+                                        fontFamily: "PlayfairDisplay",
+                                        fontWeight: FontWeight.w400)),
+                                const SizedBox(height: 17),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                ))
               ],
               options: CarouselOptions(
                 height: 160,
