@@ -12,10 +12,11 @@ class InAppReviewHelper {
 
   Future<void> requestReview() async {
     if (await inAppReview.isAvailable()) {
+      print(_count);
       if (_count % 5 == 0) {
         inAppReview.requestReview();
-        _count++;
       }
+      _count++;
     }
   }
 }
