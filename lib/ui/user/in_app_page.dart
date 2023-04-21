@@ -1,10 +1,14 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
 import 'package:manga_fox_app/core/iap_purchase.helper.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class InAppPage extends StatefulWidget {
   const InAppPage({super.key});
@@ -34,7 +38,14 @@ class _InAppPageState extends State<InAppPage> {
       });
     }
   }
-
+  Future<void> _launchUrl({String? url}) async {
+    if (!await launchUrl(
+      Uri.parse(url ?? AppConfig.urlTerm),
+      mode: LaunchMode.externalApplication,
+    )) {
+      EasyLoading.showError("Can not open link");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
@@ -225,11 +236,33 @@ class _InAppPageState extends State<InAppPage> {
                               // const SizedBox(height: 30),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                         ],
                       );
                     },
                   ),
+                  Center(
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(text: 'Terms of Service ' ,style: AppStyle.mainStyle.copyWith(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 14), 
+                        recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(url:AppConfig.urlTerm),
+                        ),
+                          TextSpan(text: ' & ', style: AppStyle.mainStyle.copyWith(
+                        color: const Color(0xffFF734A),
+                        fontWeight: FontWeight.w300,
+                        fontSize: 14),),
+                          TextSpan(text: 'Privacy Policy',style: AppStyle.mainStyle.copyWith(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 14),
+                        recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(url:AppConfig.urlTerm))
+                        ]
+                      ),
+                    ),
+                  ),
+                  
                 ],
               ),
             ),
