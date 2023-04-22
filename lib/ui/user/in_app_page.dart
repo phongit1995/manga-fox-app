@@ -107,7 +107,7 @@ class _InAppPageState extends State<InAppPage> {
                 child: Text(
                   "Restore purchase",
                   style: AppStyle.mainStyle.copyWith(
-                      color: const Color(0xff4B526C),
+                      color: Colors.white,
                       fontWeight: FontWeight.w500,
                       decoration: TextDecoration.underline,
                       fontSize: 11),
@@ -154,7 +154,7 @@ class _InAppPageState extends State<InAppPage> {
                   Text(
                     "When you pay the fee to become a vip\nmember, you will get the following benefits:",
                     style: AppStyle.mainStyle.copyWith(
-                        color: const Color(0xff4B526C),
+                        color: Colors.white,
                         fontWeight: FontWeight.w300,
                         fontSize: 12),
                   ),
@@ -164,7 +164,7 @@ class _InAppPageState extends State<InAppPage> {
                   _buildCheck("Landscape reading mode"),
                   const SizedBox(height: 6),
                   _buildCheck("Download more chapter"),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 20),
                   ListView.builder(
                     itemCount: purchases.length,
                     shrinkWrap: true,
@@ -245,10 +245,10 @@ class _InAppPageState extends State<InAppPage> {
                     child: RichText(
                       text: TextSpan(
                         children: [
-                          TextSpan(text: 'Terms of Service ' ,style: AppStyle.mainStyle.copyWith(
+                          TextSpan(text: 'Terms of Use ' ,style: AppStyle.mainStyle.copyWith(
                         fontWeight: FontWeight.w300,
                         fontSize: 14), 
-                        recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(url:AppConfig.urlTerm),
+                        recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(url:'https://doc-hosting.flycricket.io/manga-reader-terms-of-use/74be8290-d856-4319-8366-c4bdcd7bfc26/terms'),
                         ),
                           TextSpan(text: ' & ', style: AppStyle.mainStyle.copyWith(
                         color: const Color(0xffFF734A),
@@ -262,7 +262,27 @@ class _InAppPageState extends State<InAppPage> {
                       ),
                     ),
                   ),
-                  
+                  const SizedBox(height: 5,),
+                  Text('- Payment will be charged to your Apple account at confirmation of purchase (after you accept by single-touch identification, facial recognition, or otherwise the subscription terms on the pop-up screen provided by Apple',style: AppStyle.mainStyle.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12),),
+                  Text('- You can cancel the subscription anytime by turning off auto-renewal through your Account settings.',style: AppStyle.mainStyle.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12),),
+                  Text('To avoid being charged, cancel the subscription in your Account settings at least 24 hours before the end of the current subscription period.',style: AppStyle.mainStyle.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12),),
+                  Text('You alone can manage your subscription. Learn more about managing subscriptions (and how to cancel them) on Apple support page.',style: AppStyle.mainStyle.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12),),
+                  Text("If you purchased a subscription through the Apple Store and are eligible for a refund, you'll have to request it directly from Apple. To request a refund, follow these instructions from the Apple's support page.",style: AppStyle.mainStyle.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12),)
                 ],
               ),
             ),
@@ -280,7 +300,7 @@ class _InAppPageState extends State<InAppPage> {
         Text(
           content,
           style: AppStyle.mainStyle.copyWith(
-              color: const Color(0xff4B526C), fontWeight: FontWeight.w400, fontSize: 12),
+              color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12),
         ),
       ],
     );
