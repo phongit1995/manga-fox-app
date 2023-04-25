@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/core/utils/handler_action.dart';
-import 'package:manga_fox_app/core/widget/separator.dart';
-import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
-import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
-import 'package:manga_fox_app/ui/list_manga/widget/item_manga.dart';
+import 'package:manga_reader_app/core/utils/handler_action.dart';
+import 'package:manga_reader_app/core/widget/separator.dart';
+import 'package:manga_reader_app/core/widget/shimmer_loading.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/ui/detail_manga/detail_manga_page.dart';
+import 'package:manga_reader_app/ui/list_manga/widget/item_manga.dart';
 
 class ListManga extends StatelessWidget {
   final List<Manga> mangas;

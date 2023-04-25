@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/core/app_config/app_style.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:manga_reader_app/core/app_config/app_style.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
 
 class ItemCategory extends StatelessWidget {
   final String pathUrl;

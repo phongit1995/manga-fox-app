@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/data/dao/manga_dao.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/data/dao/manga_dao.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
 
 class LibraryController {
   ValueNotifier<List<Manga>> mangaHistory = ValueNotifier<List<Manga>>([]);

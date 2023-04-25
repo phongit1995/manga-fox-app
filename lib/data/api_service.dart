@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:manga_fox_app/app_config.dart';
-import 'package:manga_fox_app/core/utils/setting_utils.dart';
-import 'package:manga_fox_app/data/response/generate_response.dart';
-import 'package:manga_fox_app/data/response/list_chapper_response.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/app_config.dart';
+import 'package:manga_reader_app/core/utils/setting_utils.dart';
+import 'package:manga_reader_app/data/response/generate_response.dart';
+import 'package:manga_reader_app/data/response/list_chapper_response.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
 
 class ApiService {
   final baseUrl = "";

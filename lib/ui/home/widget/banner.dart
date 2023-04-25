@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/core/app_config/app_style.dart';
-import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/core/app_config/app_style.dart';
+import 'package:manga_reader_app/core/widget/shimmer_loading.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
 
 class BannerWidget extends StatefulWidget {
   final List<Manga> mangas;

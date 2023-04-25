@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
 
 class MangaDAO {
   static const mangaHistory = "mangaHistory";

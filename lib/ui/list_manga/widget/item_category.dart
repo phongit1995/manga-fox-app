@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_reader_app/core/app_config/app_style.dart';
 
 class ItemCategoryM extends StatelessWidget {
   final String content;

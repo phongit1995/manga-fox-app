@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:manga_fox_app/core/app_config/app_style.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:manga_reader_app/core/app_config/app_style.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
 
 class BottomSheetReport extends StatefulWidget {
   const BottomSheetReport({Key? key}) : super(key: key);

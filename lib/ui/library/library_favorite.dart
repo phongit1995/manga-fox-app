@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:manga_fox_app/core/app_config/app_image.dart';
-import 'package:manga_fox_app/core/app_config/app_style.dart';
-import 'package:manga_fox_app/core/utils/handler_action.dart';
-import 'package:manga_fox_app/core/widget/separator.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
-import 'package:manga_fox_app/data/dao/manga_dao.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
-import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
-import 'package:manga_fox_app/ui/library/bottom_sheet_setting_more_option.dart';
+import 'package:manga_reader_app/core/app_config/app_image.dart';
+import 'package:manga_reader_app/core/app_config/app_style.dart';
+import 'package:manga_reader_app/core/utils/handler_action.dart';
+import 'package:manga_reader_app/core/widget/separator.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
+import 'package:manga_reader_app/data/dao/manga_dao.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/ui/detail_manga/detail_manga_page.dart';
+import 'package:manga_reader_app/ui/library/bottom_sheet_setting_more_option.dart';
 
 class LibraryFavorite extends StatelessWidget {
   const LibraryFavorite({Key? key}) : super(key: key);

@@ -1,4 +1,4 @@
-# manga_fox_app
+# manga_reader_app
 
 A new Flutter project.
 

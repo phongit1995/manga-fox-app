@@ -1,6 +1,6 @@
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:manga_fox_app/data/response/list_chapper_response.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/data/response/list_chapper_response.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
 
 class Download {
 

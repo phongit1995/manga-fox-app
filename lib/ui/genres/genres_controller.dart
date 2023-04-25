@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/data/api_service.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/data/api_service.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
 
 class GenresController {
   ValueNotifier<List<Manga>> mangas = ValueNotifier<List<Manga>>([]);

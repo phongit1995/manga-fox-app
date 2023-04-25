@@ -6,7 +6,7 @@ class AppConfig {
   static const String baseApiUrlAndroid= 'https://manga-reader-android-v21.readingnovelfull.com/';
   static const String baseApiUrlIos= 'https://manga-reader-ios-v5.readingnovelfull.com/';
 
-  static const String androidId = "reader.manga.app.fox.top";
+  static const String androidId = "reader.app.free.manga.reader";
   static const String iosId = "manga.fox.manga.reader.free";
   static const String urlFacebook =
       "https://www.facebook.com/groups/%20mangamanhwaanime";
@@ -33,8 +33,8 @@ class AppConfig {
 
   static List<String> iapSubscription = Platform.isAndroid
       ? [
-          "reader.manga.app.fox.top.one.month",
-          "reader.manga.app.fox.top.one.year"
+          "reader.app.free.manga.reader.one.month",
+          "reader.app.free.manga.reader.one.year"
         ]
       : [];
 }

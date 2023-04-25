@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:manga_fox_app/core/app_setting.dart';
+import 'package:manga_reader_app/core/app_setting.dart';
 
 class IapPurchaseHelper {
   IapPurchaseHelper._internal();

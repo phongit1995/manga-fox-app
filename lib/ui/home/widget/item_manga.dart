@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:manga_fox_app/core/app_config/app_image.dart';
-import 'package:manga_fox_app/core/app_config/app_style.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:manga_reader_app/core/app_config/app_image.dart';
+import 'package:manga_reader_app/core/app_config/app_style.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
 
 class ItemManga extends StatelessWidget {
   final String title;

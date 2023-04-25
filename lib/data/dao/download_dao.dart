@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:manga_fox_app/data/response/list_chapper_response.dart';
+import 'package:manga_reader_app/data/response/list_chapper_response.dart';
 
 class DownloadDAO {
   final _download = "downloadImage";

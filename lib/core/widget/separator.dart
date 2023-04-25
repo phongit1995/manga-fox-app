@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
 
 class Separator extends StatelessWidget {
   const Separator({Key? key, this.height = 0.5, this.color})

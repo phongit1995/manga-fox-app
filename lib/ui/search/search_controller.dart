@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/core/utils/setting_utils.dart';
-import 'package:manga_fox_app/data/api_service.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/core/utils/setting_utils.dart';
+import 'package:manga_reader_app/data/api_service.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
 
 class SearchController {
   final SettingUtils settingUtils = SettingUtils();

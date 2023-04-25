@@ -1,6 +1,6 @@
 import 'package:applovin_max/applovin_max.dart';
-import 'package:manga_fox_app/app_config.dart';
-import 'package:manga_fox_app/config.dart';
+import 'package:manga_reader_app/app_config.dart';
+import 'package:manga_reader_app/config.dart';
 
 class ApplovinService {
 

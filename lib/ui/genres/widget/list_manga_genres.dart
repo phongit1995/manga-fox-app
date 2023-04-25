@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/core/utils/handler_action.dart';
-import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
-import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
+import 'package:manga_reader_app/core/utils/handler_action.dart';
+import 'package:manga_reader_app/core/widget/shimmer_loading.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/ui/detail_manga/detail_manga_page.dart';
 
 import 'item_manga.dart';
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:manga_fox_app/core/app_config/app_image.dart';
-import 'package:manga_fox_app/core/app_config/app_style.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
-import 'package:manga_fox_app/data/response/generate_response.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
-import 'package:manga_fox_app/ui/list_manga/list_manga.dart';
-import 'package:manga_fox_app/ui/search/search_controller.dart';
+import 'package:manga_reader_app/core/app_config/app_image.dart';
+import 'package:manga_reader_app/core/app_config/app_style.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
+import 'package:manga_reader_app/data/response/generate_response.dart';
+import 'package:manga_reader_app/data/response/manga_response.dart';
+import 'package:manga_reader_app/ui/list_manga/list_manga.dart';
+import 'package:manga_reader_app/ui/search/search_controller.dart';
 
 class ListMangaGeners extends StatefulWidget {
   final String title;

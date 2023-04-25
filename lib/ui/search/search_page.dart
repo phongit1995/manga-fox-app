@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:manga_fox_app/core/app_config/app_style.dart';
-import 'package:manga_fox_app/core/utils/handler_action.dart';
-import 'package:manga_fox_app/core/widget/search_widget.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
-import 'package:manga_fox_app/data/response/generate_response.dart';
-import 'package:manga_fox_app/ui/home/home_controller.dart';
-import 'package:manga_fox_app/ui/list_manga/list_manga.dart';
-import 'package:manga_fox_app/ui/list_manga/list_manga_geners.dart';
-import 'package:manga_fox_app/ui/search/search_controller.dart';
-import 'package:manga_fox_app/ui/search/widget/item_suggest.dart';
+import 'package:manga_reader_app/core/app_config/app_style.dart';
+import 'package:manga_reader_app/core/utils/handler_action.dart';
+import 'package:manga_reader_app/core/widget/search_widget.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
+import 'package:manga_reader_app/data/response/generate_response.dart';
+import 'package:manga_reader_app/ui/home/home_controller.dart';
+import 'package:manga_reader_app/ui/list_manga/list_manga.dart';
+import 'package:manga_reader_app/ui/list_manga/list_manga_geners.dart';
+import 'package:manga_reader_app/ui/search/search_controller.dart';
+import 'package:manga_reader_app/ui/search/widget/item_suggest.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);

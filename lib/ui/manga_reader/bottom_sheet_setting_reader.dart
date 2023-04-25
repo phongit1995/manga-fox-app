@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:manga_fox_app/core/app_config/app_image.dart';
-import 'package:manga_fox_app/core/app_config/app_style.dart';
-import 'package:manga_fox_app/core/utils/screen_brightness_util.dart';
-import 'package:manga_fox_app/core/utils/setting_utils.dart';
-import 'package:manga_fox_app/data/app_colors.dart';
+import 'package:manga_reader_app/core/app_config/app_image.dart';
+import 'package:manga_reader_app/core/app_config/app_style.dart';
+import 'package:manga_reader_app/core/utils/screen_brightness_util.dart';
+import 'package:manga_reader_app/core/utils/setting_utils.dart';
+import 'package:manga_reader_app/data/app_colors.dart';
 
 class BottomSheetSettingReader extends StatefulWidget {
   const BottomSheetSettingReader({Key? key}) : super(key: key);
