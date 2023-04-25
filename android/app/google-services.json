@@ -1,113 +1,34 @@
 {
   "project_info": {
-    "project_number": "467544295906",
-    "project_id": "manga-reader-manganelo",
-    "storage_bucket": "manga-reader-manganelo.appspot.com"
+    "project_number": "550232236932",
+    "project_id": "manga-reader-project",
+    "storage_bucket": "manga-reader-project.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:467544295906:android:09bf3ca8fbb5382df811bb",
-        "android_client_info": {
-          "package_name": "manga.fox.manga.reader.free"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDM-Au7eTr4N2Wz5anS3W8hwyvO2t8FB4g"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "467544295906-nidumdh5bgpphvj5r7ds54kfo70vmbj9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.mangaFoxApp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:467544295906:android:6533ebba75eede64f811bb",
-        "android_client_info": {
-          "package_name": "manga.reader.ltd.manga.app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDM-Au7eTr4N2Wz5anS3W8hwyvO2t8FB4g"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "467544295906-nidumdh5bgpphvj5r7ds54kfo70vmbj9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.mangaFoxApp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:467544295906:android:d61f2590f2e6129bf811bb",
+        "mobilesdk_app_id": "1:550232236932:android:b729f0c1ecf1693b76b3d1",
         "android_client_info": {
           "package_name": "reader.app.free.manga.reader"
         }
       },
       "oauth_client": [
         {
-          "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
+          "client_id": "550232236932-237j2nlqoft90shlrfdloi8vcldv84dr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDM-Au7eTr4N2Wz5anS3W8hwyvO2t8FB4g"
+          "current_key": "AIzaSyBMc1CUyPUtUDwNGnQ7v0ucrsc5qT9y-Jg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "467544295906-i6gr55tlvc7v91ad315gc2q8gtouaio1.apps.googleusercontent.com",
+              "client_id": "550232236932-237j2nlqoft90shlrfdloi8vcldv84dr.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "467544295906-nidumdh5bgpphvj5r7ds54kfo70vmbj9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.mangaFoxApp"
-              }
             }
           ]
         }

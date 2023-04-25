@@ -50,21 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDM-Au7eTr4N2Wz5anS3W8hwyvO2t8FB4g',
-    appId: '1:467544295906:android:d61f2590f2e6129bf811bb',
-    messagingSenderId: '467544295906',
-    projectId: 'manga-reader-manganelo',
-    storageBucket: 'manga-reader-manganelo.appspot.com',
+    apiKey: 'AIzaSyBMc1CUyPUtUDwNGnQ7v0ucrsc5qT9y-Jg',
+    appId: '1:550232236932:android:b729f0c1ecf1693b76b3d1',
+    messagingSenderId: '550232236932',
+    projectId: 'manga-reader-project',
+    storageBucket: 'manga-reader-project.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCxYdVSJgd-mITl8mTMMJebG4SpCvit1nY',
-    appId: '1:467544295906:ios:410cef79d593c13ef811bb',
-    messagingSenderId: '467544295906',
-    projectId: 'manga-reader-manganelo',
-    storageBucket: 'manga-reader-manganelo.appspot.com',
-    androidClientId: '467544295906-8gu7292hgqfag9m516ccpr8ufa208k2o.apps.googleusercontent.com',
-    iosClientId: '467544295906-t4dg613rq1q8f0bb5nlgjq3ue6fptf1k.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAmeTDhEDbPx_bUItTeVUrILMWnhGgjOGw',
+    appId: '1:550232236932:ios:40dc9f4dd10e4ff976b3d1',
+    messagingSenderId: '550232236932',
+    projectId: 'manga-reader-project',
+    storageBucket: 'manga-reader-project.appspot.com',
+    iosClientId: '550232236932-ctg7av2105rtt5qdnkhutmn00saovc48.apps.googleusercontent.com',
     iosBundleId: 'manga.fox.manga.reader.free',
   );
 }
