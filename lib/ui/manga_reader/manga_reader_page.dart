@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:inview_notifier_list/inview_notifier_list.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
+import 'package:manga_fox_app/core/status_bar.dart';
 import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/api_service.dart';
@@ -87,15 +88,6 @@ class _MangaReaderState extends State<MangaReader>
   void initState() {
     super.initState();
     _chapters = widget.chapters;
-    // _chapters.sort(
-    //   (a, b) {
-    //     if ((a.index ?? 0) > (b.index ?? 0)) {
-    //       return 1;
-    //     } else {
-    //       return 0;
-    //     }
-    //   },
-    // );
     updateChap(widget.chapter);
     currentData();
     _controller = PageController();
@@ -139,6 +131,7 @@ class _MangaReaderState extends State<MangaReader>
   @override
   Widget build(BuildContext context) {
     final appColor = Theme.of(context).extension<AppColor>()!;
+    StatusBarCommon().showStatusBarReadManga();
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
@@ -256,6 +249,7 @@ class _MangaReaderState extends State<MangaReader>
                         children: [
                           InkWell(
                             onTap: () {
+                              StatusBarCommon().showCurrentStatusBar();
                               Navigator.of(context).pop();
                             },
                             child: SvgPicture.asset(AppImage.icBackWhite,
@@ -547,6 +541,7 @@ class _MangaReaderState extends State<MangaReader>
                           InkWell(
                             onTap: () {
                               Navigator.of(context).pop();
+                              StatusBarCommon().showCurrentStatusBar();
                             },
                             child: SvgPicture.asset(AppImage.icBackWhite,
                                 color: appColor.primaryBlack),

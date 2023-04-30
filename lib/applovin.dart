@@ -1,6 +1,6 @@
 import 'package:applovin_max/applovin_max.dart';
 import 'package:manga_fox_app/app_config.dart';
-import 'package:manga_fox_app/config.dart';
+import 'package:manga_fox_app/core/status_bar.dart';
 
 class ApplovinService {
 
@@ -22,7 +22,9 @@ class ApplovinService {
       onAdDisplayedCallback: (ad) {},
       onAdDisplayFailedCallback: (ad, error) {},
       onAdClickedCallback: (ad) {},
-      onAdHiddenCallback: (ad) {},
+      onAdHiddenCallback: (ad) {
+         StatusBarCommon().showCurrentStatusBar();
+      },
     ));
   }
 
