@@ -396,19 +396,51 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                         elevation: 0,
                         backgroundColor: Colors.transparent,
                         alignment: Alignment.centerRight),
-                    child: Container(
-                      height: 43,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color(0xffFF734A)),
-                      child: Text(
-                        "Read Now".toUpperCase(),
-                        style: AppStyle.mainStyle.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15),
-                      ),
+                    child: ValueListenableBuilder(
+                      valueListenable:
+                          Hive.box(ChapterDAO().chapterReadingDao).listenable(),
+                      builder: (context, Box<dynamic> box, child) {
+                        ListChapter? c;
+                        var chapterId =
+                            ChapterDAO().getReading(widget.manga.sId ?? "") ??
+                                widget.manga.firstChapter?.sId ??
+                                "";
+                        if (chapterId.isNotEmpty) {
+                          var e = _controller.chapter.value.firstWhere(
+                              (element) => element.sId == chapterId,
+                              orElse: () => ListChapter());
+                          c = e.sId == null ? null : e;
+                        }
+                        return Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: const Color(0xffFF734A)),
+                            alignment: Alignment.center,
+                            height: 48,
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: FittedBox(
+                              child: c == null
+                                  ? Text(
+                                      "Read Now".toUpperCase(),
+                                      style: AppStyle.mainStyle.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Text(
+                                      "CONTINUE ${c.name ?? ''}",
+                                      style: AppStyle.mainStyle.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                            ));
+                      },
                     ),
                   ),
                 ),
