@@ -7,8 +7,10 @@ import 'package:manga_fox_app/ui/novel/item_novel.dart';
 
 class ListNovelGenres extends StatelessWidget {
   final List<Novel> novels;
+  final ScrollController scroll;
+  final Widget lastList;
 
-  const ListNovelGenres({super.key, required this.novels});
+  const ListNovelGenres({super.key, required this.novels, required this.scroll, required this.lastList});
 
   @override
   Widget build(BuildContext context) {
@@ -37,28 +39,37 @@ class ListNovelGenres extends StatelessWidget {
         },
       );
     }
-    return GridView.builder(
-      scrollDirection: Axis.vertical,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisExtent: 200,
-          crossAxisSpacing: 13,
-          mainAxisSpacing: 13),
-      itemCount: novels.length,
-      shrinkWrap: true,
-      padding: EdgeInsets.zero,
-      itemBuilder: (context, index) {
-        final novel = novels[index];
-        return ItemNovel(
-            title: novel.name ?? '',
-            pathUrl: novel.image ?? '',
-            viewCount: novel.mapView(),
-            rate: novel.mapRate(),
-            onTap: () {
-              transferToDetail(context, novel);
+    return SingleChildScrollView(
+      controller: scroll,
+      child: Column(
+        children: [
+          GridView.builder(
+            scrollDirection: Axis.vertical,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisExtent: 200,
+                crossAxisSpacing: 13,
+                mainAxisSpacing: 13),
+            itemCount: novels.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemBuilder: (context, index) {
+              final novel = novels[index];
+              return ItemNovel(
+                  title: novel.name ?? '',
+                  pathUrl: novel.image ?? '',
+                  viewCount: novel.mapView(),
+                  rate: novel.mapRate(),
+                  onTap: () {
+                    transferToDetail(context, novel);
+                  },
+                  isLoading: false);
             },
-            isLoading: false);
-      },
+          ),
+          lastList
+        ],
+      ),
     );
   }
 

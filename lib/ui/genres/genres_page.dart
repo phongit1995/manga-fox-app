@@ -23,10 +23,17 @@ class _GenresPageState extends State<GenresPage> {
   final homeController = HomeController();
   final _controller = GenresController();
   final tabIndex = ValueNotifier<int>(0);
+  final scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        _controller.loadMoreCategoryManga();
+      }
+    });
   }
 
   @override
@@ -111,8 +118,28 @@ class _GenresPageState extends State<GenresPage> {
                     Container(height: 20),
                     Expanded(
                       child: ValueListenableBuilder<List<Manga>>(
-                        builder: (context, value, child) =>
-                            ListMangaGenres(mangas: value),
+                        builder: (context, value, child) => ListMangaGenres(
+                          mangas: value,
+                          scroll: scrollController,
+                          lastList: ValueListenableBuilder<bool>(
+                            valueListenable: _controller.loadMore,
+                            builder: (context, isLoading, child) {
+                              return Visibility(
+                                visible: isLoading,
+                                child: const SizedBox(
+                                  height: 40,
+                                  child: Center(
+                                    child: SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                         valueListenable: _controller.mangas,
                       ),
                     )

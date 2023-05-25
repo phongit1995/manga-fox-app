@@ -231,7 +231,11 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: exManga.isEmpty ? 10 : exManga.length,
+                  itemCount: exManga.isEmpty
+                      ? 10
+                      : exManga.length > 20
+                          ? 20
+                          : exManga.length,
                   itemBuilder: (context, index) {
                     var manga = exManga.isEmpty ? Manga() : exManga[index];
                     return Container(
@@ -284,7 +288,11 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: topManga.isEmpty ? 10 : topManga.length,
+                  itemCount: topManga.isEmpty
+                      ? 10
+                      : topManga.length > 20
+                          ? 20
+                          : topManga.length,
                   itemBuilder: (context, index) {
                     var manga = topManga.isEmpty ? Manga() : topManga[index];
                     return Container(
@@ -337,7 +345,11 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: lastManga.isEmpty ? 10 : lastManga.length,
+                  itemCount: lastManga.isEmpty
+                      ? 10
+                      : lastManga.length > 20
+                          ? 20
+                          : lastManga.length,
                   itemBuilder: (context, index) {
                     var manga = lastManga.isEmpty ? Manga() : lastManga[index];
                     return Container(

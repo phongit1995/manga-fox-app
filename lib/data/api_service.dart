@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/response/generate_response.dart';
@@ -31,20 +32,21 @@ class ApiService {
     }
   }
 
-  static Future<MangaResponse?> searchMangaResponse(String name) async {
+  static Future<MangaResponse?> searchMangaResponse(String name, {int page = 1}) async {
     try {
       var response = await dio.post("manga/search-manga",
-          data: {"page": 1, "numberItem": 100, "name": name});
+          data: {"page": page, "numberItem": 100, "name": name});
+      Logger().d(response.data);
       return MangaResponse.fromJson(response.data);
     } catch (e) {
       return null;
     }
   }
 
-  static Future<MangaResponse?> loadMangaResponse(int type) async {
+  static Future<MangaResponse?> loadMangaResponse(int type,{int page = 1, int numberItem = 100}) async {
     try {
       var response = await dio.post("manga/get-list",
-          data: {"page": 1, "numberItem": 20, "type": type});
+          data: {"page": page, "numberItem": numberItem, "type": type});
       return MangaResponse.fromJson(response.data);
     } catch (e) {
       return null;
@@ -67,11 +69,11 @@ class ApiService {
   }
 
   static Future<MangaResponse?> loadMangaCategoryResponse(
-      String category, {int numberItem = 100}) async {
+      String category, {int page = 1, int numberItem = 100}) async {
     try {
       var response = await dio.post("manga/suggest-manga", data: {
         "category": [category],
-        "page": 1,
+        "page": page,
         "numberItem": numberItem,
         "type_sort": 1
       });
@@ -83,19 +85,12 @@ class ApiService {
 
   static Future<MangaResponse?> loadMangaExclusivelyResponse({
     List<String>? category,
-    int numberItem = 20,
+    int page = 1, int numberItem = 100
   }) async {
     try {
       var response = await dio.post("manga/suggest-manga", data: {
-        "category": [
-          "Action",
-          "Adventure",
-          "Comedy",
-          "Drama",
-          "Fantasy",
-          "Shounen"
-        ],
-        "page": 1,
+        "category": category,
+        "page": page,
         "numberItem": numberItem,
         "type_sort": 1
       });

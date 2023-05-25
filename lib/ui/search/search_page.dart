@@ -21,11 +21,18 @@ class _SearchPageState extends State<SearchPage> {
   final TextEditingController controller = TextEditingController();
   final _controller = SearchController();
   final HomeController _controllerHome = HomeController();
+  final scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _controller.getSearchHistory();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        _controller.loadMoreSearch();
+      }
+    });
   }
 
   @override
@@ -37,11 +44,11 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     final AppColor appColor = Theme.of(context).extension<AppColor>()!;
-
     return Scaffold(
         backgroundColor: appColor.primaryBackground,
         body: SafeArea(
           child: SingleChildScrollView(
+            controller: scrollController,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -117,6 +124,24 @@ class _SearchPageState extends State<SearchPage> {
                             },
                           );
                         },
+                      );
+                    },
+                  ),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _controller.loadMore,
+                    builder: (context, isLoading, child) {
+                      return Visibility(
+                        visible: isLoading,
+                        child: const SizedBox(
+                          height: 50,
+                          child: Center(
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        ),
                       );
                     },
                   ),

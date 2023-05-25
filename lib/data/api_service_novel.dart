@@ -179,12 +179,12 @@ class ApiServiceNovel {
   }
 
   static Future<NovelResponse?> loadMangaCategoryResponse(String category,
-      {int numberItem = 100}) async {
+      {int page = 1,int numberItem = 100}) async {
     try {
       print("loadMangaCategoryResponse $category");
       var response = await dio.post("manga/suggest-manga", data: {
         "category": [category],
-        "page": 1,
+        "page": page,
         "numberItem": numberItem,
         "type_sort": 1
       });

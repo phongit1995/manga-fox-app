@@ -27,10 +27,18 @@ class _NovelPageState extends State<NovelPage> {
   // final _controller = GenresController();
   final tabIndex = ValueNotifier<int>(0);
 
+  final scrollController = ScrollController();
+
   @override
   void initState() {
     novelController.loadGenerate();
     super.initState();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        novelController.loadMoreMangas();
+      }
+    });
   }
 
   @override
@@ -111,7 +119,25 @@ class _NovelPageState extends State<NovelPage> {
                     Expanded(
                       child: ValueListenableBuilder<List<Novel>>(
                         builder: (context, value, child) =>
-                            ListNovelGenres(novels: value),
+                            ListNovelGenres(novels: value,scroll: scrollController,
+                              lastList: ValueListenableBuilder<bool>(
+                                valueListenable: novelController.loadMore,
+                                builder: (context, isLoading, child) {
+                                  return Visibility(
+                                    visible: isLoading,
+                                    child: const SizedBox(
+                                      height: 40,
+                                      child: Center(
+                                        child: SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),),
                         valueListenable: novelController.novels,
                       ),
                     )
