@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "550232236932",
-    "project_id": "manga-reader-project",
-    "storage_bucket": "manga-reader-project.appspot.com"
+    "project_number": "1068663259264",
+    "project_id": "manga--reader--top",
+    "storage_bucket": "manga--reader--top.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:550232236932:android:b729f0c1ecf1693b76b3d1",
+        "mobilesdk_app_id": "1:1068663259264:android:72e5446bda044636a6a665",
         "android_client_info": {
-          "package_name": "reader.app.free.manga.reader"
+          "package_name": "fox.manga.top.free.reader"
         }
       },
       "oauth_client": [
         {
-          "client_id": "550232236932-237j2nlqoft90shlrfdloi8vcldv84dr.apps.googleusercontent.com",
+          "client_id": "1068663259264-6hkiasi9u6pi6a1kp749gi6p40qjinkq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBMc1CUyPUtUDwNGnQ7v0ucrsc5qT9y-Jg"
+          "current_key": "AIzaSyBHpGU4WfrEEbj9SD4Xdygx-iDGsZEwCZs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "550232236932-237j2nlqoft90shlrfdloi8vcldv84dr.apps.googleusercontent.com",
+              "client_id": "1068663259264-6hkiasi9u6pi6a1kp749gi6p40qjinkq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
