@@ -1,33 +1,62 @@
 {
   "project_info": {
-    "project_number": "1068663259264",
-    "project_id": "manga--reader--top",
-    "storage_bucket": "manga--reader--top.appspot.com"
+    "project_number": "312095385224",
+    "project_id": "manga-reader-kakalot-end",
+    "storage_bucket": "manga-reader-kakalot-end.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1068663259264:android:72e5446bda044636a6a665",
+        "mobilesdk_app_id": "1:312095385224:android:0a08ef152c68d3b12ea13d",
         "android_client_info": {
           "package_name": "kakalot.com.manga.reader.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1068663259264-6hkiasi9u6pi6a1kp749gi6p40qjinkq.apps.googleusercontent.com",
+          "client_id": "312095385224-urem5t10rdblqt39vs7r01m74di0cvjs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBHpGU4WfrEEbj9SD4Xdygx-iDGsZEwCZs"
+          "current_key": "AIzaSyCbFSYuMZBxbxD6yDUXcLlnZdCK1eyR7zQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1068663259264-6hkiasi9u6pi6a1kp749gi6p40qjinkq.apps.googleusercontent.com",
+              "client_id": "312095385224-urem5t10rdblqt39vs7r01m74di0cvjs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312095385224:android:6b13d2d70e7fd6302ea13d",
+        "android_client_info": {
+          "package_name": "kakalot.manga.com.pro.end"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312095385224-urem5t10rdblqt39vs7r01m74di0cvjs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbFSYuMZBxbxD6yDUXcLlnZdCK1eyR7zQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312095385224-urem5t10rdblqt39vs7r01m74di0cvjs.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

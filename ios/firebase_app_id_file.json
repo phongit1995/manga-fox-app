@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:1068663259264:ios:7d70c3559efae481a6a665",
-  "FIREBASE_PROJECT_ID": "manga--reader--top",
-  "GCM_SENDER_ID": "1068663259264"
+  "GOOGLE_APP_ID": "1:312095385224:ios:2ecdc046dba6c20d2ea13d",
+  "FIREBASE_PROJECT_ID": "manga-reader-kakalot-end",
+  "GCM_SENDER_ID": "312095385224"
 }
