@@ -1,12 +1,15 @@
 import 'dart:io';
 
 class AppConfig {
-  static String baseApiUrl = Platform.isAndroid ? baseApiUrlAndroid : baseApiUrlIos;
-  
-  static const String baseApiUrlAndroid= 'https://manga-reader-android-v18.readingnovelfull.com/';
-  static const String baseApiUrlIos= 'https://manga-reader-ios-v5.readingnovelfull.com/';
+  static String baseApiUrl =
+      Platform.isAndroid ? baseApiUrlAndroid : baseApiUrlIos;
 
-  static const String androidId = "fox.manga.top.free.reader";
+  static const String baseApiUrlAndroid =
+      'https://manga-reader-android-v18.readingnovelfull.com/';
+  static const String baseApiUrlIos =
+      'https://manga-reader-ios-v5.readingnovelfull.com/';
+
+  static const String androidId = "kakalot.com.manga.reader.app";
   static const String iosId = "manga.fox.manga.reader.free";
   static const String urlFacebook =
       "https://www.facebook.com/groups/%20mangamanhwaanime";
@@ -19,9 +22,10 @@ class AppConfig {
   //APPLOVIN config
   static String APPLOVIN_SDK_KEY =
       'o76oOvpIrLCJEhI9iVJm6ZGfW7dLTtygvErJpweFwfnfz2towWZBk000snxdhamHLP9pT5INWM8vr3na-QqOi1';
-  
 
-  static String APPLOVIN_INTERSTITAL_AD_UNIT = Platform.isAndroid ?  APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID : APPLOVIN_INTERSTITAL_AD_UNIT_IOS;
+  static String APPLOVIN_INTERSTITAL_AD_UNIT = Platform.isAndroid
+      ? APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID
+      : APPLOVIN_INTERSTITAL_AD_UNIT_IOS;
   static String APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID = '4cb44a80efdb1e3b';
 
   static String APPLOVIN_INTERSTITAL_AD_UNIT_IOS = '4cb44a80efdb1e3b';
@@ -33,8 +37,8 @@ class AppConfig {
 
   static List<String> iapSubscription = Platform.isAndroid
       ? [
-          "fox.manga.top.free.reader.one.month",
-          "fox.manga.top.free.reader.one.year"
+          "kakalot.com.manga.reader.app.one.month",
+          "kakalot.com.manga.reader.app.one.year"
         ]
       : [];
 }
