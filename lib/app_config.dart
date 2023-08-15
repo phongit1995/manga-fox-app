@@ -26,9 +26,9 @@ class AppConfig {
   static String APPLOVIN_INTERSTITAL_AD_UNIT = Platform.isAndroid
       ? APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID
       : APPLOVIN_INTERSTITAL_AD_UNIT_IOS;
-  static String APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID = '4cb44a80efdb1e3b';
+  static String APPLOVIN_INTERSTITAL_AD_UNIT_ANDROID = '90c6d05b41c1675d';
 
-  static String APPLOVIN_INTERSTITAL_AD_UNIT_IOS = '4cb44a80efdb1e3b';
+  static String APPLOVIN_INTERSTITAL_AD_UNIT_IOS = '90c6d05b41c1675d';
 
   //Count click to show ads
   static int countClickAction = 5;
