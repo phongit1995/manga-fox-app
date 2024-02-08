@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:manga_fox_app/app_config.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
@@ -12,6 +14,7 @@ class ApiServiceNovel {
       baseUrl: AppConfig.baseApiUrlNovel,
       contentType: Headers.jsonContentType,
       headers: {
+        "platform" : Platform.isAndroid ? "android" : "ios",
         "appCreatedTime":
             SettingUtils.timeInitApp ?? DateTime.now().millisecondsSinceEpoch
       }

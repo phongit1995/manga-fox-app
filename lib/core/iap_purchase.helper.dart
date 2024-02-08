@@ -22,7 +22,12 @@ class IapPurchaseHelper {
     subscription = purchaseUpdated.listen((event) {
       listenToPurchaseUpdated(event);
     }, onDone: () => {subscription.cancel()}, onError: (Object error) {});
-    await inAppPurchaseInstance.restorePurchases();
+    try {
+      await inAppPurchaseInstance.restorePurchases();
+    } catch (e) {
+      print(e);
+    }
+    
     
   }
 
