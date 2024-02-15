@@ -22,9 +22,12 @@ class IapPurchaseHelper {
     subscription = purchaseUpdated.listen((event) {
       listenToPurchaseUpdated(event);
     }, onDone: () => {subscription.cancel()}, onError: (Object error) {});
-    if(!Platform.isIOS){
+    try {
       await inAppPurchaseInstance.restorePurchases();
+    } catch (e) {
+      print(e);
     }
+    
     
   }
 
@@ -44,17 +47,17 @@ class IapPurchaseHelper {
         if (purchaseDetails.status == PurchaseStatus.error) {
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
-          AppSettingData().updateIsVip(true);
-          print('Status restored');
+            AppSettingData().updateIsVip(true);
         }
         if (purchaseDetails.pendingCompletePurchase) {
           await InAppPurchase.instance.completePurchase(purchaseDetails);
-          AppSettingData().updateIsVip(true);
         }
       }
     });
   }
-
+  Future<void> restorePurchases() async {
+    await inAppPurchaseInstance.restorePurchases();
+  }
   void disposeIap() {
     subscription.cancel();
   }

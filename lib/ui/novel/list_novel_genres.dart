@@ -1,35 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/core/widget/shimmer_loading.dart';
-import 'package:manga_fox_app/data/response/manga_response.dart';
-import 'package:manga_fox_app/ui/detail_manga/detail_manga_page.dart';
+import 'package:manga_fox_app/data/response/novel_response.dart';
+import 'package:manga_fox_app/ui/novel/detail/detail_page.dart';
+import 'package:manga_fox_app/ui/novel/item_novel.dart';
 
-import 'item_manga.dart';
-
-class ListMangaGenres extends StatelessWidget {
-  final List<Manga> mangas;
+class ListNovelGenres extends StatelessWidget {
+  final List<Novel> novels;
   final ScrollController scroll;
   final Widget lastList;
 
-  const ListMangaGenres({super.key, required this.mangas, required this.scroll, required this.lastList});
+  const ListNovelGenres({super.key, required this.novels, required this.scroll, required this.lastList});
 
   @override
   Widget build(BuildContext context) {
-    if (mangas.isEmpty) {
+    if (novels.isEmpty) {
       return GridView.builder(
         scrollDirection: Axis.vertical,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
+            crossAxisCount: 2,
             mainAxisExtent: 200,
-            crossAxisSpacing: 4,
-            mainAxisSpacing: 4),
+            crossAxisSpacing: 13,
+            mainAxisSpacing: 13),
         itemCount: 12,
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
           return ShimmerLoading(
-            isLoading: mangas.isEmpty,
-            child: ItemManga(
+            isLoading: novels.isEmpty,
+            child: ItemNovel(
                 title: '',
                 pathUrl: '',
                 rate: '',
@@ -48,22 +47,22 @@ class ListMangaGenres extends StatelessWidget {
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 2,
                 mainAxisExtent: 200,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4),
-            itemCount: mangas.length,
+                crossAxisSpacing: 13,
+                mainAxisSpacing: 13),
+            itemCount: novels.length,
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
-              final manga = mangas[index];
-              return ItemManga(
-                  title: manga.name ?? '',
-                  pathUrl: manga.image ?? '',
-                  viewCount: manga.mapView(),
-                  rate: manga.mapRate(),
+              final novel = novels[index];
+              return ItemNovel(
+                  title: novel.name ?? '',
+                  pathUrl: novel.image ?? '',
+                  viewCount: novel.mapView(),
+                  rate: novel.mapRate(),
                   onTap: () {
-                    transferToDetailManga(context, manga);
+                    transferToDetail(context, novel);
                   },
                   isLoading: false);
             },
@@ -74,14 +73,11 @@ class ListMangaGenres extends StatelessWidget {
     );
   }
 
-  transferToDetailManga(BuildContext context, Manga manga) {
+  transferToDetail(BuildContext context, Novel novel) {
     HandlerAction().handlerAction(() {
-      Navigator.push(
+      DetailPage.transfer(
         context,
-        MaterialPageRoute(
-            builder: (context) => DetailMangaPage(
-                  manga: manga,
-                )),
+        novel: novel,
       );
     });
   }

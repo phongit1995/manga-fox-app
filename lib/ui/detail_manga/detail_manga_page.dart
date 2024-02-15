@@ -25,8 +25,8 @@ import 'package:manga_fox_app/data/response/list_chapper_response.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
 import 'package:manga_fox_app/ui/detail_manga/bottom_sheet_report.dart';
 import 'package:manga_fox_app/ui/detail_manga/detail_manga_controller.dart';
-import 'package:manga_fox_app/ui/detail_manga/widget/item_chapter.dart';
 import 'package:manga_fox_app/ui/manga_reader/manga_reader_page.dart';
+import 'package:manga_fox_app/ui/novel/detail/widget/item_chapter.dart';
 import 'package:manga_fox_app/ui/user/in_app_page.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -334,7 +334,7 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
               flex: 1,
               child: ElevatedButton(
                 onPressed: () async {
-                  if(widget.toDownload == true) {
+                  if (widget.toDownload == true) {
                     var url = Platform.isAndroid
                         ? AppConfig.urlStoreAndroid
                         : AppConfig.urlStoreIos;
@@ -396,19 +396,51 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
                         elevation: 0,
                         backgroundColor: Colors.transparent,
                         alignment: Alignment.centerRight),
-                    child: Container(
-                      height: 43,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color(0xffFF734A)),
-                      child: Text(
-                        "Read Now".toUpperCase(),
-                        style: AppStyle.mainStyle.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15),
-                      ),
+                    child: ValueListenableBuilder(
+                      valueListenable:
+                          Hive.box(ChapterDAO().chapterReadingDao).listenable(),
+                      builder: (context, Box<dynamic> box, child) {
+                        ListChapter? c;
+                        var chapterId =
+                            ChapterDAO().getReading(widget.manga.sId ?? "") ??
+                                widget.manga.firstChapter?.sId ??
+                                "";
+                        if (chapterId.isNotEmpty) {
+                          var e = _controller.chapter.value.firstWhere(
+                              (element) => element.sId == chapterId,
+                              orElse: () => ListChapter());
+                          c = e.sId == null ? null : e;
+                        }
+                        return Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: const Color(0xffFF734A)),
+                            alignment: Alignment.center,
+                            height: 48,
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: FittedBox(
+                              child: c == null
+                                  ? Text(
+                                      "Read Now".toUpperCase(),
+                                      style: AppStyle.mainStyle.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Text(
+                                      "CONTINUE ${c.name ?? ''}",
+                                      style: AppStyle.mainStyle.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                            ));
+                      },
                     ),
                   ),
                 ),
@@ -518,7 +550,9 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
               },
               child: Text("LATEST",
                   style: AppStyle.mainStyle.copyWith(
-                      color: _controller.revert ? appColor.primaryBlack3 : appColor.primary,
+                      color: _controller.revert
+                          ? appColor.primaryBlack3
+                          : appColor.primary,
                       fontWeight: FontWeight.w500,
                       fontSize: 11)),
             ),
@@ -539,12 +573,23 @@ class _DetailMangaPageState extends State<DetailMangaPage> {
               },
               child: Text("OLDEST",
                   style: AppStyle.mainStyle.copyWith(
-                      color: !_controller.revert ? appColor.primaryBlack3 : appColor.primary,
+                      color: !_controller.revert
+                          ? appColor.primaryBlack3
+                          : appColor.primary,
                       fontWeight: FontWeight.w500,
                       fontSize: 11)),
             ),
+            const Spacer(),
+            InkWell(
+              onTap: () {
+                viewGrid.value = !viewGrid.value;
+              },
+              child: SvgPicture.asset(AppImage.icList,
+                  color: appColor.primaryBlack),
+            ),
           ],
         ),
+        const SizedBox(height: 10),
         isLoading
             ? ShimmerLoading(isLoading: isLoading, child: _buildLoading())
             : ValueListenableBuilder(

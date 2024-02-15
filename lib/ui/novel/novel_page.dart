@@ -6,32 +6,37 @@ import 'package:manga_fox_app/core/utils/handler_action.dart';
 import 'package:manga_fox_app/data/app_colors.dart';
 import 'package:manga_fox_app/data/response/generate_response.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_fox_app/data/response/novel_response.dart';
 import 'package:manga_fox_app/ui/genres/genres_controller.dart';
 import 'package:manga_fox_app/ui/genres/widget/list_manga_genres.dart';
 import 'package:manga_fox_app/ui/home/home_controller.dart';
+import 'package:manga_fox_app/ui/novel/list_novel_genres.dart';
+import 'package:manga_fox_app/ui/novel/novel_controller.dart';
 import 'package:manga_fox_app/ui/search/search_page.dart';
 
-class GenresPage extends StatefulWidget {
-  const GenresPage({super.key});
+class NovelPage extends StatefulWidget {
+  const NovelPage({super.key});
 
   @override
-  State<GenresPage> createState() => _GenresPageState();
+  State<NovelPage> createState() => _NovelPageState();
 }
 
-class _GenresPageState extends State<GenresPage> {
+class _NovelPageState extends State<NovelPage> {
   final HandlerAction appAction = HandlerAction();
-  final homeController = HomeController();
-  final _controller = GenresController();
+  final novelController = NovelController();
+  // final _controller = GenresController();
   final tabIndex = ValueNotifier<int>(0);
+
   final scrollController = ScrollController();
 
   @override
   void initState() {
+    novelController.loadGenerate();
     super.initState();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        _controller.loadMoreCategoryManga();
+        novelController.loadMoreMangas();
       }
     });
   }
@@ -45,7 +50,7 @@ class _GenresPageState extends State<GenresPage> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Text("Genres",
+          title: Text("Novel",
               style: AppStyle.mainStyle.copyWith(
                   fontWeight: FontWeight.w400,
                   fontSize: 22,
@@ -53,18 +58,13 @@ class _GenresPageState extends State<GenresPage> {
           centerTitle: true,
           actions: [
             InkWell(
-              onTap: () {
-                appAction.handlerAction(() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SearchPage()),
-                  );
-                });
-              },
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                child: SvgPicture.asset(AppImage.icSearch),
+              child: Opacity(
+                opacity: 0,
+                child: Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  child: SvgPicture.asset(AppImage.icSearch),
+                ),
               ),
             ),
           ],
@@ -73,13 +73,13 @@ class _GenresPageState extends State<GenresPage> {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             child: ValueListenableBuilder<List<Generate>>(
-              valueListenable: homeController.generates,
+              valueListenable: novelController.generates,
               builder: (context, generes, child) {
                 final i = generes.indexWhere(
-                    (element) => element.name == _controller.genres.value);
+                        (element) => element.name == novelController.genres.value);
                 if (i < 0 && generes.isNotEmpty) {
-                  _controller.genres.value = generes.first.name ?? '';
-                  _controller.loadMangas(generes.first.name ?? '');
+                  novelController.genres.value = generes.first.name ?? '';
+                  novelController.loadMangas(generes.first.name ?? '');
                 }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,10 +90,10 @@ class _GenresPageState extends State<GenresPage> {
                         child: TabBar(
                           isScrollable: true,
                           onTap: (value) async {
-                            _controller.mangas.value = [];
-                            _controller.genresSelect.value =
+                            novelController.novels.value = [];
+                            novelController.genresSelect.value =
                                 generes[value].name ?? '';
-                            await _controller
+                            await novelController
                                 .loadMangas(generes[value].name ?? '');
                           },
                           indicatorColor: appColor.primary,
@@ -105,7 +105,7 @@ class _GenresPageState extends State<GenresPage> {
                           unselectedLabelColor: appColor.primaryBlack2,
                           indicator: UnderlineTabIndicator(
                               borderSide:
-                                  BorderSide(width: 1, color: appColor.primary),
+                              BorderSide(width: 1, color: appColor.primary),
                               insets: const EdgeInsets.symmetric(
                                   horizontal: 25, vertical: 2)),
                           unselectedLabelStyle: AppStyle.mainStyle.copyWith(
@@ -113,34 +113,32 @@ class _GenresPageState extends State<GenresPage> {
                               fontSize: 15,
                               fontWeight: FontWeight.w400),
                           tabs: List.generate(generes.length,
-                              (index) => Text(generes[index].name ?? '')),
+                                  (index) => Text(generes[index].name ?? '')),
                         )),
                     Container(height: 20),
                     Expanded(
-                      child: ValueListenableBuilder<List<Manga>>(
-                        builder: (context, value, child) => ListMangaGenres(
-                          mangas: value,
-                          scroll: scrollController,
-                          lastList: ValueListenableBuilder<bool>(
-                            valueListenable: _controller.loadMore,
-                            builder: (context, isLoading, child) {
-                              return Visibility(
-                                visible: isLoading,
-                                child: const SizedBox(
-                                  height: 40,
-                                  child: Center(
-                                    child: SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(),
+                      child: ValueListenableBuilder<List<Novel>>(
+                        builder: (context, value, child) =>
+                            ListNovelGenres(novels: value,scroll: scrollController,
+                              lastList: ValueListenableBuilder<bool>(
+                                valueListenable: novelController.loadMore,
+                                builder: (context, isLoading, child) {
+                                  return Visibility(
+                                    visible: isLoading,
+                                    child: const SizedBox(
+                                      height: 40,
+                                      child: Center(
+                                        child: SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        valueListenable: _controller.mangas,
+                                  );
+                                },
+                              ),),
+                        valueListenable: novelController.novels,
                       ),
                     )
                   ],

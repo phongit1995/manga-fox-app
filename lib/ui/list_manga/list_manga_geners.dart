@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:manga_fox_app/core/app_config/app_image.dart';
 import 'package:manga_fox_app/core/app_config/app_style.dart';
@@ -22,7 +22,7 @@ class ListMangaGeners extends StatefulWidget {
 
 class _ListMangaGenersState extends State<ListMangaGeners> {
   final _controller = SearchController();
-
+  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -32,6 +32,13 @@ class _ListMangaGenersState extends State<ListMangaGeners> {
     } else {
       _controller.loadCategoryManga(widget.generate?.name ?? "");
     }
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        _controller.loadMoreSearch();
+      }
+    });
   }
 
   @override
@@ -42,6 +49,7 @@ class _ListMangaGenersState extends State<ListMangaGeners> {
         backgroundColor: appColor.primaryBackground,
         body: SafeArea(
           child: SingleChildScrollView(
+            controller: scrollController,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -90,6 +98,24 @@ class _ListMangaGenersState extends State<ListMangaGeners> {
                               child:
                                   ListManga(mangas: _controller.results.value));
                         },
+                      );
+                    },
+                  ),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _controller.loadMore,
+                    builder: (context, isLoading, child) {
+                      return Visibility(
+                        visible: isLoading,
+                        child: const SizedBox(
+                          height: 40,
+                          child: Center(
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        ),
                       );
                     },
                   ),

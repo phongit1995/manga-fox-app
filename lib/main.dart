@@ -11,9 +11,11 @@ import 'package:manga_fox_app/core/app_config/theme/theme_data.dart';
 import 'package:manga_fox_app/core/iap_purchase.helper.dart';
 import 'package:manga_fox_app/core/utils/setting_utils.dart';
 import 'package:manga_fox_app/data/dao/chapter_dao.dart';
+import 'package:manga_fox_app/data/dao/chapter_novel_dao.dart';
 import 'package:manga_fox_app/data/dao/manga_dao.dart';
 import 'package:manga_fox_app/data/response/list_chapper_response.dart';
 import 'package:manga_fox_app/data/response/manga_response.dart';
+import 'package:manga_fox_app/data/response/novel_chapter.dart';
 import 'package:manga_fox_app/firebase_options.dart';
 import 'package:manga_fox_app/ui/home/home_page.dart';
 import 'package:path_provider/path_provider.dart';
@@ -74,11 +76,15 @@ void main() async {
   Hive.init(appDocumentDirectory.path);
   Hive.registerAdapter(MangaAdapter());
   Hive.registerAdapter(ListChapterAdapter());
+  Hive.registerAdapter(NovelChapterAdapter());
   await MangaDAO.init();
   await Hive.openBox('chapter');
   await Hive.openBox('downloadImage');
   await Hive.openBox('chapterReadingDao');
   await Hive.openBox(ChapterDAO().chapterPercentReadingDao);
+  await Hive.openBox(ChapterNovelDAO().chapterPercentReadingDaoNovel);
+  await Hive.openBox(ChapterNovelDAO().chapterReadingDaoNovel);
+  await Hive.openBox(ChapterNovelDAO().chapterDaoNovel);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()

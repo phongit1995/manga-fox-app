@@ -7,6 +7,8 @@ class AppImage {
   static String icUserActive = "assets/icon/ic_user_active.svg";
   static String icLibraryDefault = "assets/icon/ic_library_default.svg";
   static String icLibraryActive = "assets/icon/ic_library_active.svg";
+  static String icNovelDefault = "assets/icon/ic_novel_default.svg";
+  static String icNovelActive = "assets/icon/ic_novel_active.svg";
   static String icCLose = "assets/icon/ic_close.svg";
   static String icSearch = "assets/icon/ic_search.svg";
   static String icVip = "assets/icon/ic_vip.svg";
